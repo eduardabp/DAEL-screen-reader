@@ -16,6 +16,8 @@
         input:checked + .slider:before { transform: translateX(22px); }
         .tab-btn { font-family: ui-sans-serif, system-ui, sans-serif !important; }
         .tab-btn[aria-selected="true"] { background-color: #111827; color: #60a5fa; border-bottom: 2px solid #60a5fa; }
+        /* Precise alignment for the fieldset/div border box */
+        .gender-box { margin-top: 32px !important; min-height: 80px; }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen p-4 md:p-8 transition-colors duration-500 lab-ui-font" id="bodyTag">
@@ -88,22 +90,22 @@
                 tabTest: "How to test", tabIssues: "Issues", tabRemediations: "Remediations", tabUser: "Impacted users",
                 guideTitle: "Step-by-step guide",
                 testSteps: ["Use a Screen Reader.", "Navigate with the Tab key.", "Notice if field names and the gender group question are announced.", "Check the 'Terms' checkbox to see if state is communicated.", "Switch to Accessible mode."],
+                badEmailAria: "Instructions: Enter your work email address here using only lowercase letters and ensure it contains an @ symbol.",
                 critiques: {
                     bad: { items: [
                         { f: "Disconnected Labels", c: "Visually labels are present, but the code doesn't link them to the inputs. Screen readers just say 'Edit text, blank'." },
                         { f: "No Radio Grouping", c: "Without a &lt;fieldset&gt;, the question 'Gender' is never read; the user hears options out of context." },
                         { f: "Silent Checkbox State", c: "The checkbox has role='presentation'. The screen reader won't announce if it is 'Checked' or 'Not checked'." },
-                        { f: "Hidden Instructions", c: "Format hints for the email are visual only and not announced to screen readers." }
+                        { f: "Label Overwriting", c: "The email field uses an aria-label for instructions. This completely overwrites the visible label, so the screen reader never says 'Email Address'." }
                     ]},
                     good: { items: [
                         { f: "Semantic Linking", c: "Using &lt;label for='...'&gt; ensures the field name is always read on focus." },
                         { f: "Fieldsets & Legends", c: "Grouping related buttons with a &lt;legend&gt; provides vital context." },
                         { f: "Native Role & State", c: "Using a real input without overriding its role ensures state is announced." },
-                        { f: "ARIA Labels", c: "ARIA labels provide extra hints specifically for screen reader users." }
+                        { f: "Accessible Descriptions", c: "Instructions are linked via aria-describedby so the label remains intact." }
                     ]}
                 },
                 userTitle: "Who is impacted?", userList: ["**Blind Users:** Rely on code relationships to understand purpose.", "**Screen Reader Users:** Experience frustration when state is silent.", "**Motor Impaired Users:** Software relies on semantic tags to click."],
-                ariaEmail: "Email address. Please provide your primary work email.",
                 successMsg: "Success! You are registered."
             },
             fr: {
@@ -114,22 +116,22 @@
                 tabTest: "Comment tester", tabIssues: "Problèmes", tabRemediations: "Corrections", tabUser: "Utilisateurs impactés",
                 guideTitle: "Guide étape par étape",
                 testSteps: ["Utilisez un lecteur d'écran.", "Naviguez avec Tab.", "Vérifiez si la question 'Genre' est annoncée.", "Cochez la case 'Conditions' pour tester l'annonce d'état.", "Passez en mode accessible."],
+                badEmailAria: "Instructions : Entrez votre adresse e-mail professionnelle ici en minuscules et assurez-vous qu'elle contient un symbole @.",
                 critiques: {
                     bad: { items: [
                         { f: "Libellés déconnectés", c: "Le code ne lie pas le texte aux champs. Le lecteur dit juste 'Zone de texte, vide'." },
                         { f: "Pas de groupe radio", c: "Sans &lt;fieldset&gt;, la question 'Genre' n'est jamais lue." },
-                        { f: "État de case silencieux", c: "La case utilise role='presentation'. L'état coché n'est pas transmis." },
-                        { f: "Instructions masquées", c: "Les contraintes e-mail ne sont transmises que visuellement." }
+                        { f: "État de case silencieux", c: "La case utilise role='presentation'. L'état coché/décoché n'est pas transmis." },
+                        { f: "Écrasement d'étiquette", c: "Le champ e-mail utilise un aria-label pour les instructions, ce qui efface le nom du champ pour le lecteur." }
                     ]},
                     good: { items: [
                         { f: "Lien sémantique", c: "L'utilisation de &lt;label for='...'&gt; assure que le nom est lu." },
                         { f: "Fieldsets & Legends", c: "Le regroupement avec &lt;legend&gt; donne un contexte vital." },
                         { f: "Rôle et état natifs", c: "L'utilisation d'un vrai input assure que l'état est annoncé." },
-                        { f: "ARIA Labels", c: "Fournit des indices spécifiques pour les lecteurs d'écran." }
+                        { f: "Descriptions accessibles", c: "Les instructions sont liées via aria-describedby pour garder le libellé intact." }
                     ]}
                 },
                 userTitle: "Qui est impacté ?", userList: ["**Utilisateurs aveugles:** Dépendent des relations sémantiques.", "**Lecteurs d'écran:** Frustration quand l'état est inconnu.", "**Troubles moteurs:** Les logiciels utilisent ces balises."],
-                ariaEmail: "Adresse e-mail. Veuillez fournir votre e-mail professionnel.",
                 successMsg: "Succès ! Vous êtes inscrit."
             },
             nl: {
@@ -140,22 +142,22 @@
                 tabTest: "Hoe te testen", tabIssues: "Problemen", tabRemediations: "Oplossingen", tabUser: "Impact op gebruikers",
                 guideTitle: "Stappenplan",
                 testSteps: ["Gebruik een schermlezer.", "Navigeer met Tab.", "Let op of de vraag 'Geslacht' wordt voorgelezen.", "Test of de checkbox zijn status doorgeeft.", "Schakel naar de toegankelijke modus."],
+                badEmailAria: "Instructies: Voer hier uw zakelijke e-mailadres in met kleine letters en zorg dat er een @-teken in staat.",
                 critiques: {
                     bad: { items: [
                         { f: "Losgekoppelde labels", c: "De code linkt tekst niet aan velden. De lezer zegt 'Tekstveld, leeg'." },
                         { f: "Geen radiogroepering", c: "Zonder &lt;fieldset&gt; wordt de vraag 'Geslacht' overgeslagen." },
                         { f: "Stille checkbox-status", c: "De checkbox heeft role='presentation'. Status wordt niet gemeld." },
-                        { f: "Verborgen instructies", c: "E-mail instructies zijn alleen visueel zichtbaar." }
+                        { f: "Label Overschrijven", c: "Het e-mailveld gebruikt een aria-label voor instructies, waardoor de eigenlijke naam verdwijnt." }
                     ]},
                     good: { items: [
                         { f: "Semantische koppeling", c: "&lt;label for='...'&gt; zorgt dat de naam wordt voorgelezen." },
                         { f: "Fieldsets & Legends", c: "Groeperen met &lt;legend&gt; biedt essentieel context." },
                         { f: "Native rol & status", c: "Een echte checkbox handelt status automatisch af." },
-                        { f: "ARIA-labels", c: "Biedt extra hints voor schermlezer-gebruikers." }
+                        { f: "Toegankelijke beschrijvingen", c: "Instructies zijn gekoppeld via aria-describedby." }
                     ]}
                 },
                 userTitle: "Wie wordt beïnvloed?", userList: ["**Blinde gebruikers:** Afhankelijk van code-relaties.", "**Schermlezer-gebruikers:** Frustratie als status ontbreekt.", "**Motorisch beperkten:** Software vertrouwt op tags."],
-                ariaEmail: "E-mailadres. Gebruik uw zakelijke e-mailadres.",
                 successMsg: "Succes! U bent geregistreerd."
             },
             de: {
@@ -166,22 +168,22 @@
                 tabTest: "Wie man testet", tabIssues: "Probleme", tabRemediations: "Lösungen", tabUser: "Betroffene Nutzer",
                 guideTitle: "Schritt-für-Schritt-Anleitung",
                 testSteps: ["Nutzen Sie einen Screenreader.", "Navigieren Sie mit Tab.", "Prüfen Sie, ob die Frage 'Geschlecht' angesagt wird.", "Prüfen Sie den Status der Checkbox.", "Wechseln Sie in den barrierefreien Modus."],
+                badEmailAria: "Anweisungen: Geben Sie hier Ihre geschäftliche E-Mail-Adresse in Kleinbuchstaben ein und stellen Sie sicher, dass sie ein @-Zeichen enthält.",
                 critiques: {
                     bad: { items: [
                         { f: "Getrennte Beschriftungen", c: "Der Reader sagt nur 'Textfeld, leer', da die Verknüpfung fehlt." },
                         { f: "Keine Gruppierung", c: "Ohne &lt;fieldset&gt; wird die Frage 'Geschlecht' nicht vorgelesen." },
                         { f: "Stummer Checkbox-Status", c: "Die Checkbox nutzt role='presentation'. Status fehlt." },
-                        { f: "Versteckte Hinweise", c: "E-Mail-Vorgaben sind nur visuell erkennbar." }
+                        { f: "Label Überschreiben", c: "Das E-Mail-Feld nutzt ein aria-label für Anweisungen, was den sichtbaren Namen überschreibt." }
                     ]},
                     good: { items: [
                         { f: "Semantische Verknüpfung", c: "&lt;label for='...'&gt; sorgt für die richtige Ansage." },
                         { f: "Fieldsets & Legends", c: "Gruppierung mit &lt;legend&gt; bietet Kontext." },
                         { f: "Native Rolle & Status", c: "Überträgt den Status automatisch." },
-                        { f: "ARIA-Labels", c: "Ermöglicht zusätzliche Hinweise für Screenreader." }
+                        { f: "Barrierefreie Beschreibungen", c: "Anweisungen sind über aria-describedby verknüpft." }
                     ]}
                 },
                 userTitle: "Wer ist betroffen?", userList: ["**Blinde Nutzer:** Auf Code-Beziehungen angewiesen.", "**Screenreader-Nutzer:** Frustration bei fehlender Statusansage.", "**Motorisch eingeschränkte Nutzer:** Nutzen semantische Tags."],
-                ariaEmail: "E-Mail-Adresse. Bitte nutzen Sie Ihre geschäftliche E-Mail.",
                 successMsg: "Erfolg! Sie sind registriert."
             }
         };
@@ -201,9 +203,9 @@
                     </div>
                     <div>
                         <label for="acc-email" class="block mb-1 text-sm font-bold text-gray-700">${t.labelEmail}</label>
-                        <input type="email" id="acc-email" aria-label="${t.ariaEmail}" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500 outline-none">
+                        <input type="email" id="acc-email" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500 outline-none">
                     </div>
-                    <fieldset class="border border-gray-200 p-4 rounded-lg mt-8">
+                    <fieldset class="border border-gray-200 p-4 rounded-lg gender-box">
                         <legend class="px-2 text-sm font-bold text-gray-700">${t.labelGender}</legend>
                         <div class="flex gap-4">
                             <label class="flex items-center text-sm cursor-pointer"><input type="radio" name="gender" class="mr-2"> ${t.optMale}</label>
@@ -225,9 +227,9 @@
                     </div>
                     <div>
                         <div class="text-sm font-bold text-gray-700 mb-1">${t.labelEmail}</div>
-                        <input type="text" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:outline-none">
+                        <input type="text" aria-label="${t.badEmailAria}" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:outline-none">
                     </div>
-                    <div class="border border-gray-200 p-4 pt-6 rounded-lg mt-8 relative">
+                    <div class="border border-gray-200 p-4 pt-6 rounded-lg gender-box relative">
                         <div class="absolute -top-3 left-2 bg-white px-2 text-sm font-bold text-gray-700">${t.labelGender}</div>
                         <div class="flex gap-4">
                             <div class="flex items-center text-sm"><input type="radio" name="bad-gender" class="mr-2"> ${t.optMale}</div>
