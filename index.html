@@ -67,7 +67,6 @@
                             <ol id="txt-test-steps" class="list-decimal pl-5 space-y-4 opacity-95"></ol>
                         </div>
                         <div id="panel-feedback" class="p-8 hidden text-sm flex-grow overflow-y-auto">
-                            <h3 id="txt-feedback-title" class="text-blue-400 font-bold uppercase mb-6"></h3>
                             <div id="critiqueContent" class="space-y-6"></div>
                         </div>
                         <div id="panel-user" class="p-8 hidden text-sm flex-grow overflow-y-auto">
@@ -90,16 +89,16 @@
                 guideTitle: "Step-by-step guide",
                 testSteps: ["Use a Screen Reader.", "Navigate with the Tab key.", "Notice if field names and the gender group question are announced.", "Check the 'Terms' checkbox to see if state is communicated.", "Switch to Accessible mode."],
                 critiques: {
-                    bad: { title: "What is wrong?", items: [
+                    bad: { items: [
                         { f: "Disconnected Labels", c: "Visually labels are present, but the code doesn't link them to the inputs. Screen readers just say 'Edit text, blank'." },
                         { f: "No Radio Grouping", c: "Without a <fieldset>, the question 'Gender' is never read; the user hears options out of context." },
-                        { f: "Silent Checkbox State", c: "The checkbox has role='presentation'. The screen reader might say the text, but it won't announce if it is 'Checked' or 'Not checked'." },
+                        { f: "Silent Checkbox State", c: "The checkbox has role='presentation'. The screen reader won't announce if it is 'Checked' or 'Not checked'." },
                         { f: "Hidden Instructions", c: "Format hints for the email are visual only and not announced to screen readers." }
                     ]},
-                    good: { title: "Remediations", items: [
+                    good: { items: [
                         { f: "Semantic Linking", c: "Using <label for='...'> ensures the field name is always read on focus." },
                         { f: "Fieldsets & Legends", c: "Grouping related buttons with a <legend> provides vital context." },
-                        { f: "Native Role & State", c: "Using a real input without overriding its role ensures the 'Checked' state is announced automatically." },
+                        { f: "Native Role & State", c: "Using a real input without overriding its role ensures state is announced." },
                         { f: "ARIA Labels", c: "ARIA labels provide extra hints specifically for screen reader users." }
                     ]}
                 },
@@ -107,7 +106,84 @@
                 ariaEmail: "Email address. Please provide your primary work email.",
                 successMsg: "Success! You are registered."
             },
-            // French, Dutch, German translations would follow the same structure...
+            fr: {
+                labTitle: "Labo d'empathie sur l'accessibilité", title: "Expérience Lecteur d'écran",
+                labelName: "Nom complet", labelEmail: "Adresse e-mail", labelGender: "Genre",
+                optMale: "Homme", optFemale: "Femme", optOther: "Autre",
+                agreeTerms: "J'accepte les conditions générales", btnText: "S'inscrire maintenant",
+                tabTest: "Comment tester", tabIssues: "Problèmes", tabRemediations: "Corrections", tabUser: "Utilisateurs impactés",
+                guideTitle: "Guide étape par étape",
+                testSteps: ["Utilisez un lecteur d'écran.", "Naviguez avec Tab.", "Vérifiez si la question 'Genre' est annoncée.", "Cochez la case 'Conditions' pour tester l'annonce d'état.", "Passez en mode accessible."],
+                critiques: {
+                    bad: { items: [
+                        { f: "Libellés déconnectés", c: "Le code ne lie pas le texte aux champs. Le lecteur dit juste 'Zone de texte, vide'." },
+                        { f: "Pas de groupe radio", c: "Sans <fieldset>, la question 'Genre' n'est jamais lue." },
+                        { f: "État de case silencieux", c: "La case utilise role='presentation'. L'état coché/décoché n'est pas transmis." },
+                        { f: "Instructions masquées", c: "Les contraintes e-mail ne sont transmises que visuellement." }
+                    ]},
+                    good: { items: [
+                        { f: "Lien sémantique", c: "L'utilisation de <label for='...'> assure que le nom est lu." },
+                        { f: "Fieldsets & Legends", c: "Le regroupement donne un contexte vital aux choix." },
+                        { f: "Rôle et état natifs", c: "L'utilisation d'un vrai input assure que l'état est annoncé." },
+                        { f: "ARIA Labels", c: "Fournit des indices spécifiques pour les lecteurs d'écran." }
+                    ]}
+                },
+                userTitle: "Qui est impacté ?", userList: ["**Utilisateurs aveugles:** Dépendent des relations sémantiques.", "**Lecteurs d'écran:** Frustration quand l'état est inconnu.", "**Troubles moteurs:** Les logiciels utilisent ces balises."],
+                ariaEmail: "Adresse e-mail. Veuillez fournir votre e-mail professionnel.",
+                successMsg: "Succès ! Vous êtes inscrit."
+            },
+            nl: {
+                labTitle: "Toegankelijkheid Empathy Lab", title: "Schermlezer Ervaring",
+                labelName: "Volledige Naam", labelEmail: "E-mailadres", labelGender: "Geslacht",
+                optMale: "Man", optFemale: "Vrouw", optOther: "Anders",
+                agreeTerms: "Ik ga akkoord met de voorwaarden", btnText: "Nu Registreren",
+                tabTest: "Hoe te testen", tabIssues: "Problemen", tabRemediations: "Oplossingen", tabUser: "Impact op gebruikers",
+                guideTitle: "Stappenplan",
+                testSteps: ["Gebruik een schermlezer.", "Navigeer met Tab.", "Let op of de vraag 'Geslacht' wordt voorgelezen.", "Test of de checkbox zijn status doorgeeft.", "Schakel naar de toegankelijke modus."],
+                critiques: {
+                    bad: { items: [
+                        { f: "Losgekoppelde labels", c: "De code linkt tekst niet aan velden. De lezer zegt 'Tekstveld, leeg'." },
+                        { f: "Geen radiogroepering", c: "Zonder <fieldset> wordt de vraag 'Geslacht' overgeslagen." },
+                        { f: "Stille checkbox-status", c: "De checkbox heeft role='presentation'. De status wordt niet gecommuniceerd." },
+                        { f: "Verborgen instructies", c: "E-mail instructies zijn alleen visueel zichtbaar." }
+                    ]},
+                    good: { items: [
+                        { f: "Semantische koppeling", c: "<label for='...'> zorgt dat de naam wordt voorgelezen." },
+                        { f: "Fieldsets & Legends", c: "Groeperen met <legend> biedt essentieel context." },
+                        { f: "Native rol & status", c: "Een echte checkbox handelt status automatisch af." },
+                        { f: "ARIA-labels", c: "Biedt extra hints voor schermlezer-gebruikers." }
+                    ]}
+                },
+                userTitle: "Wie wordt beïnvloed?", userList: ["**Blinde gebruikers:** Afhankelijk van code-relaties.", "**Schermlezer-gebruikers:** Frustratie als status ontbreekt.", "**Motorisch beperkten:** Software vertrouwt op tags."],
+                ariaEmail: "E-mailadres. Gebruik uw zakelijke e-mailadres.",
+                successMsg: "Succes! U bent geregistreerd."
+            },
+            de: {
+                labTitle: "Barrierefreiheits-Empathie-Labor", title: "Screenreader-Erfahrung",
+                labelName: "Vollständiger Name", labelEmail: "E-Mail-Adresse", labelGender: "Geschlecht",
+                optMale: "Männlich", optFemale: "Weiblich", optOther: "Andere",
+                agreeTerms: "Ich stimme den Bedingungen zu", btnText: "Jetzt Registrieren",
+                tabTest: "Wie man testet", tabIssues: "Probleme", tabRemediations: "Lösungen", tabUser: "Betroffene Nutzer",
+                guideTitle: "Schritt-für-Schritt-Anleitung",
+                testSteps: ["Nutzen Sie einen Screenreader.", "Navigieren Sie mit Tab.", "Prüfen Sie, ob die Frage 'Geschlecht' angesagt wird.", "Prüfen Sie den Status der Checkbox.", "Wechseln Sie in den barrierefreien Modus."],
+                critiques: {
+                    bad: { items: [
+                        { f: "Getrennte Beschriftungen", c: "Der Reader sagt nur 'Textfeld, leer', da die Verknüpfung fehlt." },
+                        { f: "Keine Gruppierung", c: "Ohne <fieldset> wird die Frage 'Geschlecht' nicht vorgelesen." },
+                        { f: "Stummer Checkbox-Status", c: "Die Checkbox nutzt role='presentation'. Der Status wird nicht übertragen." },
+                        { f: "Versteckte Hinweise", c: "E-Mail-Vorgaben sind nur visuell erkennbar." }
+                    ]},
+                    good: { items: [
+                        { f: "Semantische Verknüpfung", c: "<label for='...'> sorgt für die richtige Ansage." },
+                        { f: "Fieldsets & Legends", c: "Gruppierung mit <legend> bietet Kontext." },
+                        { f: "Native Rolle & Status", c: "Überträgt den Status automatisch." },
+                        { f: "ARIA-Labels", c: "Ermöglicht zusätzliche Hinweise für Screenreader." }
+                    ]}
+                },
+                userTitle: "Wer ist betroffen?", userList: ["**Blinde Nutzer:** Auf Code-Beziehungen angewiesen.", "**Screenreader-Nutzer:** Frustration bei fehlender Statusansage.", "**Motorisch eingeschränkte Nutzer:** Nutzen semantische Tags."],
+                ariaEmail: "E-Mail-Adresse. Bitte nutzen Sie Ihre geschäftliche E-Mail.",
+                successMsg: "Erfolg! Sie sind registriert."
+            }
         };
 
         let currentLang = 'en';
@@ -187,7 +263,6 @@
             document.getElementById('txt-guide-title').innerText = t.guideTitle;
             document.getElementById('txt-test-steps').innerHTML = t.testSteps.map(s => `<li>${s}</li>`).join('');
             const crit = isAcc ? t.critiques.good : t.critiques.bad;
-            document.getElementById('txt-feedback-title').innerText = crit.title;
             document.getElementById('critiqueContent').innerHTML = crit.items.map(i => `<div><span class="text-blue-400 font-bold block mb-1 uppercase text-[11px]">${i.f}</span><p class="text-white opacity-90">${i.c}</p></div>`).join('');
             document.getElementById('txt-user-content').innerHTML = `
                 <h3 class="text-blue-400 font-bold uppercase mb-4 text-xs">${t.userTitle}</h3>
