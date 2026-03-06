@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Reader Experience - Digital Accessibility Empathy Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .lab-ui-font { font-family: ui-sans-serif, system-ui, -apple-system, sans-serif !important; }
+        .info-panel-container { min-height: 550px !important; display: flex; flex-direction: column; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ef4444; transition: .4s; border-radius: 28px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #15803d; }
+        input:checked + .slider:before { transform: translateX(22px); }
+        .tab-btn { font-family: ui-sans-serif, system-ui, sans-serif !important; }
+        .tab-btn[aria-selected="true"] { background-color: #111827; color: #60a5fa; border-bottom: 2px solid #60a5fa; }
+
+        /* Inaccessible Form CSS - To look right but be structurally wrong */
+        .inaccessible-mode .fake-label { font-weight: bold; display: block; margin-bottom: 4px; }
+        .inaccessible-mode .form-flex-reverse { display: flex; flex-direction: column-reverse; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8 transition-colors duration-500 lab-ui-font" id="bodyTag">
+
+    <div class="max-w-7xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden">
+        <header class="bg-white border-b border-gray-100">
+            <div class="p-6 flex flex-col md:flex-row justify-between items-center gap-6 border-b border-gray-50">
+                <div id="txt-lab-title" class="text-xl md:text-2xl font-black tracking-tight uppercase" style="color: #008B63;">Digital Accessibility Empathy Lab</div>
+                <img src="https://regine-lambrecht.github.io/color-contrast-checker-size-weight/images/banner.png" alt="Logo" class="h-12">
+            </div>
+
+            <nav class="p-4 flex flex-col gap-4">
+                <div class="flex items-center justify-between gap-4 bg-gray-50 p-3 rounded-2xl border border-gray-200 w-full">
+                    <div class="flex items-center gap-4">
+                        <span id="txt-inaccessible" class="text-xs font-black uppercase tracking-widest text-red-600">Inaccessible</span>
+                        <label class="switch">
+                            <input type="checkbox" id="modeToggle" onchange="handleModeToggle()" role="switch">
+                            <span class="slider"></span>
+                        </label>
+                        <span id="txt-accessible" class="text-xs font-black uppercase tracking-widest text-green-700">Accessible</span>
+                    </div>
+                    <div class="flex gap-2 text-[10px] font-bold">
+                        <button onclick="setLanguage('en')" class="lang-btn px-2 py-1 rounded" id="btn-en">EN</button>
+                        <button onclick="setLanguage('fr')" class="lang-btn px-2 py-1 rounded" id="btn-fr">FR</button>
+                        <button onclick="setLanguage('nl')" class="lang-btn px-2 py-1 rounded" id="btn-nl">NL</button>
+                        <button onclick="setLanguage('de')" class="lang-btn px-2 py-1 rounded" id="btn-de">DE</button>
+                    </div>
+                </div>
+                <h1 id="txt-title" class="text-xl font-black text-gray-900 px-2 uppercase tracking-tighter">Screen Reader & Structure Experience</h1>
+            </nav>
+        </header>
+
+        <main class="p-6 md:p-10">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-16">
+                <div class="lg:col-span-2 reading-content flex flex-col" id="exercise-column">
+                    <div id="form-container" class="space-y-6">
+                        <div class="bg-blue-50 p-5 rounded-xl border border-blue-100">
+                             <h2 id="txt-instr-title" class="font-bold uppercase text-lg text-blue-900 mb-2">Instructions</h2>
+                             <p id="txt-instructions" class="text-sm text-blue-800 leading-relaxed"></p>
+                        </div>
+
+                        <div id="dynamic-form-area" class="space-y-4">
+                            </div>
+
+                        <div id="status-message" aria-live="polite" class="hidden p-4 rounded-lg font-bold text-sm"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-3">
+                    <div class="info-panel-container bg-gray-900 text-white rounded-2xl shadow-xl overflow-hidden h-full flex flex-col">
+                        <div class="flex bg-gray-800 border-b border-gray-700">
+                            <button id="tab-test" onclick="switchTab('test')" class="tab-btn px-6 py-4 text-xs font-black uppercase tracking-widest" aria-selected="true">How to test</button>
+                            <button id="tab-feedback" onclick="switchTab('feedback')" class="tab-btn px-6 py-4 text-xs font-black uppercase tracking-widest border-l border-gray-700" aria-selected="false">Issues</button>
+                            <button id="tab-user" onclick="switchTab('user')" class="tab-btn px-6 py-4 text-xs font-black uppercase tracking-widest border-l border-gray-700" aria-selected="false">Impacted users</button>
+                        </div>
+                        <div id="panel-test" class="p-8 space-y-6 text-sm flex-grow overflow-y-auto">
+                            <h3 id="txt-guide-title" class="text-blue-400 font-bold uppercase text-xs mb-2">Step-by-step guide</h3>
+                            <ol id="txt-test-steps" class="list-decimal pl-5 space-y-4 opacity-95"></ol>
+                        </div>
+                        <div id="panel-feedback" class="p-8 hidden text-sm flex-grow overflow-y-auto">
+                            <h3 id="txt-feedback-title" class="text-blue-400 font-bold uppercase mb-6"></h3>
+                            <div id="critiqueContent" class="space-y-6"></div>
+                        </div>
+                        <div id="panel-user" class="p-8 hidden text-sm flex-grow overflow-y-auto">
+                            <div id="txt-user-content" class="leading-relaxed opacity-95 text-sm"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                labTitle: "Digital Accessibility Empathy Lab",
+                title: "Screen Reader & Structure Experience",
+                instrTitle: "Instructions",
+                instructions: "Fill out the registration form below. If you are using a screen reader, notice how the experience changes between modes.",
+                labelName: "Full Name",
+                labelEmail: "Email Address",
+                btnText: "Register Now",
+                tabTest: "How to test",
+                tabIssues: "Issues",
+                tabRemediations: "Remediations",
+                tabUser: "Impacted users",
+                guideTitle: "Step-by-step guide",
+                testSteps: [
+                    "Close your eyes or look away from the screen.",
+                    "Use the 'Tab' key to navigate the form fields.",
+                    "Listen to how the screen reader (or a colleague reading the code) describes each field.",
+                    "Try to submit the form without filling it in and listen for error announcements.",
+                    "Switch to Accessible mode and repeat the process."
+                ],
+                critiques: {
+                    bad: {
+                        title: "What is wrong?",
+                        items: [
+                            { f: "Missing Labels", c: "The fields use <span> instead of <label>. A screen reader will just say 'Edit text, blank' without telling you what to type." },
+                            { f: "No Error Feedback", c: "Errors appear visually but are not announced to screen readers. Users won't know why the form didn't submit." },
+                            { f: "Disrupted Focus Order", c: "The Submit button is placed before the inputs in the code, breaking the logical flow for keyboard users." }
+                        ]
+                    },
+                    good: {
+                        title: "Remediations",
+                        items: [
+                            { f: "Proper Semantics", c: "Using <label for='...'> links text to inputs, ensuring the name is always announced." },
+                            { f: "Live Regions", c: "ARIA Live Regions (aria-live='polite') announce error messages as soon as they appear." },
+                            { f: "Logical DOM Order", c: "The code matches the visual layout, making navigation predictable and easy." }
+                        ]
+                    }
+                },
+                userTitle: "Who is impacted?",
+                userList: [
+                    "**Blind Users:** Rely entirely on semantic labels to understand the purpose of form elements.",
+                    "**Low Vision Users:** May use screen magnification and need programmatic labels to confirm where focus is.",
+                    "**Keyboard-only Users:** Depend on a logical focus order to move through a page efficiently.",
+                    "**Cognitive Impairments:** Clear, linked labels reduce the effort needed to remember field requirements."
+                ],
+                errorMsg: "Error: Full Name is required.",
+                successMsg: "Registration successful!"
+            }
+            // French, Dutch, and German can be expanded similarly with full content.
+        };
+
+        let currentLang = 'en';
+
+        function renderForm() {
+            const isAcc = document.getElementById('modeToggle').checked;
+            const t = translations[currentLang];
+            const container = document.getElementById('dynamic-form-area');
+            
+            if (isAcc) {
+                // ACCESSIBLE: Real labels, logical order
+                container.innerHTML = `
+                    <div>
+                        <label for="name" class="block mb-1 text-sm font-bold text-gray-700">${t.labelName}</label>
+                        <input type="text" id="name" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500 outline-none">
+                    </div>
+                    <div>
+                        <label for="email" class="block mb-1 text-sm font-bold text-gray-700">${t.labelEmail}</label>
+                        <input type="email" id="email" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500 outline-none">
+                    </div>
+                    <button onclick="validateForm()" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-lg text-sm tracking-wide transition-colors uppercase">
+                        ${t.btnText}
+                    </button>
+                `;
+            } else {
+                // INACCESSIBLE: No labels, broken focus order (button first in DOM)
+                container.innerHTML = `
+                    <div class="form-flex-reverse">
+                        <div class="mt-4">
+                             <span class="fake-label text-sm text-gray-700">${t.labelName}</span>
+                             <input type="text" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:outline-none">
+                        </div>
+                        <div>
+                             <span class="fake-label text-sm text-gray-700">${t.labelEmail}</span>
+                             <input type="text" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:outline-none">
+                        </div>
+                        <button onclick="validateForm()" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg text-sm uppercase">
+                            ${t.btnText}
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function validateForm() {
+            const isAcc = document.getElementById('modeToggle').checked;
+            const t = translations[currentLang];
+            const status = document.getElementById('status-message');
+            
+            status.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700');
+            
+            if (isAcc) {
+                const name = document.getElementById('name').value;
+                if (!name) {
+                    status.innerText = t.errorMsg;
+                    status.classList.add('bg-red-100', 'text-red-700', 'block');
+                } else {
+                    status.innerText = t.successMsg;
+                    status.classList.add('bg-green-100', 'text-green-700', 'block');
+                }
+            } else {
+                // Inaccessible: silent error, user doesn't know what happened
+                status.innerText = t.errorMsg;
+                status.classList.add('bg-red-100', 'text-red-700', 'block');
+                // We keep it visible but don't use aria-live effectively in Inaccessible mode
+            }
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            const isAcc = document.getElementById('modeToggle').checked;
+            
+            document.getElementById('txt-lab-title').innerText = t.labTitle;
+            document.getElementById('txt-title').innerText = t.title;
+            document.getElementById('txt-instr-title').innerText = t.instrTitle;
+            document.getElementById('txt-instructions').innerText = t.instructions;
+            document.getElementById('tab-test').innerText = t.tabTest;
+            document.getElementById('tab-user').innerText = t.tabUser;
+            document.getElementById('tab-feedback').innerText = isAcc ? t.tabRemediations : t.tabIssues;
+            document.getElementById('txt-guide-title').innerText = t.guideTitle;
+            document.getElementById('txt-test-steps').innerHTML = t.testSteps.map(s => `<li>${s}</li>`).join('');
+
+            const crit = isAcc ? t.critiques.good : t.critiques.bad;
+            document.getElementById('txt-feedback-title').innerText = crit.title;
+            document.getElementById('critiqueContent').innerHTML = crit.items.map(i => `<div><span class="text-blue-400 font-bold block mb-1 uppercase text-[11px]">${i.f}</span><p class="text-white opacity-90">${i.c}</p></div>`).join('');
+            
+            document.getElementById('txt-user-content').innerHTML = `
+                <h3 class="text-blue-400 font-bold uppercase mb-4 text-xs">${t.userTitle}</h3>
+                <ul class="list-disc pl-5 space-y-3">${t.userList.map(li => `<li>${li.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')}</li>`).join('')}</ul>
+            `;
+
+            renderForm();
+        }
+
+        function handleModeToggle() {
+            setLanguage(currentLang);
+            const isAcc = document.getElementById('modeToggle').checked;
+            document.getElementById('bodyTag').className = isAcc ? "bg-gray-100 min-h-screen p-4 md:p-8 transition-colors duration-500 lab-ui-font accessible-mode" : "bg-gray-100 min-h-screen p-4 md:p-8 transition-colors duration-500 lab-ui-font inaccessible-mode";
+        }
+
+        function switchTab(tabId) {
+            ['test', 'feedback', 'user'].forEach(id => {
+                document.getElementById('panel-' + id).classList.toggle('hidden', id !== tabId);
+                document.getElementById('tab-' + id).setAttribute('aria-selected', id === tabId);
+            });
+        }
+
+        setLanguage('en');
+    </script>
+</body>
+</html>
