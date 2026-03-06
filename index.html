@@ -16,9 +16,6 @@
         input:checked + .slider:before { transform: translateX(22px); }
         .tab-btn { font-family: ui-sans-serif, system-ui, sans-serif !important; }
         .tab-btn[aria-selected="true"] { background-color: #111827; color: #60a5fa; border-bottom: 2px solid #60a5fa; }
-        
-        /* Visually Hidden but Screen Reader Accessible for the ARIA label demo */
-        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen p-4 md:p-8 transition-colors duration-500 lab-ui-font" id="bodyTag">
@@ -54,8 +51,7 @@
         <main class="p-6 md:p-10">
             <div class="grid grid-cols-1 lg:grid-cols-5 gap-16">
                 <div class="lg:col-span-2 flex flex-col">
-                    <div id="dynamic-form-area" class="space-y-6">
-                        </div>
+                    <div id="dynamic-form-area" class="space-y-6"></div>
                     <div id="status-message" aria-live="polite" class="hidden p-4 rounded-lg font-bold text-sm mt-6"></div>
                 </div>
 
@@ -87,41 +83,108 @@
         const translations = {
             en: {
                 labTitle: "Digital Accessibility Empathy Lab", title: "Screen Reader Experience",
-                labelName: "Full Name", labelEmail: "Email Address", labelGender: "Gender Identity",
+                labelName: "Full Name", labelEmail: "Email Address", labelGender: "Gender",
                 optMale: "Male", optFemale: "Female", optOther: "Other",
                 agreeTerms: "I agree to the Terms and Privacy Policy", btnText: "Register Now",
                 tabTest: "How to test", tabIssues: "Issues", tabRemediations: "Remediations", tabUser: "Impacted users",
                 guideTitle: "Step-by-step guide",
-                testSteps: [
-                    "Use a Screen Reader (like NVDA, VoiceOver, or TalkBack).",
-                    "Navigate the fields using the Tab key.",
-                    "Notice if the Screen Reader announces the field names and the gender group question.",
-                    "Try checking the 'Terms' checkbox. Does the screen reader tell you if it's checked?",
-                    "Switch to Accessible mode and observe how ARIA labels and Fieldsets change the experience."
-                ],
+                testSteps: ["Use a Screen Reader.", "Navigate with the Tab key.", "Notice if field names and the gender group question are announced.", "Check the 'Terms' checkbox to see if state is communicated.", "Switch to Accessible mode."],
                 critiques: {
                     bad: { title: "What is wrong?", items: [
-                        { f: "Disconnected Labels", c: "Visually the labels are there, but the code doesn't link them to the inputs. A screen reader just says 'Edit text, blank'." },
-                        { f: "No Radio Grouping", c: "Without a <fieldset>, the question 'Gender' is never read; the user just hears 'Male, radio button' out of context." },
-                        { f: "State-less Checkbox", c: "The 'Terms' checkbox is a custom-styled div. It doesn't communicate its 'Checked' or 'Unchecked' status to the computer." },
-                        { f: "Hidden Instructions", c: "The email field requires a specific format, but it's only communicated visually, not to the screen reader." }
+                        { f: "Disconnected Labels", c: "Visually labels are present, but the code doesn't link them to the inputs. Screen readers just say 'Edit text, blank'." },
+                        { f: "No Radio Grouping", c: "Without a <fieldset>, the question 'Gender' is never read; the user hears options out of context." },
+                        { f: "State-less Checkbox", c: "The checkbox is a custom div. It doesn't communicate 'Checked' or 'Unchecked' status." },
+                        { f: "Hidden Instructions", c: "Format hints for the email are visual only and not announced to screen readers." }
                     ]},
                     good: { title: "Remediations", items: [
-                        { f: "Semantic Linking", c: "Using <label for='...'> ensures the name is always read when the field gets focus." },
-                        { f: "Fieldsets & Legends", c: "Grouping related radio buttons with a <legend> provides vital context for the choices." },
-                        { f: "Native Inputs", c: "Using a real <input type='checkbox'> automatically handles state (checked/unchecked) for assistive technology." },
-                        { f: "ARIA Labels", c: "ARIA labels allow us to provide extra hints (e.g., 'Use your work email') specifically for screen reader users." }
+                        { f: "Semantic Linking", c: "Using <label for='...'> ensures the field name is always read on focus." },
+                        { f: "Fieldsets & Legends", c: "Grouping related buttons with a <legend> provides vital context." },
+                        { f: "Native Inputs", c: "Using real <input type='checkbox'> handles state automatically for assistive technology." },
+                        { f: "ARIA Labels", c: "ARIA labels provide extra hints specifically for screen reader users." }
                     ]}
                 },
-                userTitle: "Who is impacted?", userList: [
-                    "**Blind Users:** Cannot interpret visual relationships. They depend on the code to say 'This label belongs to this box'.",
-                    "**Screen Reader Users:** Experience high frustration when checkboxes or buttons don't announce their state.",
-                    "**Motor Impaired Users:** Often use specialized software that relies on these same semantic tags to click on the right element."
-                ],
+                userTitle: "Who is impacted?", userList: ["**Blind Users:** Rely on code relationships to understand purpose.", "**Screen Reader Users:** Experience frustration when state is silent.", "**Motor Impaired Users:** Software relies on semantic tags to click."],
                 ariaEmail: "Email address. Please provide your primary work email.",
-                errorMsg: "Error: Please complete all fields.", successMsg: "Success! You are registered."
+                successMsg: "Success! You are registered."
             },
-            // Other languages would follow the same structure...
+            fr: {
+                labTitle: "Labo d'empathie sur l'accessibilité", title: "Expérience Lecteur d'écran",
+                labelName: "Nom complet", labelEmail: "Adresse e-mail", labelGender: "Genre",
+                optMale: "Homme", optFemale: "Femme", optOther: "Autre",
+                agreeTerms: "J'accepte les conditions générales", btnText: "S'inscrire maintenant",
+                tabTest: "Comment tester", tabIssues: "Problèmes", tabRemediations: "Corrections", tabUser: "Utilisateurs impactés",
+                guideTitle: "Guide étape par étape",
+                testSteps: ["Utilisez un lecteur d'écran.", "Naviguez avec Tab.", "Vérifiez si la question 'Genre' est annoncée.", "Cochez la case 'Conditions' pour tester l'annonce d'état.", "Passez en mode accessible."],
+                critiques: {
+                    bad: { title: "Quel est le problème ?", items: [
+                        { f: "Libellés déconnectés", c: "Le code ne lie pas le texte aux champs. Le lecteur dit juste 'Zone de texte, vide'." },
+                        { f: "Pas de groupe radio", c: "Sans <fieldset>, la question 'Genre' n'est jamais lue." },
+                        { f: "Case sans état", c: "L'état coché/décoché n'est pas transmis au lecteur d'écran." },
+                        { f: "Instructions masquées", c: "Les contraintes e-mail ne sont transmises que visuellement." }
+                    ]},
+                    good: { title: "Corrections", items: [
+                        { f: "Lien sémantique", c: "L'utilisation de <label for='...'> assure que le nom est lu." },
+                        { f: "Fieldsets & Legends", c: "Le regroupement donne un contexte vital aux choix." },
+                        { f: "Entrées natives", c: "Un vrai <input type='checkbox'> gère l'état automatiquement." },
+                        { f: "ARIA Labels", c: "Fournit des indices spécifiques pour les lecteurs d'écran." }
+                    ]}
+                },
+                userTitle: "Qui est impacté ?", userList: ["**Utilisateurs aveugles:** Dépendent des relations sémantiques.", "**Lecteurs d'écran:** Frustration quand l'état est inconnu.", "**Troubles moteurs:** Les logiciels utilisent ces balises."],
+                ariaEmail: "Adresse e-mail. Veuillez fournir votre e-mail professionnel.",
+                successMsg: "Succès ! Vous êtes inscrit."
+            },
+            nl: {
+                labTitle: "Toegankelijkheid Empathy Lab", title: "Schermlezer Ervaring",
+                labelName: "Volledige Naam", labelEmail: "E-mailadres", labelGender: "Geslacht",
+                optMale: "Man", optFemale: "Vrouw", optOther: "Anders",
+                agreeTerms: "Ik ga akkoord met de voorwaarden", btnText: "Nu Registreren",
+                tabTest: "Hoe te testen", tabIssues: "Problemen", tabRemediations: "Oplossingen", tabUser: "Impact op gebruikers",
+                guideTitle: "Stappenplan",
+                testSteps: ["Gebruik een schermlezer.", "Navigeer met Tab.", "Let op of de vraag 'Geslacht' wordt voorgelezen.", "Test of de checkbox zijn status doorgeeft.", "Schakel naar de toegankelijke modus."],
+                critiques: {
+                    bad: { title: "Wat is er mis?", items: [
+                        { f: "Losgekoppelde labels", c: "De code linkt tekst niet aan velden. De lezer zegt 'Tekstveld, leeg'." },
+                        { f: "Geen radiogroepering", c: "Zonder <fieldset> wordt de vraag 'Geslacht' overgeslagen." },
+                        { f: "Statusloze checkbox", c: "De status (aangevinkt) wordt niet gecommuniceerd." },
+                        { f: "Verborgen instructies", c: "E-mail instructies zijn alleen visueel zichtbaar." }
+                    ]},
+                    good: { title: "Oplossingen", items: [
+                        { f: "Semantische koppeling", c: "<label for='...'> zorgt dat de naam wordt voorgelezen." },
+                        { f: "Fieldsets & Legends", c: "Groeperen met <legend> biedt essentieel context." },
+                        { f: "Native inputs", c: "Een echte checkbox handelt status automatisch af." },
+                        { f: "ARIA-labels", c: "Biedt extra hints voor schermlezer-gebruikers." }
+                    ]}
+                },
+                userTitle: "Wie wordt beïnvloed?", userList: ["**Blinde gebruikers:** Afhankelijk van code-relaties.", "**Schermlezer-gebruikers:** Frustratie als status ontbreekt.", "**Motorisch beperkten:** Software vertrouwt op tags."],
+                ariaEmail: "E-mailadres. Gebruik uw zakelijke e-mailadres.",
+                successMsg: "Succes! U bent geregistreerd."
+            },
+            de: {
+                labTitle: "Barrierefreiheits-Empathie-Labor", title: "Screenreader-Erfahrung",
+                labelName: "Vollständiger Name", labelEmail: "E-Mail-Adresse", labelGender: "Geschlecht",
+                optMale: "Männlich", optFemale: "Weiblich", optOther: "Andere",
+                agreeTerms: "Ich stimme den Bedingungen zu", btnText: "Jetzt Registrieren",
+                tabTest: "Wie man testet", tabIssues: "Probleme", tabRemediations: "Lösungen", tabUser: "Betroffene Nutzer",
+                guideTitle: "Schritt-für-Schritt-Anleitung",
+                testSteps: ["Nutzen Sie einen Screenreader.", "Navigieren Sie mit Tab.", "Prüfen Sie, ob die Frage 'Geschlecht' angesagt wird.", "Prüfen Sie den Status der Checkbox.", "Wechseln Sie in den barrierefreien Modus."],
+                critiques: {
+                    bad: { title: "Was ist falsch?", items: [
+                        { f: "Getrennte Beschriftungen", c: "Der Reader sagt nur 'Textfeld, leer', da die Verknüpfung fehlt." },
+                        { f: "Keine Gruppierung", c: "Ohne <fieldset> wird die Frage 'Geschlecht' nicht vorgelesen." },
+                        { f: "Statuslose Checkbox", c: "Der Status (aktiviert) wird nicht übertragen." },
+                        { f: "Versteckte Hinweise", c: "E-Mail-Vorgaben sind nur visuell erkennbar." }
+                    ]},
+                    good: { title: "Lösungen", items: [
+                        { f: "Semantische Verknüpfung", c: "<label for='...'> sorgt für die richtige Ansage." },
+                        { f: "Fieldsets & Legends", c: "Gruppierung mit <legend> bietet Kontext." },
+                        { f: "Native Eingabefelder", c: "Überträgt den Status automatisch." },
+                        { f: "ARIA-Labels", c: "Ermöglicht zusätzliche Hinweise für Screenreader." }
+                    ]}
+                },
+                userTitle: "Wer ist betroffen?", userList: ["**Blinde Nutzer:** Auf Code-Beziehungen angewiesen.", "**Screenreader-Nutzer:** Frustration bei fehlender Statusansage.", "**Motorisch eingeschränkte Nutzer:** Nutzen semantische Tags."],
+                ariaEmail: "E-Mail-Adresse. Bitte nutzen Sie Ihre geschäftliche E-Mail.",
+                successMsg: "Erfolg! Sie sind registriert."
+            }
         };
 
         let currentLang = 'en';
@@ -135,46 +198,46 @@
                 container.innerHTML = `
                     <div>
                         <label for="acc-name" class="block mb-1 text-sm font-bold text-gray-700">${t.labelName}</label>
-                        <input type="text" id="acc-name" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500">
+                        <input type="text" id="acc-name" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500 outline-none">
                     </div>
                     <div>
                         <label for="acc-email" class="block mb-1 text-sm font-bold text-gray-700">${t.labelEmail}</label>
-                        <input type="email" id="acc-email" aria-label="${t.ariaEmail}" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500">
+                        <input type="email" id="acc-email" aria-label="${t.ariaEmail}" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500 outline-none">
                     </div>
                     <fieldset class="border border-gray-200 p-4 rounded-lg">
                         <legend class="px-2 text-sm font-bold text-gray-700">${t.labelGender}</legend>
                         <div class="flex gap-4 mt-2">
-                            <label class="flex items-center text-sm"><input type="radio" name="gender" class="mr-2"> ${t.optMale}</label>
-                            <label class="flex items-center text-sm"><input type="radio" name="gender" class="mr-2"> ${t.optFemale}</label>
-                            <label class="flex items-center text-sm"><input type="radio" name="gender" class="mr-2"> ${t.optOther}</label>
+                            <label class="flex items-center text-sm cursor-pointer"><input type="radio" name="gender" class="mr-2"> ${t.optMale}</label>
+                            <label class="flex items-center text-sm cursor-pointer"><input type="radio" name="gender" class="mr-2"> ${t.optFemale}</label>
+                            <label class="flex items-center text-sm cursor-pointer"><input type="radio" name="gender" class="mr-2"> ${t.optOther}</label>
                         </div>
                     </fieldset>
                     <div class="flex items-center">
                         <input type="checkbox" id="acc-terms" class="w-4 h-4 mr-2">
                         <label for="acc-terms" class="text-sm font-medium text-gray-700">${t.agreeTerms}</label>
                     </div>
-                    <button onclick="validateForm()" class="w-full bg-green-700 text-white font-bold py-3 rounded-lg uppercase">${t.btnText}</button>
+                    <button onclick="validateForm()" class="w-full bg-green-700 text-white font-bold py-3 rounded-lg uppercase hover:bg-green-800 transition-colors">${t.btnText}</button>
                 `;
             } else {
                 container.innerHTML = `
                     <div>
                         <div class="text-sm font-bold text-gray-700 mb-1">${t.labelName}</div>
-                        <input type="text" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm">
+                        <input type="text" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:outline-none">
                     </div>
                     <div>
                         <div class="text-sm font-bold text-gray-700 mb-1">${t.labelEmail}</div>
-                        <input type="text" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm">
+                        <input type="text" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:outline-none">
                     </div>
-                    <div>
-                        <div class="text-sm font-bold text-gray-700 mb-2">${t.labelGender}</div>
-                        <div class="flex gap-4">
+                    <div class="border border-gray-200 p-4 rounded-lg relative">
+                        <div class="absolute -top-3 left-2 bg-white px-2 text-sm font-bold text-gray-700">${t.labelGender}</div>
+                        <div class="flex gap-4 mt-2">
                             <div class="flex items-center text-sm"><input type="radio" name="bad-gender" class="mr-2"> ${t.optMale}</div>
                             <div class="flex items-center text-sm"><input type="radio" name="bad-gender" class="mr-2"> ${t.optFemale}</div>
                             <div class="flex items-center text-sm"><input type="radio" name="bad-gender" class="mr-2"> ${t.optOther}</div>
                         </div>
                     </div>
-                    <div class="flex items-center cursor-pointer" onclick="this.querySelector('div').classList.toggle('bg-blue-600')">
-                        <div class="w-4 h-4 border border-gray-400 mr-2 rounded-sm" role="none"></div>
+                    <div class="flex items-center cursor-pointer" onclick="this.querySelector('.fake-check').classList.toggle('bg-blue-600')">
+                        <div class="fake-check w-4 h-4 border border-gray-400 mr-2 rounded-sm" role="none"></div>
                         <span class="text-sm font-medium text-gray-700">${t.agreeTerms}</span>
                     </div>
                     <button onclick="validateForm()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg uppercase">${t.btnText}</button>
@@ -191,38 +254,37 @@
 
         function setLanguage(lang) {
             currentLang = lang;
-            const t = translations[lang] || translations['en'];
+            const t = translations[lang];
+            const isAcc = document.getElementById('modeToggle').checked;
             document.getElementById('txt-lab-title').innerText = t.labTitle;
             document.getElementById('txt-title').innerText = t.title;
             document.getElementById('tab-test').innerText = t.tabTest;
             document.getElementById('tab-user').innerText = t.tabUser;
-            document.getElementById('tab-feedback').innerText = document.getElementById('modeToggle').checked ? t.tabRemediations : t.tabIssues;
+            document.getElementById('tab-feedback').innerText = isAcc ? t.tabRemediations : t.tabIssues;
             document.getElementById('txt-guide-title').innerText = t.guideTitle;
             document.getElementById('txt-test-steps').innerHTML = t.testSteps.map(s => `<li>${s}</li>`).join('');
-            
-            const isAcc = document.getElementById('modeToggle').checked;
             const crit = isAcc ? t.critiques.good : t.critiques.bad;
             document.getElementById('txt-feedback-title').innerText = crit.title;
             document.getElementById('critiqueContent').innerHTML = crit.items.map(i => `<div><span class="text-blue-400 font-bold block mb-1 uppercase text-[11px]">${i.f}</span><p class="text-white opacity-90">${i.c}</p></div>`).join('');
-            
             document.getElementById('txt-user-content').innerHTML = `
                 <h3 class="text-blue-400 font-bold uppercase mb-4 text-xs">${t.userTitle}</h3>
                 <ul class="list-disc pl-5 space-y-3">${t.userList.map(li => `<li>${li.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')}</li>`).join('')}</ul>
             `;
+            document.querySelectorAll('.lang-btn').forEach(b => {
+                b.classList.remove('bg-blue-600', 'text-white', 'bg-gray-200', 'text-gray-700');
+                if (b.id === 'btn-' + lang) b.classList.add('bg-blue-600', 'text-white');
+                else b.classList.add('bg-gray-200', 'text-gray-700');
+            });
             renderForm();
         }
 
-        function handleModeToggle() {
-            setLanguage(currentLang);
-        }
-
+        function handleModeToggle() { setLanguage(currentLang); }
         function switchTab(tabId) {
             ['test', 'feedback', 'user'].forEach(id => {
                 document.getElementById('panel-' + id).classList.toggle('hidden', id !== tabId);
                 document.getElementById('tab-' + id).setAttribute('aria-selected', id === tabId);
             });
         }
-
         setLanguage('en');
     </script>
 </body>
