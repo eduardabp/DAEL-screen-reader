@@ -16,10 +16,9 @@
         input:checked + .slider:before { transform: translateX(22px); }
         .tab-btn { font-family: ui-sans-serif, system-ui, sans-serif !important; }
         .tab-btn[aria-selected="true"] { background-color: #111827; color: #60a5fa; border-bottom: 2px solid #60a5fa; }
-
-        /* Inaccessible Form CSS - To look right but be structurally wrong */
-        .inaccessible-mode .fake-label { font-weight: bold; display: block; margin-bottom: 4px; }
-        .inaccessible-mode .form-flex-reverse { display: flex; flex-direction: column-reverse; }
+        
+        /* Visually Hidden but Screen Reader Accessible for the ARIA label demo */
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen p-4 md:p-8 transition-colors duration-500 lab-ui-font" id="bodyTag">
@@ -48,24 +47,16 @@
                         <button onclick="setLanguage('de')" class="lang-btn px-2 py-1 rounded" id="btn-de">DE</button>
                     </div>
                 </div>
-                <h1 id="txt-title" class="text-xl font-black text-gray-900 px-2 uppercase tracking-tighter">Screen Reader & Structure Experience</h1>
+                <h1 id="txt-title" class="text-xl font-black text-gray-900 px-2 uppercase tracking-tighter">Screen Reader Experience</h1>
             </nav>
         </header>
 
         <main class="p-6 md:p-10">
             <div class="grid grid-cols-1 lg:grid-cols-5 gap-16">
-                <div class="lg:col-span-2 reading-content flex flex-col" id="exercise-column">
-                    <div id="form-container" class="space-y-6">
-                        <div class="bg-blue-50 p-5 rounded-xl border border-blue-100">
-                             <h2 id="txt-instr-title" class="font-bold uppercase text-lg text-blue-900 mb-2">Instructions</h2>
-                             <p id="txt-instructions" class="text-sm text-blue-800 leading-relaxed"></p>
+                <div class="lg:col-span-2 flex flex-col">
+                    <div id="dynamic-form-area" class="space-y-6">
                         </div>
-
-                        <div id="dynamic-form-area" class="space-y-4">
-                            </div>
-
-                        <div id="status-message" aria-live="polite" class="hidden p-4 rounded-lg font-bold text-sm"></div>
-                    </div>
+                    <div id="status-message" aria-live="polite" class="hidden p-4 rounded-lg font-bold text-sm mt-6"></div>
                 </div>
 
                 <div class="lg:col-span-3">
@@ -95,54 +86,42 @@
     <script>
         const translations = {
             en: {
-                labTitle: "Digital Accessibility Empathy Lab",
-                title: "Screen Reader & Structure Experience",
-                instrTitle: "Instructions",
-                instructions: "Fill out the registration form below. If you are using a screen reader, notice how the experience changes between modes.",
-                labelName: "Full Name",
-                labelEmail: "Email Address",
-                btnText: "Register Now",
-                tabTest: "How to test",
-                tabIssues: "Issues",
-                tabRemediations: "Remediations",
-                tabUser: "Impacted users",
+                labTitle: "Digital Accessibility Empathy Lab", title: "Screen Reader Experience",
+                labelName: "Full Name", labelEmail: "Email Address", labelGender: "Gender Identity",
+                optMale: "Male", optFemale: "Female", optOther: "Other",
+                agreeTerms: "I agree to the Terms and Privacy Policy", btnText: "Register Now",
+                tabTest: "How to test", tabIssues: "Issues", tabRemediations: "Remediations", tabUser: "Impacted users",
                 guideTitle: "Step-by-step guide",
                 testSteps: [
-                    "Close your eyes or look away from the screen.",
-                    "Use the 'Tab' key to navigate the form fields.",
-                    "Listen to how the screen reader (or a colleague reading the code) describes each field.",
-                    "Try to submit the form without filling it in and listen for error announcements.",
-                    "Switch to Accessible mode and repeat the process."
+                    "Use a Screen Reader (like NVDA, VoiceOver, or TalkBack).",
+                    "Navigate the fields using the Tab key.",
+                    "Notice if the Screen Reader announces the field names and the gender group question.",
+                    "Try checking the 'Terms' checkbox. Does the screen reader tell you if it's checked?",
+                    "Switch to Accessible mode and observe how ARIA labels and Fieldsets change the experience."
                 ],
                 critiques: {
-                    bad: {
-                        title: "What is wrong?",
-                        items: [
-                            { f: "Missing Labels", c: "The fields use <span> instead of <label>. A screen reader will just say 'Edit text, blank' without telling you what to type." },
-                            { f: "No Error Feedback", c: "Errors appear visually but are not announced to screen readers. Users won't know why the form didn't submit." },
-                            { f: "Disrupted Focus Order", c: "The Submit button is placed before the inputs in the code, breaking the logical flow for keyboard users." }
-                        ]
-                    },
-                    good: {
-                        title: "Remediations",
-                        items: [
-                            { f: "Proper Semantics", c: "Using <label for='...'> links text to inputs, ensuring the name is always announced." },
-                            { f: "Live Regions", c: "ARIA Live Regions (aria-live='polite') announce error messages as soon as they appear." },
-                            { f: "Logical DOM Order", c: "The code matches the visual layout, making navigation predictable and easy." }
-                        ]
-                    }
+                    bad: { title: "What is wrong?", items: [
+                        { f: "Disconnected Labels", c: "Visually the labels are there, but the code doesn't link them to the inputs. A screen reader just says 'Edit text, blank'." },
+                        { f: "No Radio Grouping", c: "Without a <fieldset>, the question 'Gender' is never read; the user just hears 'Male, radio button' out of context." },
+                        { f: "State-less Checkbox", c: "The 'Terms' checkbox is a custom-styled div. It doesn't communicate its 'Checked' or 'Unchecked' status to the computer." },
+                        { f: "Hidden Instructions", c: "The email field requires a specific format, but it's only communicated visually, not to the screen reader." }
+                    ]},
+                    good: { title: "Remediations", items: [
+                        { f: "Semantic Linking", c: "Using <label for='...'> ensures the name is always read when the field gets focus." },
+                        { f: "Fieldsets & Legends", c: "Grouping related radio buttons with a <legend> provides vital context for the choices." },
+                        { f: "Native Inputs", c: "Using a real <input type='checkbox'> automatically handles state (checked/unchecked) for assistive technology." },
+                        { f: "ARIA Labels", c: "ARIA labels allow us to provide extra hints (e.g., 'Use your work email') specifically for screen reader users." }
+                    ]}
                 },
-                userTitle: "Who is impacted?",
-                userList: [
-                    "**Blind Users:** Rely entirely on semantic labels to understand the purpose of form elements.",
-                    "**Low Vision Users:** May use screen magnification and need programmatic labels to confirm where focus is.",
-                    "**Keyboard-only Users:** Depend on a logical focus order to move through a page efficiently.",
-                    "**Cognitive Impairments:** Clear, linked labels reduce the effort needed to remember field requirements."
+                userTitle: "Who is impacted?", userList: [
+                    "**Blind Users:** Cannot interpret visual relationships. They depend on the code to say 'This label belongs to this box'.",
+                    "**Screen Reader Users:** Experience high frustration when checkboxes or buttons don't announce their state.",
+                    "**Motor Impaired Users:** Often use specialized software that relies on these same semantic tags to click on the right element."
                 ],
-                errorMsg: "Error: Full Name is required.",
-                successMsg: "Registration successful!"
-            }
-            // French, Dutch, and German can be expanded similarly with full content.
+                ariaEmail: "Email address. Please provide your primary work email.",
+                errorMsg: "Error: Please complete all fields.", successMsg: "Success! You are registered."
+            },
+            // Other languages would follow the same structure...
         };
 
         let currentLang = 'en';
@@ -153,79 +132,75 @@
             const container = document.getElementById('dynamic-form-area');
             
             if (isAcc) {
-                // ACCESSIBLE: Real labels, logical order
                 container.innerHTML = `
                     <div>
-                        <label for="name" class="block mb-1 text-sm font-bold text-gray-700">${t.labelName}</label>
-                        <input type="text" id="name" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500 outline-none">
+                        <label for="acc-name" class="block mb-1 text-sm font-bold text-gray-700">${t.labelName}</label>
+                        <input type="text" id="acc-name" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500">
                     </div>
                     <div>
-                        <label for="email" class="block mb-1 text-sm font-bold text-gray-700">${t.labelEmail}</label>
-                        <input type="email" id="email" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500 outline-none">
+                        <label for="acc-email" class="block mb-1 text-sm font-bold text-gray-700">${t.labelEmail}</label>
+                        <input type="email" id="acc-email" aria-label="${t.ariaEmail}" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500">
                     </div>
-                    <button onclick="validateForm()" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-lg text-sm tracking-wide transition-colors uppercase">
-                        ${t.btnText}
-                    </button>
+                    <fieldset class="border border-gray-200 p-4 rounded-lg">
+                        <legend class="px-2 text-sm font-bold text-gray-700">${t.labelGender}</legend>
+                        <div class="flex gap-4 mt-2">
+                            <label class="flex items-center text-sm"><input type="radio" name="gender" class="mr-2"> ${t.optMale}</label>
+                            <label class="flex items-center text-sm"><input type="radio" name="gender" class="mr-2"> ${t.optFemale}</label>
+                            <label class="flex items-center text-sm"><input type="radio" name="gender" class="mr-2"> ${t.optOther}</label>
+                        </div>
+                    </fieldset>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="acc-terms" class="w-4 h-4 mr-2">
+                        <label for="acc-terms" class="text-sm font-medium text-gray-700">${t.agreeTerms}</label>
+                    </div>
+                    <button onclick="validateForm()" class="w-full bg-green-700 text-white font-bold py-3 rounded-lg uppercase">${t.btnText}</button>
                 `;
             } else {
-                // INACCESSIBLE: No labels, broken focus order (button first in DOM)
                 container.innerHTML = `
-                    <div class="form-flex-reverse">
-                        <div class="mt-4">
-                             <span class="fake-label text-sm text-gray-700">${t.labelName}</span>
-                             <input type="text" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:outline-none">
-                        </div>
-                        <div>
-                             <span class="fake-label text-sm text-gray-700">${t.labelEmail}</span>
-                             <input type="text" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:outline-none">
-                        </div>
-                        <button onclick="validateForm()" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg text-sm uppercase">
-                            ${t.btnText}
-                        </button>
+                    <div>
+                        <div class="text-sm font-bold text-gray-700 mb-1">${t.labelName}</div>
+                        <input type="text" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm">
                     </div>
+                    <div>
+                        <div class="text-sm font-bold text-gray-700 mb-1">${t.labelEmail}</div>
+                        <input type="text" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm">
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold text-gray-700 mb-2">${t.labelGender}</div>
+                        <div class="flex gap-4">
+                            <div class="flex items-center text-sm"><input type="radio" name="bad-gender" class="mr-2"> ${t.optMale}</div>
+                            <div class="flex items-center text-sm"><input type="radio" name="bad-gender" class="mr-2"> ${t.optFemale}</div>
+                            <div class="flex items-center text-sm"><input type="radio" name="bad-gender" class="mr-2"> ${t.optOther}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center cursor-pointer" onclick="this.querySelector('div').classList.toggle('bg-blue-600')">
+                        <div class="w-4 h-4 border border-gray-400 mr-2 rounded-sm" role="none"></div>
+                        <span class="text-sm font-medium text-gray-700">${t.agreeTerms}</span>
+                    </div>
+                    <button onclick="validateForm()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg uppercase">${t.btnText}</button>
                 `;
             }
         }
 
         function validateForm() {
-            const isAcc = document.getElementById('modeToggle').checked;
-            const t = translations[currentLang];
             const status = document.getElementById('status-message');
-            
-            status.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700');
-            
-            if (isAcc) {
-                const name = document.getElementById('name').value;
-                if (!name) {
-                    status.innerText = t.errorMsg;
-                    status.classList.add('bg-red-100', 'text-red-700', 'block');
-                } else {
-                    status.innerText = t.successMsg;
-                    status.classList.add('bg-green-100', 'text-green-700', 'block');
-                }
-            } else {
-                // Inaccessible: silent error, user doesn't know what happened
-                status.innerText = t.errorMsg;
-                status.classList.add('bg-red-100', 'text-red-700', 'block');
-                // We keep it visible but don't use aria-live effectively in Inaccessible mode
-            }
+            const t = translations[currentLang];
+            status.innerText = t.successMsg;
+            status.className = "p-4 rounded-lg font-bold text-sm mt-6 bg-green-100 text-green-700 block";
         }
 
         function setLanguage(lang) {
             currentLang = lang;
-            const t = translations[lang];
-            const isAcc = document.getElementById('modeToggle').checked;
-            
+            const t = translations[lang] || translations['en'];
             document.getElementById('txt-lab-title').innerText = t.labTitle;
             document.getElementById('txt-title').innerText = t.title;
-            document.getElementById('txt-instr-title').innerText = t.instrTitle;
-            document.getElementById('txt-instructions').innerText = t.instructions;
             document.getElementById('tab-test').innerText = t.tabTest;
             document.getElementById('tab-user').innerText = t.tabUser;
-            document.getElementById('tab-feedback').innerText = isAcc ? t.tabRemediations : t.tabIssues;
+            document.getElementById('tab-feedback').innerText = document.getElementById('modeToggle').checked ? t.tabRemediations : t.tabIssues;
             document.getElementById('txt-guide-title').innerText = t.guideTitle;
             document.getElementById('txt-test-steps').innerHTML = t.testSteps.map(s => `<li>${s}</li>`).join('');
-
+            
+            const isAcc = document.getElementById('modeToggle').checked;
             const crit = isAcc ? t.critiques.good : t.critiques.bad;
             document.getElementById('txt-feedback-title').innerText = crit.title;
             document.getElementById('critiqueContent').innerHTML = crit.items.map(i => `<div><span class="text-blue-400 font-bold block mb-1 uppercase text-[11px]">${i.f}</span><p class="text-white opacity-90">${i.c}</p></div>`).join('');
@@ -234,14 +209,11 @@
                 <h3 class="text-blue-400 font-bold uppercase mb-4 text-xs">${t.userTitle}</h3>
                 <ul class="list-disc pl-5 space-y-3">${t.userList.map(li => `<li>${li.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')}</li>`).join('')}</ul>
             `;
-
             renderForm();
         }
 
         function handleModeToggle() {
             setLanguage(currentLang);
-            const isAcc = document.getElementById('modeToggle').checked;
-            document.getElementById('bodyTag').className = isAcc ? "bg-gray-100 min-h-screen p-4 md:p-8 transition-colors duration-500 lab-ui-font accessible-mode" : "bg-gray-100 min-h-screen p-4 md:p-8 transition-colors duration-500 lab-ui-font inaccessible-mode";
         }
 
         function switchTab(tabId) {
