@@ -87,23 +87,23 @@
                 agreeTerms: "I agree to the Terms and Privacy Policy", btnText: "Register Now",
                 tabTest: "How to test", tabIssues: "Issues", tabRemediations: "Remediations", tabUser: "Impacted users",
                 guideTitle: "Step-by-step guide",
-                testSteps: ["Use a Screen Reader.", "Navigate with the Tab key.", "Try to identify the Email field based on what is read.", "Find the Register button—notice if it is announced as a button.", "Trigger an error; check if your Screen Reader alerts you automatically."],
+                testSteps: ["Use a Screen Reader.", "Navigate with the Tab key.", "Notice if field names and the gender group question are announced.", "Try to identify the Email field based on what is read.", "Find the Register button—is it announced as a button?", "Trigger an error and check if your Screen Reader alerts you automatically."],
                 badEmailAria: "Form Field 2", requiredTxt: "(Required)", errorMsg: "Error: Please fill in all fields.",
                 critiques: {
                     bad: { items: [
-                        { f: "Vague ARIA Overwrite", c: "The email field uses an aria-label 'Form Field 2'. This overrides the visible name, leaving the user guessing." },
-                        { f: "Silent Role", c: "The 'Register' button is a &lt;div&gt; with tabindex. It is focusable, but the screen reader doesn't announce it as a 'button'." },
+                        { f: "Vague ARIA Overwrite", c: "The email field uses an aria-label 'Form Field 2'. This overrides the visible label name." },
+                        { f: "Silent Role", c: "The 'Register' button is a &lt;div&gt; with tabindex. It has no 'button' role and won't be identified as interactive." },
                         { f: "Silent Requirements", c: "Fields are required visually, but without the 'required' attribute, screen readers don't warn the user." },
-                        { f: "Non-Live Errors", c: "Error messages appear visually but aren't in an aria-live region, so screen reader users aren't notified." }
+                        { f: "Non-Live Errors", c: "Error messages aren't in an aria-live region, so screen reader users aren't notified of failures." }
                     ]},
                     good: { items: [
                         { f: "Accessible Naming", c: "Using native labels ensures the field's purpose is always announced correctly." },
-                        { f: "Semantic Button", c: "Using a &lt;button&gt; element automatically provides the role and keyboard support." },
+                        { f: "Semantic Button", c: "Using a &lt;button&gt; element provides the role and keyboard support natively." },
                         { f: "Explicit State", c: "The 'required' attribute ensures the screen reader adds 'Required' to the announcement." },
-                        { f: "Live Region Alerts", c: "Using role='alert' forces the screen reader to interrupt and announce errors immediately." }
+                        { f: "Live Region Alerts", c: "Using role='alert' forces the screen reader to announce errors immediately." }
                     ]}
                 },
-                userTitle: "Who is impacted?", userList: ["**Blind Users:** Cannot identify fields if labels are vague or buttons have no roles.", "**Keyboard Users:** Can navigate but may be confused by elements that don't declare their purpose.", "**Cognitive Impairment:** Benefit from clear, immediate error feedback."],
+                userTitle: "Who is impacted?", userList: ["**Blind Users:** Rely on code relationships to understand purpose.", "**Keyboard Users:** May be confused by elements that don't declare their purpose.", "**Motor Impaired:** Rely on semantic tags for navigation software."],
                 successMsg: "Success! You are registered."
             },
             fr: {
@@ -113,23 +113,23 @@
                 agreeTerms: "J'accepte les conditions générales", btnText: "S'inscrire maintenant",
                 tabTest: "Comment tester", tabIssues: "Problèmes", tabRemediations: "Corrections", tabUser: "Utilisateurs impactés",
                 guideTitle: "Guide étape par étape",
-                testSteps: ["Utilisez un lecteur d'écran.", "Naviguez avec Tab.", "Tentez d'identifier le champ Email via l'audio.", "Trouvez le bouton S'inscrire; est-il annoncé comme bouton ?", "Provoquez une erreur; est-elle lue automatiquement ?"],
+                testSteps: ["Utilisez un lecteur d'écran.", "Naviguez avec Tab.", "Vérifiez si la question 'Genre' est annoncée.", "Tentez d'identifier le champ Email via l'audio.", "Trouvez le bouton S'inscrire; est-il annoncé comme bouton ?", "Provoquez une erreur; est-elle lue automatiquement ?"],
                 badEmailAria: "Champ de formulaire 2", requiredTxt: "(Obligatoire)", errorMsg: "Erreur : Veuillez remplir tous les champs.",
                 critiques: {
                     bad: { items: [
-                        { f: "Écrasement ARIA vague", c: "Le champ email utilise 'Champ 2'. Cela efface le nom visible pour le lecteur d'écran." },
-                        { f: "Rôle muet", c: "Le bouton est un &lt;div&gt; avec tabindex. Il est focalisable, mais le lecteur ne dit pas 'bouton'." },
+                        { f: "Écrasement ARIA vague", c: "Le champ email utilise 'Champ 2', ce qui efface le nom du champ pour le lecteur." },
+                        { f: "Rôle muet", c: "Le bouton est un &lt;div&gt;. Sans rôle 'button', son but n'est pas communiqué." },
                         { f: "Champs obligatoires muets", c: "L'obligation est visuelle mais pas codée; le lecteur ne prévient pas l'utilisateur." },
-                        { f: "Erreurs non-interrompues", c: "L'erreur s'affiche mais sans aria-live, elle n'est pas annoncée." }
+                        { f: "Erreurs non-interrompues", c: "L'erreur s'affiche sans aria-live, elle n'est donc pas annoncée." }
                     ]},
                     good: { items: [
                         { f: "Nommage accessible", c: "L'usage de labels natifs assure que le but du champ est lu." },
                         { f: "Bouton sémantique", c: "L'élément &lt;button&gt; fournit nativement le rôle et le support clavier." },
-                        { f: "État explicite", c: "L'attribut 'required' annonce automatiquement 'Obligatoire' au focus." },
+                        { f: "État explicite", c: "L'attribut 'required' annonce 'Obligatoire' au focus." },
                         { f: "Alertes en direct", c: "Le rôle='alert' force la lecture immédiate de l'erreur." }
                     ]}
                 },
-                userTitle: "Qui est impacté ?", userList: ["**Utilisateurs aveugles:** Ne peuvent pas identifier les champs vagues.", "**Utilisateurs clavier:** Naviguent mais sont confus par des éléments sans rôle.", "**Troubles cognitifs:** Ont besoin de retours d'erreurs immédiats."],
+                userTitle: "Qui est impacté ?", userList: ["**Utilisateurs aveugles:** Dépendent des relations sémantiques.", "**Utilisateurs clavier:** Confus par des éléments sans rôle.", "**Troubles moteurs:** Les logiciels utilisent ces balises."],
                 successMsg: "Succès ! Vous êtes inscrit."
             },
             nl: {
@@ -139,23 +139,23 @@
                 agreeTerms: "Ik ga akkoord met de voorwaarden", btnText: "Nu Registreren",
                 tabTest: "Hoe te testen", tabIssues: "Problemen", tabRemediations: "Oplossingen", tabUser: "Impact op gebruikers",
                 guideTitle: "Stappenplan",
-                testSteps: ["Gebruik een schermlezer.", "Navigeer met de Tab-toets.", "Probeer het e-mailveld te herkennen op basis van wat er wordt voorgelezen.", "Zoek de knop 'Nu Registreren'—wordt deze aangekondigd als knop?", "Forceer een foutmelding; controleer of je schermlezer dit automatisch meldt."],
+                testSteps: ["Gebruik een schermlezer.", "Navigeer met Tab.", "Let op of de vraag 'Geslacht' wordt voorgelezen.", "Probeer het e-mailveld te herkennen via de audio.", "Wordt de registratieknop aangekondigd als knop?", "Forceer een foutmelding; meldt de schermlezer dit automatisch?"],
                 badEmailAria: "Formulierveld 2", requiredTxt: "(Verplicht)", errorMsg: "Fout: Vul alle velden in.",
                 critiques: {
                     bad: { items: [
-                        { f: "Vage ARIA Overschrijving", c: "Het e-mailveld gebruikt de aria-label 'Formulierveld 2'. Dit overschrijft de zichtbare naam." },
-                        { f: "Stille Rol", c: "De knop is een &lt;div&gt; met tabindex. Hij is focusbaar, maar de schermlezer noemt het geen 'knop'." },
-                        { f: "Stille Verplichtingen", c: "Velden lijken visueel verplicht, maar zonder 'required' attribuut weet de schermlezer dit niet." },
-                        { f: "Geen Live Foutmeldingen", c: "Foutmeldingen verschijnen visueel maar staan niet in een aria-live regio." }
+                        { f: "Vage ARIA Overschrijving", c: "Het e-mailveld gebruikt 'Formulierveld 2', wat de zichtbare naam overschrijft." },
+                        { f: "Stille Rol", c: "De knop is een &lt;div&gt;. De schermlezer noemt het geen 'knop'." },
+                        { f: "Stille Verplichtingen", c: "Zonder 'required' attribuut weet de schermlezer niet dat velden verplicht zijn." },
+                        { f: "Geen Live Foutmeldingen", c: "Foutmeldingen staan niet in een aria-live regio." }
                     ]},
                     good: { items: [
-                        { f: "Toegankelijke Naamgeving", c: "Het gebruik van native labels zorgt dat het doel van het veld altijd correct wordt voorgelezen." },
-                        { f: "Semantische Knop", c: "Een &lt;button&gt; element biedt automatisch de juiste rol en toetsenbordondersteuning." },
-                        { f: "Expliciete Status", c: "Het 'required' attribuut zorgt dat de schermlezer 'Verplicht' toevoegt aan de aankondiging." },
-                        { f: "Live Regio Alerts", c: "Met role='alert' onderbreekt de schermlezer om de fout direct te melden." }
+                        { f: "Toegankelijke Naamgeving", c: "Native labels zorgen dat de naam altijd correct wordt voorgelezen." },
+                        { f: "Semantische Knop", c: "Een &lt;button&gt; biedt automatisch de juiste rol." },
+                        { f: "Expliciete Status", c: "Het 'required' attribuut voegt 'Verplicht' toe aan de aankondiging." },
+                        { f: "Live Regio Alerts", c: "Met role='alert' wordt de fout direct gemeld." }
                     ]}
                 },
-                userTitle: "Wie wordt beïnvloed?", userList: ["**Blinde gebruikers:** Kunnen velden niet identificeren bij vage labels.", "**Toetsenbordgebruikers:** Kunnen navigeren maar raken in de war door elementen zonder rol.", "**Cognitieve beperking:** Hebben baat bij duidelijke, onmiddellijke feedback."],
+                userTitle: "Wie wordt beïnvloed?", userList: ["**Blinde gebruikers:** Afhankelijk van code-relaties.", "**Toetsenbordgebruikers:** Raak in de war door elementen zonder rol.", "**Motorisch beperkten:** Software vertrouwt op tags."],
                 successMsg: "Succes! U bent geregistreerd."
             },
             de: {
@@ -165,23 +165,23 @@
                 agreeTerms: "Ich stimme den Bedingungen zu", btnText: "Jetzt Registrieren",
                 tabTest: "Wie man testet", tabIssues: "Probleme", tabRemediations: "Lösungen", tabUser: "Betroffene Nutzer",
                 guideTitle: "Schritt-für-Schritt-Anleitung",
-                testSteps: ["Nutzen Sie einen Screenreader.", "Navigieren Sie mit der Tab-Taste.", "Versuchen Sie, das E-Mail-Feld anhand der Ansage zu identifizieren.", "Suchen Sie die Schaltfläche 'Jetzt Registrieren'—wird sie als Button angesagt?", "Lösen Sie einen Fehler aus; prüft, ob der Screenreader Sie automatisch warnt."],
+                testSteps: ["Nutzen Sie einen Screenreader.", "Navigieren Sie mit Tab.", "Prüfen Sie, ob 'Geschlecht' angesagt wird.", "Identifizieren Sie das E-Mail-Feld via Audio.", "Wird der Registrierungs-Button als Button angesagt?", "Lösen Sie einen Fehler aus; wird er automatisch angesagt?"],
                 badEmailAria: "Formularfeld 2", requiredTxt: "(Erforderlich)", errorMsg: "Fehler: Bitte füllen Sie alle Felder aus.",
                 critiques: {
                     bad: { items: [
-                        { f: "Vage ARIA-Überschreibung", c: "Das E-Mail-Feld nutzt 'Formularfeld 2'. Dies überschreibt den sichtbaren Namen für den Screenreader." },
-                        { f: "Stumme Rolle", c: "Der Button ist ein &lt;div&gt; mit Tabindex. Er ist fokussierbar, aber wird nicht als 'Button' angesagt." },
-                        { f: "Stumme Pflichtfelder", c: "Felder sind visuell als Pflichtfelder markiert, aber ohne 'required'-Attribut fehlt die Ansage." },
-                        { f: "Keine Live-Fehlermeldungen", c: "Fehler erscheinen visuell, aber ohne aria-live werden sie nicht automatisch vorgelesen." }
+                        { f: "Vage ARIA-Überschreibung", c: "Das E-Mail-Feld nutzt 'Formularfeld 2' und überschreibt den echten Namen." },
+                        { f: "Stumme Rolle", c: "Der Button ist ein &lt;div&gt; und wird nicht als Button erkannt." },
+                        { f: "Stumme Pflichtfelder", c: "Ohne 'required'-Attribut fehlt die Ansage der Notwendigkeit." },
+                        { f: "Keine Live-Fehlermeldungen", c: "Fehler werden ohne aria-live nicht automatisch vorgelesen." }
                     ]},
                     good: { items: [
-                        { f: "Barrierefreie Benennung", c: "Native Labels stellen sicher, dass der Zweck des Feldes immer korrekt angesagt wird." },
-                        { f: "Semantischer Button", c: "Ein &lt;button&gt;-Element bietet automatisch die richtige Rolle und Tastaturunterstützung." },
-                        { f: "Expliziter Status", c: "Das 'required'-Attribut sorgt dafür, dass 'Erforderlich' angesagt wird." },
-                        { f: "Live-Region-Alerts", c: "Mit role='alert' unterbricht der Screenreader, um den Fehler sofort zu melden." }
+                        { f: "Barrierefreie Benennung", c: "Native Labels stellen die richtige Ansage sicher." },
+                        { f: "Semantischer Button", c: "Ein &lt;button&gt;-Element bietet automatisch die richtige Rolle." },
+                        { f: "Expliziter Status", c: "Das 'required'-Attribut sorgt für die Ansage 'Erforderlich'." },
+                        { f: "Live-Region-Alerts", c: "Mit role='alert' wird der Fehler sofort gemeldete." }
                     ]}
                 },
-                userTitle: "Wer ist betroffen?", userList: ["**Blinde Nutzer:** Können Felder bei vagen Beschriftungen nicht zuordnen.", "**Tastaturnutzer:** Können navigieren, sind aber ohne Rollen-Ansage verwirrt.", "**Kognitive Einschränkung:** Profitieren von klarem, sofortigem Fehler-Feedback."],
+                userTitle: "Wer ist betroffen?", userList: ["**Blinde Nutzer:** Auf Code-Beziehungen angewiesen.", "**Tastaturnutzer:** Ohne Rollen-Ansage verwirrt.", "**Motorisch eingeschränkt:** Nutzen semantische Tags."],
                 successMsg: "Erfolg! Sie sind registriert."
             }
         };
@@ -196,46 +196,52 @@
             
             if (isAcc) {
                 container.innerHTML = `
-                    <div class="space-y-4">
-                        <div>
-                            <label for="acc-name" class="block mb-1 text-sm font-bold text-gray-700">${t.labelName} <span class="text-red-600">${t.requiredTxt}</span></label>
-                            <input type="text" id="acc-name" required class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500 outline-none">
-                        </div>
-                        <div>
-                            <label for="acc-email" class="block mb-1 text-sm font-bold text-gray-700">${t.labelEmail} <span class="text-red-600">${t.requiredTxt}</span></label>
-                            <input type="email" id="acc-email" required class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500 outline-none">
-                        </div>
-                        <fieldset class="border border-gray-200 p-4 rounded-lg mt-6">
-                            <legend class="px-2 text-sm font-bold text-gray-700">${t.labelGender} <span class="text-red-600">${t.requiredTxt}</span></legend>
-                            <div class="flex gap-4">
-                                <label class="flex items-center text-sm cursor-pointer"><input type="radio" name="gender" required class="mr-2"> ${t.optMale}</label>
-                                <label class="flex items-center text-sm cursor-pointer"><input type="radio" name="gender" class="mr-2"> ${t.optFemale}</label>
-                            </div>
-                        </fieldset>
-                        <button onclick="validateForm(true)" class="w-full bg-green-700 text-white font-bold py-3 rounded-lg uppercase hover:bg-green-800 transition-colors">${t.btnText}</button>
+                    <div>
+                        <label for="acc-name" class="block mb-1 text-sm font-bold text-gray-700">${t.labelName} <span class="text-red-600">${t.requiredTxt}</span></label>
+                        <input type="text" id="acc-name" required class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500 outline-none">
                     </div>
+                    <div>
+                        <label for="acc-email" class="block mb-1 text-sm font-bold text-gray-700">${t.labelEmail} <span class="text-red-600">${t.requiredTxt}</span></label>
+                        <input type="email" id="acc-email" required class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:ring-2 focus:ring-green-500 outline-none">
+                    </div>
+                    <fieldset class="border border-gray-200 p-4 rounded-lg mt-6">
+                        <legend class="px-2 text-sm font-bold text-gray-700">${t.labelGender} <span class="text-red-600">${t.requiredTxt}</span></legend>
+                        <div class="flex gap-4">
+                            <label class="flex items-center text-sm cursor-pointer"><input type="radio" name="gender" required class="mr-2"> ${t.optMale}</label>
+                            <label class="flex items-center text-sm cursor-pointer"><input type="radio" name="gender" class="mr-2"> ${t.optFemale}</label>
+                            <label class="flex items-center text-sm cursor-pointer"><input type="radio" name="gender" class="mr-2"> ${t.optOther}</label>
+                        </div>
+                    </fieldset>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="acc-terms" required class="w-4 h-4 mr-2">
+                        <label for="acc-terms" class="text-sm font-medium text-gray-700">${t.agreeTerms}</label>
+                    </div>
+                    <button onclick="validateForm(true)" class="w-full bg-green-700 text-white font-bold py-3 rounded-lg uppercase hover:bg-green-800 transition-colors">${t.btnText}</button>
                 `;
             } else {
                 container.innerHTML = `
-                    <div class="space-y-4">
-                        <div>
-                            <div class="text-sm font-bold text-gray-700 mb-1">${t.labelName} <span class="text-red-600">${t.requiredTxt}</span></div>
-                            <input type="text" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:outline-none">
+                    <div>
+                        <div class="text-sm font-bold text-gray-700 mb-1">${t.labelName} <span class="text-red-600">${t.requiredTxt}</span></div>
+                        <input type="text" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:outline-none">
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold text-gray-700 mb-1">${t.labelEmail} <span class="text-red-600">${t.requiredTxt}</span></div>
+                        <input type="text" aria-label="${t.badEmailAria}" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:outline-none">
+                    </div>
+                    <div class="border border-gray-200 p-4 rounded-lg mt-6 relative">
+                        <div class="absolute -top-3 left-2 bg-white px-2 text-sm font-bold text-gray-700">${t.labelGender} <span class="text-red-600">${t.requiredTxt}</span></div>
+                        <div class="flex gap-4 pt-2">
+                            <div class="flex items-center text-sm"><input type="radio" name="bad-gender" class="mr-2"> ${t.optMale}</div>
+                            <div class="flex items-center text-sm"><input type="radio" name="bad-gender" class="mr-2"> ${t.optFemale}</div>
+                            <div class="flex items-center text-sm"><input type="radio" name="bad-gender" class="mr-2"> ${t.optOther}</div>
                         </div>
-                        <div>
-                            <div class="text-sm font-bold text-gray-700 mb-1">${t.labelEmail} <span class="text-red-600">${t.requiredTxt}</span></div>
-                            <input type="text" aria-label="${t.badEmailAria}" class="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-sm focus:outline-none">
-                        </div>
-                        <div class="border border-gray-200 p-4 rounded-lg mt-6 relative">
-                            <div class="absolute -top-3 left-2 bg-white px-2 text-sm font-bold text-gray-700">${t.labelGender} <span class="text-red-600">${t.requiredTxt}</span></div>
-                            <div class="flex gap-4 pt-2">
-                                <div class="flex items-center text-sm"><input type="radio" name="bad-gender" class="mr-2"> ${t.optMale}</div>
-                                <div class="flex items-center text-sm"><input type="radio" name="bad-gender" class="mr-2"> ${t.optFemale}</div>
-                            </div>
-                        </div>
-                        <div tabindex="0" id="bad-btn" class="w-full bg-green-700 text-white font-bold py-3 rounded-lg uppercase text-center cursor-pointer hover:bg-green-800 transition-colors">
-                            ${t.btnText}
-                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" role="presentation" class="w-4 h-4 mr-2">
+                        <span class="text-sm font-medium text-gray-700">${t.agreeTerms}</span>
+                    </div>
+                    <div tabindex="0" id="bad-btn" class="w-full bg-green-700 text-white font-bold py-3 rounded-lg uppercase text-center cursor-pointer hover:bg-green-800 transition-colors">
+                        ${t.btnText}
                     </div>
                 `;
                 const badBtn = document.getElementById('bad-btn');
