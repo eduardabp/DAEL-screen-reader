@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html id="doc-root" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,7 +55,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-5 gap-16">
                 <div class="lg:col-span-2">
                     <div id="form-container" class="flex flex-col">
-                        <p id="txt-all-required" class="text-sm font-bold text-gray-600 mb-6 italic border-l-4 border-gray-300 pl-3">All fields are required.</p>
+                        <p id="txt-all-required" class="text-sm font-bold text-black mb-6">All fields are required.</p>
                         <div id="error-area"></div>
                         <div id="dynamic-form-area" class="space-y-6"></div>
                     </div>
@@ -69,15 +69,15 @@
                             <button id="tab-user" onclick="switchTab('user')" class="tab-btn px-6 py-4 text-xs font-black uppercase tracking-widest border-l border-gray-700" aria-selected="false">Impacted users</button>
                         </div>
                         <div id="panel-test" class="p-8 space-y-6 text-sm flex-grow overflow-y-auto">
-                            <h3 id="txt-guide-title" class="text-blue-400 font-bold uppercase text-xs mb-2">Step-by-step guide</h3>
+                            <h3 id="txt-guide-title" class="text-blue-400 font-bold uppercase text-lg mb-2 border-b border-gray-700 pb-2">Step-by-step guide</h3>
                             <ol id="txt-test-steps" class="list-decimal pl-5 space-y-4 opacity-95"></ol>
                         </div>
                         <div id="panel-feedback" class="p-8 hidden text-sm flex-grow overflow-y-auto">
-                            <h3 id="txt-feedback-heading" class="text-blue-400 font-bold uppercase text-xs mb-4">What is wrong?</h3>
+                            <h3 id="txt-feedback-heading" class="text-blue-400 font-bold uppercase text-lg mb-4 border-b border-gray-700 pb-2">What is wrong?</h3>
                             <div id="critiqueContent" class="space-y-6"></div>
                         </div>
                         <div id="panel-user" class="p-8 hidden text-sm flex-grow overflow-y-auto">
-                            <h3 id="txt-user-heading" class="text-blue-400 font-bold uppercase text-xs mb-4">Who is impacted?</h3>
+                            <h3 id="txt-user-heading" class="text-blue-400 font-bold uppercase text-lg mb-4 border-b border-gray-700 pb-2">Who is impacted?</h3>
                             <div id="txt-user-content" class="leading-relaxed opacity-95 text-sm"></div>
                         </div>
                     </div>
@@ -97,10 +97,11 @@
                 guideTitle: "Step-by-step guide", feedbackHeadingBad: "What is wrong?", feedbackHeadingGood: "How to fix",
                 testSteps: [
                     "Turn on your screen reader.",
-                    "Attempt to fill out the form using only your keyboard.",
-                    "Pay attention to the field labels and whether the screen reader announces the status (checked/unchecked) of the checkbox.",
+                    "Navigate through the form using the Tab key on your keyboard.",
+                    "Pay attention to the field labels and whether the screen reader announces if the checkbox is checked or unchecked.",
                     "Submit the form while leaving fields empty to see how errors are handled.",
-                    "Switch to the accessible version and repeat the process (leave a field empty first, then submit correctly) to compare the experience."
+                    "Fill the form correctly and submit it to see how the success message is handled.",
+                    "Switch to the accessible version and attempt it again (leaving a field empty first, and then with correct submission) to compare the experience."
                 ],
                 badEmailAria: "Form Field 2", errHeader: "Please correct the following errors:",
                 errNameReq: "Full Name is required.", errEmailReq: "Email Address is required.",
@@ -108,23 +109,21 @@
                 errTermsReq: "You must agree to the terms.", successMsg: "Form successfully submitted! Welcome to the lab.",
                 critiques: {
                     bad: [
-                        { f: "Form Labels", c: "One label is not programmatically linked to its input, and another is overwritten by an 'aria-label', making fields hard to identify." },
-                        { f: "Grouping Fields", c: "Related options like Gender are not grouped together, so their context is lost." },
-                        { f: "Checkbox State", c: "The custom checkbox does not have its state (checked or unchecked) announced to the screen reader." },
-                        { f: "Button Role", c: "The 'Register' button is a div without a button role, so users don't know it is interactive." },
-                        { f: "Live Messages", c: "Errors and success messages appear visually but are not announced when they occur." }
+                        { f: "Form Labels", c: "One label is not programmatically linked to its input, and another is overwritten by a hidden description, making fields hard to identify." },
+                        { f: "Grouping Fields", c: "Related options like Gender are not grouped together, so their shared context is lost for screen readers." },
+                        { f: "Checkbox State", c: "The custom checkbox does not have its state (checked or unchecked) announced to the screen reader when interacted with." },
+                        { f: "Button Role", c: "The 'Register' button is just a design element without a button role, so users don't know it is an interactive component." },
+                        { f: "Live Messages", c: "Errors and success messages appear visually but are not announced to the user when they occur." }
                     ],
                     good: [
-                        { f: "Form Labels", c: "Use proper 'for' attributes and visible labels so every field is identified correctly." },
-                        { f: "Grouping Fields", c: "Use 'fieldset' and 'legend' to group related radio buttons together." },
-                        { f: "Checkbox State", c: "Native checkboxes automatically announce their state to screen readers." },
-                        { f: "Button Role", c: "Use a native 'button' element so it is recognized as a clickable component." },
-                        { f: "Live Messages", c: "Use 'role=alert' for errors and 'role=status' for success messages to ensure they are read immediately." }
+                        { f: "Form Labels", c: "Ensure all labels are properly connected with their input fields and use clear, visible names." },
+                        { f: "Grouping Fields", c: "Group related options like radio buttons together so the screen reader explains they belong to the same category." },
+                        { f: "Checkbox State", c: "Use standard checkboxes that automatically tell the screen reader if they are checked or not." },
+                        { f: "Button Role", c: "Use standard button components so the screen reader identifies them as clickable items." },
+                        { f: "Live Messages", c: "Ensure errors and success messages are automatically read out loud as soon as they appear on the screen." }
                     ]
                 },
-                userList: [
-                    "**Blind Users:** Without proper labels, they don't know what to type. Without state announcements, they don't know if a checkbox is active. Without live regions, they aren't notified if a form submission failed or succeeded."
-                ]
+                userList: ["**Blind Users:** Without proper labels, they cannot identify what information to type. Without state announcements, they cannot tell if a checkbox is active. Without automatic announcements, they are never notified if a form submission failed or succeeded."]
             },
             fr: {
                 labTitle: "Labo d'empathie sur l'accessibilité", title: "Expérience Lecteur d'écran", allRequired: "Tous les champs sont obligatoires.",
@@ -135,34 +134,33 @@
                 guideTitle: "Guide étape par étape", feedbackHeadingBad: "Quel est le problème ?", feedbackHeadingGood: "Comment corriger",
                 testSteps: [
                     "Activez votre lecteur d'écran.",
-                    "Essayez de remplir le formulaire uniquement avec le clavier.",
-                    "Prêtez attention aux étiquettes des champs et si le lecteur annonce l'état (coché/décoché) de la case.",
+                    "Naviguez dans le formulaire en utilisant la touche Tab de votre clavier.",
+                    "Prêtez attention aux étiquettes des champs et vérifiez si le lecteur annonce si la case est cochée ou non.",
                     "Soumettez le formulaire en laissant des champs vides pour voir la gestion des erreurs.",
-                    "Passez à la version accessible et recommencez (un champ vide, puis soumission correcte) pour comparer."
+                    "Remplissez le formulaire correctement et soumettez-le pour voir comment le message de succès est traité.",
+                    "Passez à la version accessible et recommencez (un champ vide, puis soumission correcte) pour comparer l'expérience."
                 ],
                 badEmailAria: "Champ 2", errHeader: "Veuillez corriger les erreurs :",
                 errNameReq: "Le nom est obligatoire.", errEmailReq: "L'e-mail est obligatoire.",
-                errEmailFormat: "Format d'e-mail invalide.", errGenderReq: "Le genre est obligatoire.",
+                errEmailFormat: "Le format de l'e-mail est invalide.", errGenderReq: "Le genre est obligatoire.",
                 errTermsReq: "Vous devez accepter les conditions.", successMsg: "Formulaire envoyé avec succès !",
                 critiques: {
                     bad: [
-                        { f: "Étiquettes de formulaire", c: "Une étiquette n'est pas liée à son champ, et une autre est écrasée par 'aria-label'." },
-                        { f: "Groupement de champs", c: "Les options de Genre ne sont pas groupées, le contexte est perdu." },
-                        { f: "État de la case", c: "La case personnalisée n'annonce pas son état (coché ou décoché)." },
-                        { f: "Rôle du bouton", c: "Le bouton est un div sans rôle, l'utilisateur ne sait pas qu'il est interactif." },
-                        { f: "Messages en direct", c: "Les erreurs et le succès sont visibles mais pas annoncés vocalement." }
+                        { f: "Étiquettes de formulaire", c: "Une étiquette n'est pas liée à son champ, et une autre est écrasée par une description cachée, rendant les champs difficiles à identifier." },
+                        { f: "Groupement de champs", c: "Les options liées comme le Genre ne sont pas groupées, le contexte partagé est donc perdu pour les lecteurs d'écran." },
+                        { f: "État de la case", c: "La case personnalisée n'annonce pas son état (coché ou décoché) au lecteur d'écran lors de l'interaction." },
+                        { f: "Rôle du bouton", c: "Le bouton d'inscription est un simple élément de design sans rôle de bouton, l'utilisateur ne sait pas qu'il est interactif." },
+                        { f: "Messages en direct", c: "Les erreurs et les messages de succès apparaissent visuellement mais ne sont pas annoncés à l'utilisateur lorsqu'ils surviennent." }
                     ],
                     good: [
-                        { f: "Étiquettes de formulaire", c: "Utilisez l'attribut 'for' et des étiquettes visibles pour chaque champ." },
-                        { f: "Groupement de champs", c: "Utilisez 'fieldset' et 'legend' pour grouper les boutons radio." },
-                        { f: "État de la case", c: "Les cases natives annoncent automatiquement leur état." },
-                        { f: "Rôle du bouton", c: "Utilisez l'élément natif 'button' pour qu'il soit reconnu comme cliquable." },
-                        { f: "Messages en direct", c: "Utilisez 'role=alert' et 'role=status' pour une annonce immédiate." }
+                        { f: "Étiquettes de formulaire", c: "Assurez-vous que toutes les étiquettes sont correctement connectées à leurs champs de saisie et utilisez des noms clairs." },
+                        { f: "Groupement de champs", c: "Groupez les options liées comme les boutons radio afin que le lecteur d'écran explique qu'ils appartiennent à la même catégorie." },
+                        { f: "État de la case", c: "Utilisez des cases à cocher standard qui indiquent automatiquement au lecteur d'écran si elles sont cochées ou non." },
+                        { f: "Rôle du bouton", c: "Utilisez des composants de bouton standard pour que le lecteur d'écran les identifie comme des éléments cliquables." },
+                        { f: "Messages en direct", c: "Assurez-vous que les erreurs et les messages de succès sont automatiquement lus à haute voix dès qu'ils apparaissent à l'écran." }
                     ]
                 },
-                userList: [
-                    "**Personnes aveugles:** Sans étiquettes, elles ne savent pas quoi saisir. Sans annonce d'état, elles ignorent si une case est cochée. Sans zones live, elles ne savent pas si l'envoi a réussi."
-                ]
+                userList: ["**Utilisateurs aveugles :** Sans étiquettes appropriées, ils ne peuvent pas identifier les informations à saisir. Sans annonce d'état, ils ne savent pas si une case est active. Sans annonces automatiques, ils ne sont jamais informés de la réussite ou de l'échec de l'envoi."]
             },
             nl: {
                 labTitle: "Toegankelijkheid Empathy Lab", title: "Schermlezer Ervaring", allRequired: "Alle velden zijn verplicht.",
@@ -173,10 +171,11 @@
                 guideTitle: "Stappenplan", feedbackHeadingBad: "Wat is er mis?", feedbackHeadingGood: "Hoe te herstellen",
                 testSteps: [
                     "Zet je schermlezer aan.",
-                    "Probeer het formulier in te vullen met alleen je toetsenbord.",
-                    "Let op de labels en of de schermlezer de status (aangevinkt/niet aangevinkt) van de checkbox meldt.",
-                    "Verstuur het formulier met lege velden om te zien hoe fouten worden afgehandeld.",
-                    "Schakel over naar de toegankelijke versie en herhaal dit om de ervaring te vergelijken."
+                    "Navigeer door het formulier met de Tab-toets op je toetsenbord.",
+                    "Let op de labels en of de schermlezer meldt of de checkbox is aangevinkt of niet.",
+                    "Verstuur het formulier terwijl je velden leeg laat om te zien hoe fouten worden afgehandeld.",
+                    "Vul het formulier correct in en verstuur het om te zien hoe de succesmelding wordt afgehandeld.",
+                    "Schakel over naar de toegankelijke versie en probeer het opnieuw (eerst een veld leeg laten, dan correct verzenden) om de ervaring te vergelijken."
                 ],
                 badEmailAria: "Veld 2", errHeader: "Corrigeer de volgende fouten:",
                 errNameReq: "Naam is verplicht.", errEmailReq: "E-mail is verplicht.",
@@ -184,23 +183,21 @@
                 errTermsReq: "Ga akkoord met de voorwaarden.", successMsg: "Formulier succesvol verzonden!",
                 critiques: {
                     bad: [
-                        { f: "Formulierlabels", c: "Eén label is niet gekoppeld en een ander wordt overschreven door een 'aria-label'." },
-                        { f: "Velden groeperen", c: "Geslachtsopties zijn niet gegroepeerd, waardoor context ontbreekt." },
-                        { f: "Checkbox status", c: "De checkbox meldt niet of deze is aangevinkt of niet." },
-                        { f: "Knoprol", c: "De registreerknop is een div zonder rol, dus het lijkt niet interactief." },
-                        { f: "Live berichten", c: "Fouten en succesmeldingen worden niet voorgelezen wanneer ze verschijnen." }
+                        { f: "Formulierlabels", c: "Eén label is niet gekoppeld aan de invoer, en een ander wordt overschreven door een verborgen beschrijving, waardoor velden lastig te herkennen zijn." },
+                        { f: "Velden groeperen", c: "Gerelateerde opties zoals Geslacht zijn niet gegroepeerd, waardoor de context verloren gaat voor schermlezers." },
+                        { f: "Checkbox status", c: "De checkbox meldt de status (aangevinkt of niet) niet aan de schermlezer tijdens interactie." },
+                        { f: "Knoprol", c: "De registreerknop is een ontwerpelement zonder knoprol, waardoor gebruikers niet weten dat het een interactief onderdeel is." },
+                        { f: "Live berichten", c: "Fouten en succesmeldingen verschijnen visueel maar worden niet voorgelezen aan de gebruiker wanneer ze verschijnen." }
                     ],
                     good: [
-                        { f: "Formulierlabels", c: "Gebruik 'for' attributen en zichtbare labels voor elk veld." },
-                        { f: "Velden groeperen", c: "Gebruik 'fieldset' en 'legend' voor gerelateerde opties." },
-                        { f: "Checkbox status", c: "Native checkboxes melden hun status automatisch." },
-                        { f: "Knoprol", c: "Gebruik een echt 'button' element voor klikbare componenten." },
-                        { f: "Live berichten", c: "Gebruik 'role=alert' en 'role=status' voor directe feedback." }
+                        { f: "Formulierlabels", c: "Zorg ervoor dat alle labels goed verbonden zijn met hun invoervelden en gebruik duidelijke, zichtbare namen." },
+                        { f: "Velden groeperen", c: "Groepeer gerelateerde opties zoals keuzerondjes zodat de schermlezer uitlegt dat ze bij dezelfde categorie horen." },
+                        { f: "Checkbox status", c: "Gebruik standaard checkboxes die automatisch aan de schermlezer vertellen of ze zijn aangevinkt of niet." },
+                        { f: "Knoprol", c: "Gebruik standaard knopcomponenten zodat de schermlezer ze herkent als klikbare items." },
+                        { f: "Live berichten", c: "Zorg ervoor dat fouten en succesmeldingen automatisch hardop worden voorgelezen zodra ze op het scherm verschijnen." }
                     ]
                 },
-                userList: [
-                    "**Blinde gebruikers:** Zonder labels weten ze niet wat ze moeten typen. Zonder statusmeldingen weten ze niet of een vinkje aan staat. Zonder live regio's missen ze foutmeldingen of succesbevestigingen."
-                ]
+                userList: ["**Blinde gebruikers:** Zonder labels weten ze niet welke informatie ze moeten typen. Zonder statusmeldingen weten ze niet of een checkbox actief is. Zonder automatische meldingen weten ze niet of een verzending is geslaagd of mislukt."]
             },
             de: {
                 labTitle: "Barrierefreiheits-Labor", title: "Screenreader-Erfahrung", allRequired: "Alle Felder sind Pflichtfelder.",
@@ -211,10 +208,11 @@
                 guideTitle: "Schritt-für-Schritt", feedbackHeadingBad: "Was ist falsch?", feedbackHeadingGood: "Wie man es fixt",
                 testSteps: [
                     "Schalten Sie Ihren Screenreader ein.",
-                    "Versuchen Sie, das Formular nur mit der Tastatur auszufüllen.",
-                    "Achten Sie auf die Beschriftungen und ob der Status der Checkbox (ausgewählt/nicht ausgewählt) angesagt wird.",
-                    "Senden Sie das Formular leer ab, um die Fehlerbehandlung zu testen.",
-                    "Wechseln Sie zur barrierefreien Version und wiederholen Sie den Vorgang zum Vergleich."
+                    "Navigieren Sie mit der Tab-Taste auf Ihrer Tastatur durch das Formular.",
+                    "Achten Sie auf die Beschriftungen und ob der Screenreader ansagt, ob die Checkbox ausgewählt ist oder nicht.",
+                    "Senden Sie das Formular leer ab, um zu sehen, wie mit Fehlern umgegangen wird.",
+                    "Füllen Sie das Formular korrekt aus und senden Sie es ab, um die Erfolgsmeldung zu testen.",
+                    "Wechseln Sie zur barrierefreien Version und wiederholen Sie den Vorgang (zuerst ein Feld leer lassen, dann korrekt absenden), um die Erfahrung zu vergleichen."
                 ],
                 badEmailAria: "Feld 2", errHeader: "Bitte korrigieren Sie:",
                 errNameReq: "Name ist erforderlich.", errEmailReq: "E-Mail ist erforderlich.",
@@ -222,23 +220,21 @@
                 errTermsReq: "Zustimmung ist erforderlich.", successMsg: "Erfolgreich gesendet!",
                 critiques: {
                     bad: [
-                        { f: "Beschriftungen", c: "Ein Label ist nicht verknüpft, ein anderes wird durch 'aria-label' überschrieben." },
-                        { f: "Gruppierung", c: "Geschlechtsoptionen sind nicht gruppiert, der Kontext geht verloren." },
-                        { f: "Checkbox-Status", c: "Der Status (ausgewählt oder nicht) wird nicht angesagt." },
-                        { f: "Button-Rolle", c: "Der Button ist ein Div ohne Rolle und wird nicht als interaktiv erkannt." },
-                        { f: "Live-Meldungen", c: "Fehler und Erfolg werden nicht automatisch vorgelesen." }
+                        { f: "Beschriftungen", c: "Ein Label ist nicht mit dem Eingabefeld verknüpft, ein anderes wird durch eine versteckte Beschreibung überschrieben, was die Identifizierung erschwert." },
+                        { f: "Gruppierung", c: "Zusammengehörige Optionen wie das Geschlecht sind nicht gruppiert, wodurch der Kontext für Screenreader verloren geht." },
+                        { f: "Checkbox-Status", c: "Die benutzerdefinierte Checkbox sagt ihren Status (ausgewählt oder nicht) beim Interagieren nicht dem Screenreader an." },
+                        { f: "Button-Rolle", c: "Der Registrieren-Button ist nur ein Designelement ohne Button-Rolle, sodass Nutzer nicht wissen, dass er interaktiv ist." },
+                        { f: "Live-Meldungen", c: "Fehler- und Erfolgsmeldungen erscheinen visuell, werden dem Nutzer aber nicht automatisch vorgelesen, wenn sie auftreten." }
                     ],
                     good: [
-                        { f: "Beschriftungen", c: "Nutzen Sie 'for'-Attribute und sichtbare Labels für jedes Feld." },
-                        { f: "Gruppierung", c: "Nutzen Sie 'fieldset' und 'legend' für Optionsgruppen." },
-                        { f: "Checkbox-Status", c: "Native Checkboxen sagen ihren Status automatisch an." },
-                        { f: "Button-Rolle", c: "Nutzen Sie native 'button'-Elemente." },
-                        { f: "Live-Meldungen", c: "Nutzen Sie 'role=alert' und 'role=status' für direktes Feedback." }
+                        { f: "Beschriftungen", c: "Stellen Sie sicher, dass alle Beschriftungen ordnungsgemäß mit ihren Eingabefeldern verbunden sind und klare Namen verwenden." },
+                        { f: "Gruppierung", c: "Gruppieren Sie zusammengehörige Optionen wie Radio-Buttons, damit der Screenreader erklärt, dass sie zur selben Kategorie gehören." },
+                        { f: "Checkbox-Status", c: "Nutzen Sie Standard-Checkboxen, die dem Screenreader automatisch mitteilen, ob sie ausgewählt sind oder nicht." },
+                        { f: "Button-Rolle", c: "Nutzen Sie Standard-Button-Komponenten, damit der Screenreader sie als anklickbare Elemente erkennt." },
+                        { f: "Live-Meldungen", c: "Stellen Sie sicher, dass Fehler- und Erfolgsmeldungen automatisch laut vorgelesen werden, sobald sie auf dem Bildschirm erscheinen." }
                     ]
                 },
-                userList: [
-                    "**Blinde Nutzer:** Ohne Labels wissen sie nicht, was einzugeben ist. Ohne Statusansagen wissen sie nicht, ob eine Checkbox aktiv ist. Ohne Live-Regionen verpassen sie Fehlermeldungen."
-                ]
+                userList: ["**Blinde Nutzer:** Ohne ordnungsgemäße Beschriftungen wissen sie nicht, welche Informationen einzugeben sind. Ohne Statusansagen wissen sie nicht, ob eine Checkbox aktiv ist. Ohne automatische Ansagen erfahren sie nie, ob das Absenden erfolgreich war oder nicht."]
             }
         };
 
@@ -255,11 +251,11 @@
                     <div class="space-y-6">
                         <div>
                             <label for="f-name" class="block mb-1 text-sm font-bold text-gray-700">${t.labelName}</label>
-                            <input type="text" id="f-name" aria-required="true" class="w-full std-border p-2 rounded bg-gray-50 text-sm focus:ring-1 focus:ring-blue-500 outline-none">
+                            <input type="text" id="f-name" class="w-full std-border p-2 rounded bg-gray-50 text-sm focus:ring-1 focus:ring-blue-500 outline-none">
                         </div>
                         <div>
                             <label for="f-email" class="block mb-1 text-sm font-bold text-gray-700">${t.labelEmail}</label>
-                            <input type="text" id="f-email" aria-required="true" class="w-full std-border p-2 rounded bg-gray-50 text-sm focus:ring-1 focus:ring-blue-500 outline-none">
+                            <input type="text" id="f-email" class="w-full std-border p-2 rounded bg-gray-50 text-sm focus:ring-1 focus:ring-blue-500 outline-none">
                         </div>
                         <fieldset class="border border-gray-200 p-4 rounded">
                             <legend class="px-2 text-sm font-bold text-gray-700">${t.labelGender}</legend>
@@ -360,6 +356,10 @@
             currentLang = lang;
             const t = translations[lang] || translations['en'];
             const isAcc = document.getElementById('modeToggle').checked;
+            
+            // Update document lang attribute
+            document.getElementById('doc-root').setAttribute('lang', lang);
+            
             document.getElementById('txt-lab-title').innerText = t.labTitle;
             document.getElementById('txt-title').innerText = t.title;
             document.getElementById('txt-all-required').innerText = t.allRequired;
