@@ -92,118 +92,172 @@
                 labTitle: "Digital Accessibility Empathy Lab", title: "Screen Reader Experience", allRequired: "All fields are required.",
                 labelName: "Full Name", labelEmail: "Email Address", labelGender: "Gender",
                 optMale: "Male", optFemale: "Female", optOther: "Other",
+                labelCaptcha: "Security Code", captchaPlaceholder: "Enter the code shown",
                 agreeTerms: "I agree to the Terms and Privacy Policy", btnText: "Register Now",
-                captchaLabel: "Security Code", captchaPlaceholder: "Type code here", captchaAlt: "Security code: 7 G P 2",
                 tabTest: "How to test", tabIssues: "Issues", tabRemediations: "Remediations", tabUser: "Impacted users",
                 guideTitle: "Step-by-step guide", feedbackHeadingBad: "What is wrong?", feedbackHeadingGood: "How to fix",
                 userHeading: "Who is impacted?",
                 testSteps: [
                     "Turn on your screen reader.",
-                    "Navigate using the Tab key. Notice if you hear the labels clearly.",
-                    "In the Security Code section, try to identify the characters in the image using only your ears.",
-                    "In the 'Inaccessible' version, notice how the image is ignored or read as 'Graphic', leaving you unable to complete the form.",
-                    "Switch to 'Accessible' to hear how Alternative Text solves the problem.",
-                    "Submit the form to check the validation."
+                    "Navigate through the form using the Tab key on your keyboard.",
+                    "Pay attention to the field labels and whether the screen reader announces if the checkbox is checked or unchecked.",
+                    "Note the Security Code (CAPTCHA) section. Does the screen reader announce the code to type?",
+                    "Submit the form while leaving fields empty to see how errors are handled.",
+                    "Fill the form correctly and submit it to see how the success message is handled.",
+                    "Switch to the accessible version and attempt it again (leaving a field empty first, and then with correct submission) to compare the experience."
                 ],
                 badEmailAria: "Form Field 2", errHeader: "Please correct the following errors:",
                 errNameReq: "Full Name is required.", errEmailReq: "Email Address is required.",
                 errEmailFormat: "Email Address format is invalid.", errGenderReq: "Gender is a required field.",
-                errTermsReq: "You must agree to the terms.", errCaptchaReq: "Incorrect security code.",
-                successMsg: "Form successfully submitted! Welcome to the lab.",
+                errCaptchaReq: "Security code is required.", errCaptchaWrong: "Security code is incorrect.",
+                errTermsReq: "You must agree to the terms.", successMsg: "Form successfully submitted! Welcome to the lab.",
                 critiques: {
                     bad: [
-                        { f: "Alternative Text", c: "The CAPTCHA image has no alternative text. Screen reader users are blocked because they cannot 'see' the required code." },
-                        { f: "Form Labels", c: "One label is not programmatically linked to its input, and another is overwritten by a hidden description." },
-                        { f: "Grouping Fields", c: "Gender options are not grouped, losing context for screen readers." },
-                        { f: "Checkbox State", c: "The custom checkbox does not announce if it is checked or unchecked." },
-                        { f: "Button Role", c: "The 'Register' button is just a div, so users don't know it is clickable." },
-                        { f: "Live Messages", c: "Errors and success messages are not announced automatically when they appear." }
+                        { f: "Form Labels", c: "One label is not programmatically linked to its input, and another is overwritten by a hidden description, making fields hard to identify." },
+                        { f: "CAPTCHA Image", c: "The security code is provided only in an image without alternative text or an audio version, making it impossible for blind users to complete the form." },
+                        { f: "Grouping Fields", c: "Related options like Gender are not grouped together, so their shared context is lost for screen readers." },
+                        { f: "Checkbox State", c: "The custom checkbox does not have its state (checked or unchecked) announced to the screen reader when interacted with." },
+                        { f: "Button Role", c: "The 'Register' button is just a design element without a button role, so users don't know it is an interactive component." },
+                        { f: "Live Messages", c: "Errors and success messages appear visually but are not announced to the user when they occur." }
                     ],
                     good: [
-                        { f: "Alternative Text", c: "Vital images (like security codes) must have text-based alternatives or ARIA labels." },
-                        { f: "Form Labels", c: "All labels are properly connected to inputs using the 'for' attribute." },
-                        { f: "Grouping Fields", c: "Used <fieldset> and <legend> to group related radio buttons." },
-                        { f: "Checkbox State", c: "Used a native checkbox that handles state announcements automatically." },
-                        { f: "Button Role", c: "Used a standard <button> element for native interactivity." },
-                        { f: "Live Messages", c: "Used ARIA live regions to announce errors immediately." }
+                        { f: "Form Labels", c: "Ensure all labels are properly connected with their input fields and use clear, visible names." },
+                        { f: "CAPTCHA Image", c: "The security image now contains an 'alt' attribute containing the code, and an audio button is provided as an alternative for validation." },
+                        { f: "Grouping Fields", c: "Group related options like radio buttons together so the screen reader explains they belong to the same category." },
+                        { f: "Checkbox State", c: "Use standard checkboxes that automatically tell the screen reader if they are checked or not." },
+                        { f: "Button Role", c: "Use standard button components so the screen reader identifies them as clickable items." },
+                        { f: "Live Messages", c: "Ensure errors and success messages are automatically read out loud as soon as they appear on the screen." }
                     ]
                 },
-                userList: ["**Blind Users:** Without alternative text for a CAPTCHA, they are physically blocked from completing a task. It's the digital equivalent of a locked door with no key."]
+                userList: ["**Blind Users:** Without proper labels, they cannot identify what information to type. Without image descriptions or audio, they cannot solve CAPTCHAs. Without state announcements, they cannot tell if a checkbox is active. Without automatic announcements, they are never notified if a form submission failed or succeeded."]
             },
             fr: {
                 labTitle: "Labo d'empathie sur l'accessibilité", title: "Expérience Lecteur d'écran", allRequired: "Tous les champs sont obligatoires.",
                 labelName: "Nom complet", labelEmail: "Adresse e-mail", labelGender: "Genre",
                 optMale: "Homme", optFemale: "Femme", optOther: "Autre",
-                agreeTerms: "J'accepte les conditions", btnText: "S'inscrire",
-                captchaLabel: "Code de sécurité", captchaPlaceholder: "Tapez le code", captchaAlt: "Code de sécurité: 7 G P 2",
+                labelCaptcha: "Code de sécurité", captchaPlaceholder: "Entrez le code affiché",
+                agreeTerms: "J'accepte les conditions et la politique de confidentialité", btnText: "S'inscrire",
                 tabTest: "Comment tester", tabIssues: "Problèmes", tabRemediations: "Corrections", tabUser: "Utilisateurs impactés",
                 guideTitle: "Guide étape par étape", feedbackHeadingBad: "Quel est le problème ?", feedbackHeadingGood: "Comment corriger",
                 userHeading: "Qui est impacté ?",
                 testSteps: [
-                    "Activez le lecteur d'écran.",
-                    "Naviguez avec Tab. Dans la version inaccessible, l'image du code est muette.",
-                    "Passez à la version accessible pour entendre le code."
+                    "Activez votre lecteur d'écran.",
+                    "Naviguez dans le formulaire en utilisant la touche Tab de votre clavier.",
+                    "Prêtez attention aux étiquettes des champs et vérifiez si le lecteur annonce si la case est cochée ou non.",
+                    "Notez la section du code de sécurité (CAPTCHA). Le lecteur annonce-t-il le code ?",
+                    "Soumettez le formulaire en laissant des champs vides pour voir la gestion des erreurs.",
+                    "Remplissez le formulaire correctement et soumettez-le pour voir comment le message de succès est traité.",
+                    "Passez à la version accessible et recommencez (un champ vide, puis soumission correcte) pour comparer l'expérience."
                 ],
                 badEmailAria: "Champ 2", errHeader: "Veuillez corriger les erreurs :",
-                errNameReq: "Nom obligatoire.", errEmailReq: "E-mail obligatoire.",
-                errEmailFormat: "Format e-mail invalide.", errGenderReq: "Genre obligatoire.",
-                errTermsReq: "Conditions obligatoires.", errCaptchaReq: "Code incorrect.",
-                successMsg: "Formulaire envoyé avec succès !",
+                errNameReq: "Le nom complet est obligatoire.", errEmailReq: "L'adresse e-mail est obligatoire.",
+                errEmailFormat: "Le format de l'adresse e-mail est invalide.", errGenderReq: "Le genre est obligatoire.",
+                errCaptchaReq: "Le code de sécurité est requis.", errCaptchaWrong: "Le code de sécurité est incorrect.",
+                errTermsReq: "Vous devez accepter les conditions.", successMsg: "Formulaire envoyé avec succès ! Bienvenue au labo.",
                 critiques: {
-                    bad: [ { f: "Texte Alternatif", c: "L'image du code n'a pas de description, bloquant les utilisateurs aveugles." } ],
-                    good: [ { f: "Texte Alternatif", c: "Ajout d'un texte alternatif pour rendre le code audible." } ]
+                    bad: [
+                        { f: "Étiquettes de formulaire", c: "Une étiquette n'est pas liée à son champ, et une autre est écrasée par une description cachée, rendant les champs difficiles à identifier." },
+                        { f: "Image CAPTCHA", c: "Le code de sécurité est fourni uniquement sous forme d'image sans texte alternatif, ce qui bloque les utilisateurs aveugles." },
+                        { f: "Groupement de champs", c: "Les options liées comme le Genre ne sont pas groupées, le contexte partagé est donc perdu pour les lecteurs d'écran." },
+                        { f: "État de la case", c: "La case personnalisée n'annonce pas son état (coché ou décoché) au lecteur d'écran lors de l'interaction." },
+                        { f: "Rôle du bouton", c: "Le bouton d'inscription est un simple élément de design sans rôle de bouton, l'utilisateur ne sait pas qu'il est interactif." },
+                        { f: "Messages en direct", c: "Les erreurs et les messages de succès apparaissent visuellement mais ne sont pas annoncés à l'utilisateur lorsqu'ils surviennent." }
+                    ],
+                    good: [
+                        { f: "Étiquettes de formulaire", c: "Assurez-vous que toutes les étiquettes sont correctement connectées à leurs champs de saisie et utilisez des noms clairs." },
+                        { f: "Image CAPTCHA", c: "L'image dispose désormais d'un texte alternatif 'alt' contenant le code, et un bouton audio est proposé." },
+                        { f: "Groupement de champs", c: "Groupez les options liées comme les boutons radio afin que le lecteur d'écran explique qu'ils appartiennent à la même catégorie." },
+                        { f: "État de la case", c: "Utilisez des cases à cocher standard qui indiquent automatiquement au lecteur d'écran si elles sont cochées ou non." },
+                        { f: "Rôle du bouton", c: "Utilisez des composants de bouton standard pour que le lecteur d'écran les identifie comme des éléments cliquables." },
+                        { f: "Messages en direct", c: "Assurez-vous que les erreurs et les messages de succès sont automatiquement lus à haute voix dès qu'ils apparaissent à l'écran." }
+                    ]
                 },
-                userList: ["**Utilisateurs aveugles :** Sans texte alternatif, ils ne peuvent pas franchir les barrières de sécurité."]
+                userList: ["**Utilisateurs aveugles :** Sans étiquettes appropriées, ils ne peuvent pas identifier les informations à saisir. Sans descriptions d'images, ils ne peuvent pas résoudre les CAPTCHAs. Sans annonce d'état, ils ne savent pas si une case est active."]
             },
             nl: {
                 labTitle: "Toegankelijkheid Empathy Lab", title: "Schermlezer Ervaring", allRequired: "Alle velden zijn verplicht.",
                 labelName: "Naam", labelEmail: "E-mailadres", labelGender: "Geslacht",
                 optMale: "Man", optFemale: "Vrouw", optOther: "Anders",
-                agreeTerms: "Ik ga akkoord met de voorwaarden", btnText: "Registreren",
-                captchaLabel: "Beveiligingscode", captchaPlaceholder: "Typ code", captchaAlt: "Beveiligingscode: 7 G P 2",
+                labelCaptcha: "Beveiligingscode", captchaPlaceholder: "Voer de code in",
+                agreeTerms: "Ik ga akkoord met de voorwaarden en het privacybeleid", btnText: "Registreren",
                 tabTest: "Hoe te testen", tabIssues: "Problemen", tabRemediations: "Oplossingen", tabUser: "Betrokken gebruikers",
                 guideTitle: "Stappenplan", feedbackHeadingBad: "Wat is er mis?", feedbackHeadingGood: "Hoe te herstellen",
                 userHeading: "Wie ondervindt hinder?",
                 testSteps: [
                     "Zet je schermlezer aan.",
-                    "Probeer de beveiligingscode te horen. In de ontoegankelijke versie is de afbeelding stil.",
-                    "Schakel naar de toegankelijke versie om de code te horen."
+                    "Navigeer door het formulier met de Tab-toets op je toetsenbord.",
+                    "Let op de labels en of de schermlezer meldt of de checkbox is aangevinkt of niet.",
+                    "Kijk naar de beveiligingscode (CAPTCHA). Wordt deze code voorgelezen?",
+                    "Verstuur het formulier terwijl je velden leeg laat om te zien hoe fouten worden afgehandeld.",
+                    "Fill the form correctly and submit it to see how the success message is handled.",
+                    "Schakel over naar de toegankelijke versie en probeer het opnieuw."
                 ],
                 badEmailAria: "Veld 2", errHeader: "Corrigeer de volgende fouten:",
-                errNameReq: "Naam is verplicht.", errEmailReq: "E-mail is verplicht.",
-                errEmailFormat: "E-mail formaat ongeldig.", errGenderReq: "Geslacht verplicht.",
-                errTermsReq: "Voorwaarden verplicht.", errCaptchaReq: "Onjuiste code.",
-                successMsg: "Formulier succesvol verzonden!",
+                errNameReq: "Naam is verplicht.", errEmailReq: "E-mailadres is verplicht.",
+                errEmailFormat: "E-mailadres formaat is ongeldig.", errGenderReq: "Geslacht is verplicht.",
+                errCaptchaReq: "Beveiligingscode is verplicht.", errCaptchaWrong: "Beveiligingscode is onjuist.",
+                errTermsReq: "Ga akkoord met de voorwaarden.", successMsg: "Formulier succesvol verzonden! Welkom bij het lab.",
                 critiques: {
-                    bad: [ { f: "Alternatieve Tekst", c: "De beveiligingscode heeft geen beschrijving, waardoor blinden niet verder kunnen." } ],
-                    good: [ { f: "Alternatieve Tekst", c: "Alternatieve tekst toegevoegd zodat de code wordt voorgelezen." } ]
+                    bad: [
+                        { f: "Formulierlabels", c: "Eén label is niet gekoppeld aan de invoer, en een ander wordt overschreven door een verborgen beschrijving." },
+                        { f: "CAPTCHA Afbeelding", c: "De beveiligingscode is alleen een afbeelding zonder alternatieve tekst, onmogelijk voor blinden." },
+                        { f: "Velden groeperen", c: "Gerelateerde opties zoals Geslacht zijn niet gegroepeerd." },
+                        { f: "Checkbox status", c: "De checkbox meldt de status niet aan de schermlezer." },
+                        { f: "Knoprol", c: "De registreerknop is een ontwerpelement zonder knoprol." },
+                        { f: "Live berichten", c: "Fouten en succesmeldingen worden niet voorgelezen." }
+                    ],
+                    good: [
+                        { f: "Formulierlabels", c: "Zorg dat alle labels goed verbonden zijn." },
+                        { f: "CAPTCHA Afbeelding", c: "De afbeelding bevat nu een 'alt' tekst en een audio-optie is beschikbaar." },
+                        { f: "Velden groeperen", c: "Groepeer gerelateerde opties." },
+                        { f: "Checkbox status", c: "Gebruik standaard checkboxes." },
+                        { f: "Knoprol", c: "Gebruik standaard knoppen." },
+                        { f: "Live berichten", c: "Berichten worden automatisch voorgelezen." }
+                    ]
                 },
-                userList: ["**Blinde gebruikers:** Zonder alternatieve tekst voor CAPTCHA's is het formulier onbruikbaar."]
+                userList: ["**Blinde gebruikers:** Zonder labels weten ze niet wat ze moeten typen. Zonder CAPTCHA-hulp kunnen ze het formulier niet voltooien."]
             },
             de: {
                 labTitle: "Barrierefreiheits-Labor", title: "Screenreader-Erfahrung", allRequired: "Alle Felder sind Pflichtfelder.",
                 labelName: "Name", labelEmail: "E-Mail", labelGender: "Geschlecht",
                 optMale: "Männlich", optFemale: "Weiblich", optOther: "Andere",
-                agreeTerms: "Ich stimme zu", btnText: "Registrieren",
-                captchaLabel: "Sicherheitscode", captchaPlaceholder: "Code eingeben", captchaAlt: "Sicherheitscode: 7 G P 2",
+                labelCaptcha: "Sicherheitscode", captchaPlaceholder: "Code eingeben",
+                agreeTerms: "Ich stimme den Bedingungen zu", btnText: "Registrieren",
                 tabTest: "Testanleitung", tabIssues: "Probleme", tabRemediations: "Lösungen", tabUser: "Betroffene Nutzer",
                 guideTitle: "Schritt-für-Schritt", feedbackHeadingBad: "Was ist falsch?", feedbackHeadingGood: "Wie man es fixt",
                 userHeading: "Wer ist betroffen?",
                 testSteps: [
-                    "Screenreader einschalten.",
-                    "In der unzugänglichen Version wird der Sicherheitscode nicht vorgelesen.",
-                    "Wechseln Sie zur barrierefreien Version, um den Code zu hören."
+                    "Schalten Sie Ihren Screenreader ein.",
+                    "Navigieren Sie mit der Tab-Taste.",
+                    "Achten Sie auf Labels und Checkbox-Status.",
+                    "Überprüfen Sie den CAPTCHA-Bereich.",
+                    "Senden Sie das Formular leer ab.",
+                    "Wechseln Sie zur barrierefreien Version."
                 ],
-                badEmailAria: "Feld 2", errHeader: "Bitte korrigieren:",
-                errNameReq: "Name erforderlich.", errEmailReq: "E-Mail erforderlich.",
-                errEmailFormat: "E-Mail-Format ungültig.", errGenderReq: "Geschlecht erforderlich.",
-                errTermsReq: "Zustimmung erforderlich.", errCaptchaReq: "Falscher Code.",
-                successMsg: "Erfolgreich gesendet!",
+                badEmailAria: "Feld 2", errHeader: "Bitte korrigieren Sie:",
+                errNameReq: "Name ist erforderlich.", errEmailReq: "E-Mail ist erforderlich.",
+                errEmailFormat: "E-Mail-Format ist ungültig.", errGenderReq: "Geschlecht ist erforderlich.",
+                errCaptchaReq: "Sicherheitscode ist erforderlich.", errCaptchaWrong: "Code ist falsch.",
+                errTermsReq: "Zustimmung ist erforderlich.", successMsg: "Erfolgreich gesendet!",
                 critiques: {
-                    bad: [ { f: "Alternativtext", c: "Ohne Alternativtext ist der Sicherheitscode für Blinde unsichtbar." } ],
-                    good: [ { f: "Alternativtext", c: "Alternativtext ermöglicht das Vorlesen des Codes." } ]
+                    bad: [
+                        { f: "Beschriftungen", c: "Ein Label ist nicht verknüpft." },
+                        { f: "CAPTCHA-Bild", c: "Sicherheitscode nur als Bild ohne Alternativtext." },
+                        { f: "Gruppierung", c: "Optionen wie das Geschlecht sind nicht gruppiert." },
+                        { f: "Checkbox-Status", c: "Status wird nicht angesagt." },
+                        { f: "Button-Rolle", c: "Button ohne Rolle." },
+                        { f: "Live-Meldungen", c: "Meldungen werden nicht vorgelesen." }
+                    ],
+                    good: [
+                        { f: "Beschriftungen", c: "Labels sind korrekt verbunden." },
+                        { f: "CAPTCHA-Bild", c: "Bild hat Alt-Text und Audio-Alternative." },
+                        { f: "Gruppierung", c: "Optionen sind gruppiert." },
+                        { f: "Checkbox-Status", c: "Standard-Checkboxen verwendet." },
+                        { f: "Button-Rolle", c: "Standard-Button verwendet." },
+                        { f: "Live-Meldungen", c: "Meldungen werden automatisch angesagt." }
+                    ]
                 },
-                userList: ["**Blinde Nutzer:** Ohne Alternativtexte sind Sicherheitsabfragen unüberwindbare Hindernisse."]
+                userList: ["**Blinde Nutzer:** Ohne Labels oder CAPTCHA-Hilfe blockiert."]
             }
         };
 
@@ -215,8 +269,25 @@
             const container = document.getElementById('dynamic-form-area');
             document.getElementById('error-area').innerHTML = "";
             
-            // Re-using a reliable hosted image for the captcha
-            const captchaImgUrl = "https://h-o-m-e.org/wp-content/uploads/2022/04/Captcha-Characters.png";
+            // CAPTCHA UI snippet
+            const captchaUI = `
+                <div class="mt-4 p-4 bg-gray-50 border rounded space-y-3">
+                    <div class="flex items-center gap-4">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAwCAYAAAD96Y7BAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB9UlEQVR4nO2WsU4CURBF7yNhQUJCAsG/8Ff8GR8NCYmNhYWFhQUJCfEBSXyAbmZ3983uY7XhSOfunZ0782YfDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwjNfSAdYV967i0U8X998pAOsX0hZpX7V96AAr8yvSNvWp9O2S8866pD0NIP3p6p0vOa/UPXpI29On0ndLzhv9idSmPtZf/UvOO32L1KXPpZ9Kziv9hNSlz6WfS847vUnq0hfSTyXnrS76v98D2EAn6ALdoAd0gx7QDXpAN+gB3aAHdIMe0A16QDfoAd2gB3SDHtA99Xf99f8/DMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwfkv3yFqY+8f/W59vEetvUreNudf6vIvI/idpY+5N/YxFpPuUu8+5F5H9Z9Le3Dv7EYtIzyl3r+f8uYjse9L+3L/7Y8T9vT6X/sh9N+L+Xp9L/+S+G3F/r8+lP3Lf9Yh7U59KX5Wc9yLuvT6Vvi05H0Tcm/pS+qrkvBNxb+pT6Zul70Tcm/pY/3f6Tsy9qS+kb6UvYq+7vof6O+mrtMvaPlUAsN8A/q7f/w7DMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMC6PByv+Gof/R7YvAAAAAElFTkSuQmCC" 
+                             id="captcha-img" 
+                             ${isAcc ? 'alt="Security code: 7GP2"' : ''} 
+                             class="h-10 border border-gray-300">
+                        ${isAcc ? `
+                        <button type="button" aria-label="Play audio code" class="p-2 bg-white rounded-full border shadow-sm hover:bg-gray-100">
+                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>` : ''}
+                    </div>
+                    <div>
+                        <label for="captcha-input" class="block text-xs font-bold text-gray-700 mb-1">${t.labelCaptcha}</label>
+                        <input type="text" id="captcha-input" placeholder="${t.captchaPlaceholder}" class="w-full std-border p-2 rounded bg-white text-sm">
+                    </div>
+                </div>
+            `;
 
             if (isAcc) {
                 container.innerHTML = `
@@ -237,16 +308,10 @@
                                 <label class="flex items-center text-sm"><input type="radio" name="g" value="o" class="mr-2"> ${t.optOther}</label>
                             </div>
                         </fieldset>
+                        ${captchaUI}
                         <div class="flex items-center">
                             <input type="checkbox" id="f-terms" class="w-4 h-4 mr-2 border-black">
                             <label for="f-terms" class="text-sm font-medium text-gray-700 cursor-pointer">${t.agreeTerms}</label>
-                        </div>
-                        <div class="p-4 bg-gray-50 border rounded space-y-3">
-                            <img src="${captchaImgUrl}" alt="${t.captchaAlt}" class="h-12 border border-gray-300">
-                            <div>
-                                <label for="f-captcha" class="block mb-1 text-xs font-bold text-gray-600">${t.captchaLabel}</label>
-                                <input type="text" id="f-captcha" placeholder="${t.captchaPlaceholder}" class="w-full std-border p-2 rounded text-sm outline-none">
-                            </div>
                         </div>
                         <button onclick="handleSubmit(true)" class="w-full bg-green-700 text-white font-bold py-3 rounded uppercase hover:bg-green-800">${t.btnText}</button>
                     </div>
@@ -270,16 +335,10 @@
                                 <label class="flex items-center text-sm"><input type="radio" name="bg" value="o" class="mr-2"> ${t.optOther}</label>
                             </div>
                         </div>
+                        ${captchaUI}
                         <div class="flex items-center">
                             <div id="custom-check" role="checkbox" tabindex="0" class="custom-cb mr-2" aria-labelledby="cb-label"></div>
                             <span id="cb-label" class="text-sm font-medium text-gray-700 cursor-pointer">${t.agreeTerms}</span>
-                        </div>
-                        <div class="p-4 bg-gray-50 border rounded space-y-3">
-                            <img src="${captchaImgUrl}" class="h-12 border border-gray-300">
-                            <div>
-                                <div class="block mb-1 text-xs font-bold text-gray-600">${t.captchaLabel}</div>
-                                <input type="text" id="bad-captcha" class="w-full std-border p-2 rounded text-sm outline-none">
-                            </div>
                         </div>
                         <div tabindex="0" id="bad-btn" class="w-full bg-green-700 text-white font-bold py-3 rounded uppercase text-center cursor-pointer hover:bg-green-800 transition-colors">
                             ${t.btnText}
@@ -306,14 +365,11 @@
             const t = translations[currentLang] || translations['en'];
             const email = isAcc ? document.getElementById('f-email').value : document.getElementById('bad-email').value;
             const name = isAcc ? document.getElementById('f-name').value : document.getElementById('bad-name').value;
+            const captcha = document.getElementById('captcha-input').value;
             const cb = isAcc ? document.getElementById('f-terms').checked : document.getElementById('custom-check').classList.contains('checked');
             const gender = isAcc ? document.querySelector('input[name="g"]:checked') : document.querySelector('input[name="bg"]:checked');
-            const captcha = isAcc ? document.getElementById('f-captcha').value : document.getElementById('bad-captcha').value;
             
-            // CAPTCHA is 7gp2
-            const isCaptchaValid = captcha.toLowerCase().replace(/\s/g, '') === '7gp2';
-
-            if (name && email.includes('@') && cb && gender && isCaptchaValid) {
+            if (name && email.includes('@') && cb && gender && captcha.toUpperCase() === '7GP2') {
                 document.getElementById('dynamic-form-area').innerHTML = `
                     <div ${isAcc ? 'role="status"' : ''} class="p-8 bg-green-50 border border-green-200 rounded text-green-900 text-center">
                         <p class="text-2xl mb-2">✅</p>
@@ -327,8 +383,9 @@
                 if (!email) errors.push(t.errEmailReq);
                 else if (!email.includes('@')) errors.push(t.errEmailFormat);
                 if (!gender) errors.push(t.errGenderReq);
+                if (!captcha) errors.push(t.errCaptchaReq);
+                else if (captcha.toUpperCase() !== '7GP2') errors.push(t.errCaptchaWrong);
                 if (!cb) errors.push(t.errTermsReq);
-                if (!isCaptchaValid) errors.push(t.errCaptchaReq);
 
                 const errArea = document.getElementById('error-area');
                 errArea.innerHTML = `
@@ -347,7 +404,9 @@
             currentLang = lang;
             const t = translations[lang] || translations['en'];
             const isAcc = document.getElementById('modeToggle').checked;
+            
             document.getElementById('doc-root').setAttribute('lang', lang);
+            
             document.getElementById('txt-lab-title').innerText = t.labTitle;
             document.getElementById('txt-title').innerText = t.title;
             document.getElementById('txt-all-required').innerText = t.allRequired;
