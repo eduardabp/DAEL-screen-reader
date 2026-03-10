@@ -1,354 +1,397 @@
 <!DOCTYPE html>
 <html id="doc-root" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Screen Reader Experience - Digital Accessibility Empathy Lab</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .lab-ui-font { font-family: ui-sans-serif, system-ui, -apple-system, sans-serif !important; }
-        .info-panel-container { min-height: 550px !important; display: flex; flex-direction: column; }
-        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ef4444; transition: .4s; border-radius: 28px; }
-        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #15803d; }
-        input:checked + .slider:before { transform: translateX(22px); }
-        .tab-btn { font-family: ui-sans-serif, system-ui, sans-serif !important; }
-        .tab-btn[aria-selected="true"] { background-color: #111827; color: #60a5fa; border-bottom: 2px solid #60a5fa; }
-        .std-border { border: 1px solid #000000 !important; }
-        .custom-cb { width: 1.1rem; height: 1.1rem; border: 1px solid #000; border-radius: 2px; position: relative; display: inline-block; vertical-align: middle; background: white; cursor: pointer; }
-        .custom-cb.checked::after { content: '✓'; position: absolute; top: -4px; left: 2px; font-weight: bold; color: #15803d; font-size: 14px; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Reader Experience - Digital Accessibility Empathy Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .lab-ui-font { font-family: ui-sans-serif, system-ui, -apple-system, sans-serif !important; }
+        .info-panel-container { min-height: 550px !important; display: flex; flex-direction: column; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ef4444; transition: .4s; border-radius: 28px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #15803d; }
+        input:checked + .slider:before { transform: translateX(22px); }
+        .tab-btn { font-family: ui-sans-serif, system-ui, sans-serif !important; }
+        .tab-btn[aria-selected="true"] { background-color: #111827; color: #60a5fa; border-bottom: 2px solid #60a5fa; }
+        .std-border { border: 1px solid #000000 !important; }
+        .custom-cb { width: 1.1rem; height: 1.1rem; border: 1px solid #000; border-radius: 2px; position: relative; display: inline-block; vertical-align: middle; background: white; cursor: pointer; }
+        .custom-cb.checked::after { content: '✓'; position: absolute; top: -4px; left: 2px; font-weight: bold; color: #15803d; font-size: 14px; }
+    </style>
 </head>
 <body class="bg-gray-100 min-h-screen p-4 md:p-8 transition-colors duration-500 lab-ui-font">
 
-    <div class="max-w-7xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden">
-        <header class="bg-white border-b border-gray-100">
-            <div class="p-6 flex flex-col md:flex-row justify-between items-center gap-6 border-b border-gray-50">
-                <div id="txt-lab-title" class="text-xl md:text-2xl font-black tracking-tight uppercase" style="color: #008B63;">Digital Accessibility Empathy Lab</div>
-                <img src="https://regine-lambrecht.github.io/color-contrast-checker-size-weight/images/banner.png" alt="Logo" class="h-12">
-            </div>
+    <div class="max-w-7xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden">
+        <header class="bg-white border-b border-gray-100">
+            <div class="p-6 flex flex-col md:flex-row justify-between items-center gap-6 border-b border-gray-50">
+                <div id="txt-lab-title" class="text-xl md:text-2xl font-black tracking-tight uppercase" style="color: #008B63;">Digital Accessibility Empathy Lab</div>
+                <img src="https://regine-lambrecht.github.io/color-contrast-checker-size-weight/images/banner.png" alt="Logo" class="h-12">
+            </div>
 
-            <nav class="p-4 flex flex-col gap-4">
-                <div class="flex items-center justify-between gap-4 bg-gray-50 p-3 rounded-2xl border border-gray-200 w-full">
-                    <div class="flex items-center gap-4">
-                        <span id="txt-inaccessible" class="text-xs font-black uppercase tracking-widest text-red-600">Inaccessible</span>
-                        <label class="switch">
-                            <input type="checkbox" id="modeToggle" onchange="handleModeToggle()" role="switch">
-                            <span class="slider"></span>
-                        </label>
-                        <span id="txt-accessible" class="text-xs font-black uppercase tracking-widest text-green-700">Accessible</span>
-                    </div>
-                    <div class="flex gap-2 text-[10px] font-bold">
-                        <button onclick="setLanguage('en')" class="lang-btn px-2 py-1 rounded" id="btn-en">EN</button>
-                        <button onclick="setLanguage('fr')" class="lang-btn px-2 py-1 rounded" id="btn-fr">FR</button>
-                        <button onclick="setLanguage('nl')" class="lang-btn px-2 py-1 rounded" id="btn-nl">NL</button>
-                        <button onclick="setLanguage('de')" class="lang-btn px-2 py-1 rounded" id="btn-de">DE</button>
-                    </div>
-                </div>
-                <h1 id="txt-title" class="text-xl font-black text-gray-900 px-2 uppercase tracking-tighter">Screen Reader Experience</h1>
-            </nav>
-        </header>
+            <nav class="p-4 flex flex-col gap-4">
+                <div class="flex items-center justify-between gap-4 bg-gray-50 p-3 rounded-2xl border border-gray-200 w-full">
+                    <div class="flex items-center gap-4">
+                        <span id="txt-inaccessible" class="text-xs font-black uppercase tracking-widest text-red-600">Inaccessible</span>
+                        <label class="switch">
+                            <input type="checkbox" id="modeToggle" onchange="handleModeToggle()" role="switch">
+                            <span class="slider"></span>
+                        </label>
+                        <span id="txt-accessible" class="text-xs font-black uppercase tracking-widest text-green-700">Accessible</span>
+                    </div>
+                    <div class="flex gap-2 text-[10px] font-bold">
+                        <button onclick="setLanguage('en')" class="lang-btn px-2 py-1 rounded" id="btn-en">EN</button>
+                        <button onclick="setLanguage('fr')" class="lang-btn px-2 py-1 rounded" id="btn-fr">FR</button>
+                        <button onclick="setLanguage('nl')" class="lang-btn px-2 py-1 rounded" id="btn-nl">NL</button>
+                        <button onclick="setLanguage('de')" class="lang-btn px-2 py-1 rounded" id="btn-de">DE</button>
+                    </div>
+                </div>
+                <h1 id="txt-title" class="text-xl font-black text-gray-900 px-2 uppercase tracking-tighter">Screen Reader Experience</h1>
+            </nav>
+        </header>
 
-        <main class="p-6 md:p-10">
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-16">
-                <div class="lg:col-span-2">
-                    <div id="form-container" class="flex flex-col">
-                        <p id="txt-all-required" class="text-sm text-black mb-6">All fields are required.</p>
-                        <div id="error-area"></div>
-                        <div id="dynamic-form-area" class="space-y-6"></div>
-                    </div>
-                </div>
+        <main class="p-6 md:p-10">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-16">
+                <div class="lg:col-span-2">
+                    <div id="form-container" class="flex flex-col">
+                        <p id="txt-all-required" class="text-sm text-black mb-6">All fields are required.</p>
+                        <div id="error-area"></div>
+                        <div id="dynamic-form-area" class="space-y-6"></div>
+                    </div>
+                </div>
 
-                <div class="lg:col-span-3">
-                    <div class="info-panel-container bg-gray-900 text-white rounded-2xl shadow-xl overflow-hidden h-full flex flex-col">
-                        <div class="flex bg-gray-800 border-b border-gray-700">
-                            <button id="tab-test" onclick="switchTab('test')" class="tab-btn px-6 py-4 text-xs font-black uppercase tracking-widest" aria-selected="true">How to test</button>
-                            <button id="tab-feedback" onclick="switchTab('feedback')" class="tab-btn px-6 py-4 text-xs font-black uppercase tracking-widest border-l border-gray-700" aria-selected="false">Issues</button>
-                            <button id="tab-user" onclick="switchTab('user')" class="tab-btn px-6 py-4 text-xs font-black uppercase tracking-widest border-l border-gray-700" aria-selected="false">Impacted users</button>
-                        </div>
-                        <div id="panel-test" class="p-8 space-y-6 text-sm flex-grow overflow-y-auto">
-                            <h3 id="txt-guide-title" class="text-blue-400 font-bold uppercase text-base mb-2">Step-by-step guide</h3>
-                            <ol id="txt-test-steps" class="list-decimal pl-5 space-y-4 opacity-95"></ol>
-                        </div>
-                        <div id="panel-feedback" class="p-8 hidden text-sm flex-grow overflow-y-auto">
-                            <h3 id="txt-feedback-heading" class="text-blue-400 font-bold uppercase text-base mb-4">What is wrong?</h3>
-                            <div id="critiqueContent" class="space-y-6"></div>
-                        </div>
-                        <div id="panel-user" class="p-8 hidden text-sm flex-grow overflow-y-auto">
-                            <h3 id="txt-user-heading" class="text-blue-400 font-bold uppercase text-base mb-4">Who is impacted?</h3>
-                            <div id="txt-user-content" class="leading-relaxed opacity-95 text-sm"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+                <div class="lg:col-span-3">
+                    <div class="info-panel-container bg-gray-900 text-white rounded-2xl shadow-xl overflow-hidden h-full flex flex-col">
+                        <div class="flex bg-gray-800 border-b border-gray-700">
+                            <button id="tab-test" onclick="switchTab('test')" class="tab-btn px-6 py-4 text-xs font-black uppercase tracking-widest" aria-selected="true">How to test</button>
+                            <button id="tab-feedback" onclick="switchTab('feedback')" class="tab-btn px-6 py-4 text-xs font-black uppercase tracking-widest border-l border-gray-700" aria-selected="false">Issues</button>
+                            <button id="tab-user" onclick="switchTab('user')" class="tab-btn px-6 py-4 text-xs font-black uppercase tracking-widest border-l border-gray-700" aria-selected="false">Impacted users</button>
+                        </div>
+                        <div id="panel-test" class="p-8 space-y-6 text-sm flex-grow overflow-y-auto">
+                            <h3 id="txt-guide-title" class="text-blue-400 font-bold uppercase text-base mb-2">Step-by-step guide</h3>
+                            <ol id="txt-test-steps" class="list-decimal pl-5 space-y-4 opacity-95"></ol>
+                        </div>
+                        <div id="panel-feedback" class="p-8 hidden text-sm flex-grow overflow-y-auto">
+                            <h3 id="txt-feedback-heading" class="text-blue-400 font-bold uppercase text-base mb-4">What is wrong?</h3>
+                            <div id="critiqueContent" class="space-y-6"></div>
+                        </div>
+                        <div id="panel-user" class="p-8 hidden text-sm flex-grow overflow-y-auto">
+                            <h3 id="txt-user-heading" class="text-blue-400 font-bold uppercase text-base mb-4">Who is impacted?</h3>
+                            <div id="txt-user-content" class="leading-relaxed opacity-95 text-sm"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 
-    <script>
-        const translations = {
-            en: {
-                labTitle: "Digital Accessibility Empathy Lab", title: "Screen Reader Experience", allRequired: "All fields are required.",
-                labelName: "Full Name", labelEmail: "Email Address", labelGender: "Gender", labelCaptcha: "Security Code",
-                optMale: "Male", optFemale: "Female", optOther: "Other", captchaPlaceholder: "Enter code", audioBtn: "🔊 Play Audio",
-                agreeTerms: "I agree to the Terms and Privacy Policy", btnText: "Register Now",
-                tabTest: "How to test", tabIssues: "Issues", tabRemediations: "Remediations", tabUser: "Impacted users",
-                guideTitle: "Step-by-step guide", feedbackHeadingBad: "What is wrong?", feedbackHeadingGood: "How to fix",
-                userHeading: "Who is impacted?",
-                testSteps: [
-                    "Turn on your screen reader (or imagine its output).",
-                    "Navigate through the form using the Tab key.",
-                    "When you reach the CAPTCHA image, notice if the screen reader describes what is in the image.",
-                    "In Inaccessible mode, try to figure out the code without looking. In Accessible mode, try using the audio button.",
-                    "Submit the form while leaving fields empty to see how errors are handled."
-                ],
-                badEmailAria: "Form Field 2", errHeader: "Please correct the following errors:",
-                errNameReq: "Full Name is required.", errEmailReq: "Email Address is required.",
-                errEmailFormat: "Email Address format is invalid.", errGenderReq: "Gender is a required field.",
-                errTermsReq: "You must agree to the terms.", successMsg: "Form successfully submitted!",
-                critiques: {
-                    bad: [
-                        { f: "Non-Text Content", c: "The CAPTCHA image has no alternative text. A screen reader user only hears 'Graphic' and cannot pass this security check." },
-                        { f: "Missing Audio Alternative", c: "There is no sound-based way to verify the code, making the form impossible to complete for blind users." },
-                        { f: "Form Labels", c: "One label is not programmatically linked, and another is overwritten by a hidden description." },
-                        { f: "Checkbox State", c: "The custom checkbox does not announce if it is checked or unchecked." }
-                    ],
-                    good: [
-                        { f: "Alt Text", c: "The image is given a descriptive name so the screen reader identifies it as a security code." },
-                        { f: "Audio Verification", c: "An audio button allows users to hear the code if they cannot see the image." },
-                        { f: "Standard Components", c: "Using native HTML elements ensure states (checked/unchecked) are announced automatically." }
-                    ]
-                },
-                userList: ["**Blind Users:** They cannot see the visual security code. Without an audio alternative or proper text description, they are permanently locked out of the registration process."]
-            },
-            fr: {
-                labTitle: "Labo d'empathie sur l'accessibilité", title: "Expérience Lecteur d'écran", allRequired: "Tous les champs sont obligatoires.",
-                labelName: "Nom complet", labelEmail: "Adresse e-mail", labelGender: "Genre", labelCaptcha: "Code de sécurité",
-                optMale: "Homme", optFemale: "Femme", optOther: "Autre", captchaPlaceholder: "Entrez le code", audioBtn: "🔊 Écouter",
-                agreeTerms: "J'accepte les conditions", btnText: "S'inscrire",
-                tabTest: "Comment tester", tabIssues: "Problèmes", tabRemediations: "Solutions", tabUser: "Utilisateurs impactés",
-                guideTitle: "Guide étape par étape", feedbackHeadingBad: "Quel est le problème ?", feedbackHeadingGood: "Comment corriger",
-                userHeading: "Qui est impacté ?",
-                testSteps: ["Activez votre lecteur d'écran.", "Naviguez avec Tab.", "Écoutez si l'image CAPTCHA est décrite."],
-                critiques: {
-                    bad: [
-                        { f: "Contenu non textuel", c: "L'image CAPTCHA n'a pas de texte alternatif. L'utilisateur entend seulement 'Graphique'." },
-                        { f: "Absence d'alternative audio", c: "Il n'y a aucun moyen sonore de vérifier le code." }
-                    ],
-                    good: [
-                        { f: "Texte Alt", c: "L'image possède une description claire." },
-                        { f: "Vérification Audio", c: "Un bouton permet d'entendre le code." }
-                    ]
-                },
-                userList: ["**Utilisateurs aveugles :** Sans alternative sonore, ils sont bloqués par le contrôle de sécurité."]
-            },
-            nl: {
-                labTitle: "Toegankelijkheid Empathy Lab", title: "Schermlezer Ervaring", allRequired: "Alle velden zijn verplicht.",
-                labelName: "Naam", labelEmail: "E-mailadres", labelGender: "Geslacht", labelCaptcha: "Beveiligingscode",
-                optMale: "Man", optFemale: "Vrouw", optOther: "Anders", captchaPlaceholder: "Code invoeren", audioBtn: "🔊 Audio afspelen",
-                agreeTerms: "Ik ga akkoord met de voorwaarden", btnText: "Registreren",
-                tabTest: "Hoe te testen", tabIssues: "Problemen", tabRemediations: "Oplossingen", tabUser: "Betrokken gebruikers",
-                guideTitle: "Stappenplan", feedbackHeadingBad: "Wat is er mis?", feedbackHeadingGood: "Hoe te herstellen",
-                userHeading: "Wie ondervindt hinder?",
-                testSteps: ["Zet je schermlezer aan.", "Navigeer met de Tab-toets.", "Hoor of de CAPTCHA-afbeelding wordt beschreven."],
-                critiques: {
-                    bad: [
-                        { f: "Niet-tekstuele inhoud", c: "De CAPTCHA-afbeelding heeft geen alternatieve tekst. Een schermlezer zegt alleen 'Grafisch'." },
-                        { f: "Geen audio-alternatief", c: "Er is geen geluidsoptie, waardoor blinde gebruikers het formulier niet kunnen voltooien." }
-                    ],
-                    good: [
-                        { f: "Alt-tekst", c: "De afbeelding heeft een beschrijving." },
-                        { f: "Audio-verificatie", c: "Een audioknop laat de code horen." }
-                    ]
-                },
-                userList: ["**Blinde gebruikers:** Zonder audio-alternatief kunnen zij de beveiligingscontrole niet passeren."]
-            },
-            de: {
-                labTitle: "Barrierefreiheits-Labor", title: "Screenreader-Erfahrung", allRequired: "Alle Felder sind Pflichtfelder.",
-                labelName: "Name", labelEmail: "E-Mail", labelGender: "Geschlecht", labelCaptcha: "Sicherheitscode",
-                optMale: "Männlich", optFemale: "Weiblich", optOther: "Andere", captchaPlaceholder: "Code eingeben", audioBtn: "🔊 Audio abspielen",
-                agreeTerms: "Ich stimme den Bedingungen zu", btnText: "Registrieren",
-                tabTest: "Testanleitung", tabIssues: "Probleme", tabRemediations: "Lösungen", tabUser: "Betroffene Nutzer",
-                guideTitle: "Schritt-für-Schritt", feedbackHeadingBad: "Was ist falsch?", feedbackHeadingGood: "Wie man es fixt",
-                userHeading: "Wer ist betroffen?",
-                testSteps: ["Screenreader einschalten.", "Mit Tab navigieren.", "Prüfen, ob das CAPTCHA beschrieben wird."],
-                critiques: {
-                    bad: [
-                        { f: "Nicht-Text-Inhalt", c: "Das CAPTCHA-Bild hat keinen Alternativtext. Screenreader sagen nur 'Grafik'." },
-                        { f: "Fehlende Audio-Alternative", c: "Es gibt keine Ton-Option, um den Code zu verifizieren." }
-                    ],
-                    good: [
-                        { f: "Alt-Text", c: "Das Bild hat eine Beschreibung." },
-                        { f: "Audio-Verifizierung", c: "Ein Button ermöglicht das Hören des Codes." }
-                    ]
-                },
-                userList: ["**Blinde Nutzer:** Ohne Audio-Alternative können sie die Sicherheitsprüfung nicht bestehen."]
-            }
-        };
+    <script>
+        const translations = {
+            en: {
+                labTitle: "Digital Accessibility Empathy Lab", title: "Screen Reader Experience", allRequired: "All fields are required.",
+                labelName: "Full Name", labelEmail: "Email Address", labelGender: "Gender",
+                optMale: "Male", optFemale: "Female", optOther: "Other",
+                agreeTerms: "I agree to the Terms and Privacy Policy", btnText: "Register Now",
+                tabTest: "How to test", tabIssues: "Issues", tabRemediations: "Remediations", tabUser: "Impacted users",
+                guideTitle: "Step-by-step guide", feedbackHeadingBad: "What is wrong?", feedbackHeadingGood: "How to fix",
+                userHeading: "Who is impacted?",
+                testSteps: [
+                    "Turn on your screen reader.",
+                    "Navigate through the form using the Tab key on your keyboard.",
+                    "Pay attention to the field labels and whether the screen reader announces if the checkbox is checked or unchecked.",
+                    "Submit the form while leaving fields empty to see how errors are handled.",
+                    "Fill the form correctly and submit it to see how the success message is handled.",
+                    "Switch to the accessible version and attempt it again (leaving a field empty first, and then with correct submission) to compare the experience."
+                ],
+                badEmailAria: "Form Field 2", errHeader: "Please correct the following errors:",
+                errNameReq: "Full Name is required.", errEmailReq: "Email Address is required.",
+                errEmailFormat: "Email Address format is invalid.", errGenderReq: "Gender is a required field.",
+                errTermsReq: "You must agree to the terms.", successMsg: "Form successfully submitted! Welcome to the lab.",
+                critiques: {
+                    bad: [
+                        { f: "Form Labels", c: "One label is not programmatically linked to its input, and another is overwritten by a hidden description, making fields hard to identify." },
+                        { f: "Grouping Fields", c: "Related options like Gender are not grouped together, so their shared context is lost for screen readers." },
+                        { f: "Checkbox State", c: "The custom checkbox does not have its state (checked or unchecked) announced to the screen reader when interacted with." },
+                        { f: "Button Role", c: "The 'Register' button is just a design element without a button role, so users don't know it is an interactive component." },
+                        { f: "Live Messages", c: "Errors and success messages appear visually but are not announced to the user when they occur." }
+                    ],
+                    good: [
+                        { f: "Form Labels", c: "Ensure all labels are properly connected with their input fields and use clear, visible names." },
+                        { f: "Grouping Fields", c: "Group related options like radio buttons together so the screen reader explains they belong to the same category." },
+                        { f: "Checkbox State", c: "Use standard checkboxes that automatically tell the screen reader if they are checked or not." },
+                        { f: "Button Role", c: "Use standard button components so the screen reader identifies them as clickable items." },
+                        { f: "Live Messages", c: "Ensure errors and success messages are automatically read out loud as soon as they appear on the screen." }
+                    ]
+                },
+                userList: ["**Blind Users:** Without proper labels, they cannot identify what information to type. Without state announcements, they cannot tell if a checkbox is active. Without automatic announcements, they are never notified if a form submission failed or succeeded."]
+            },
+            fr: {
+                labTitle: "Labo d'empathie sur l'accessibilité", title: "Expérience Lecteur d'écran", allRequired: "Tous les champs sont obligatoires.",
+                labelName: "Nom complet", labelEmail: "Adresse e-mail", labelGender: "Genre",
+                optMale: "Homme", optFemale: "Femme", optOther: "Autre",
+                agreeTerms: "J'accepte les conditions et la politique de confidentialité", btnText: "S'inscrire",
+                tabTest: "Comment tester", tabIssues: "Problèmes", tabRemediations: "Corrections", tabUser: "Utilisateurs impactés",
+                guideTitle: "Guide étape par étape", feedbackHeadingBad: "Quel est le problème ?", feedbackHeadingGood: "Comment corriger",
+                userHeading: "Qui est impacté ?",
+                testSteps: [
+                    "Activez votre lecteur d'écran.",
+                    "Naviguez dans le formulaire en utilisant la touche Tab de votre clavier.",
+                    "Prêtez attention aux étiquettes des champs et vérifiez si le lecteur annonce si la case est cochée ou non.",
+                    "Soumettez le formulaire en laissant des champs vides pour voir la gestion des erreurs.",
+                    "Remplissez le formulaire correctement et soumettez-le pour voir comment le message de succès est traité.",
+                    "Passez à la version accessible et recommencez (un champ vide, puis soumission correcte) pour comparer l'expérience."
+                ],
+                badEmailAria: "Champ 2", errHeader: "Veuillez corriger les erreurs :",
+                errNameReq: "Le nom complet est obligatoire.", errEmailReq: "L'adresse e-mail est obligatoire.",
+                errEmailFormat: "Le format de l'adresse e-mail est invalide.", errGenderReq: "Le genre est obligatoire.",
+                errTermsReq: "Vous devez accepter les conditions.", successMsg: "Formulaire envoyé avec succès ! Bienvenue au labo.",
+                critiques: {
+                    bad: [
+                        { f: "Étiquettes de formulaire", c: "Une étiquette n'est pas liée à son champ, et une autre est écrasée par une description cachée, rendant les champs difficiles à identifier." },
+                        { f: "Groupement de champs", c: "Les options liées comme le Genre ne sont pas groupées, le contexte partagé est donc perdu pour les lecteurs d'écran." },
+                        { f: "État de la case", c: "La case personnalisée n'annonce pas son état (coché ou décoché) au lecteur d'écran lors de l'interaction." },
+                        { f: "Rôle du bouton", c: "Le bouton d'inscription est un simple élément de design sans rôle de bouton, l'utilisateur ne sait pas qu'il est interactif." },
+                        { f: "Messages en direct", c: "Les erreurs et les messages de succès apparaissent visuellement mais ne sont pas annoncés à l'utilisateur lorsqu'ils surviennent." }
+                    ],
+                    good: [
+                        { f: "Étiquettes de formulaire", c: "Assurez-vous que toutes les étiquettes sont correctement connectées à leurs champs de saisie et utilisez des noms clairs." },
+                        { f: "Groupement de champs", c: "Groupez les options liées comme les boutons radio afin que le lecteur d'écran explique qu'ils appartiennent à la même catégorie." },
+                        { f: "État de la case", c: "Utilisez des cases à cocher standard qui indiquent automatiquement au lecteur d'écran si elles sont cochées ou non." },
+                        { f: "Rôle du bouton", c: "Utilisez des composants de bouton standard pour que le lecteur d'écran les identifie comme des éléments cliquables." },
+                        { f: "Messages en direct", c: "Assurez-vous que les erreurs et les messages de succès sont automatiquement lus à haute voix dès qu'ils apparaissent à l'écran." }
+                    ]
+                },
+                userList: ["**Utilisateurs aveugles :** Sans étiquettes appropriées, ils ne peuvent pas identifier les informations à saisir. Sans annonce d'état, ils ne savent pas si une case est active. Sans annonces automatiques, ils ne sont jamais informés de la réussite ou de l'échec de l'envoi."]
+            },
+            nl: {
+                labTitle: "Toegankelijkheid Empathy Lab", title: "Schermlezer Ervaring", allRequired: "Alle velden zijn verplicht.",
+                labelName: "Naam", labelEmail: "E-mailadres", labelGender: "Geslacht",
+                optMale: "Man", optFemale: "Vrouw", optOther: "Anders",
+                agreeTerms: "Ik ga akkoord met de voorwaarden en het privacybeleid", btnText: "Registreren",
+                tabTest: "Hoe te testen", tabIssues: "Problemen", tabRemediations: "Oplossingen", tabUser: "Betrokken gebruikers",
+                guideTitle: "Stappenplan", feedbackHeadingBad: "Wat is er mis?", feedbackHeadingGood: "Hoe te herstellen",
+                userHeading: "Wie ondervindt hinder?",
+                testSteps: [
+                    "Zet je schermlezer aan.",
+                    "Navigeer door het formulier met de Tab-toets op je toetsenbord.",
+                    "Let op de labels en of de schermlezer meldt of de checkbox is aangevinkt of niet.",
+                    "Verstuur het formulier terwijl je velden leeg laat om te zien hoe fouten worden afgehandeld.",
+                    "Vul het formulier correct in en verstuur het om te zien hoe de succesmelding wordt afgehandeld.",
+                    "Schakel over naar de toegankelijke versie en probeer het opnieuw (eerst een veld leeg laten, dan correct verzenden) om de ervaring te vergelijken."
+                ],
+                badEmailAria: "Veld 2", errHeader: "Corrigeer de volgende fouten:",
+                errNameReq: "Naam is verplicht.", errEmailReq: "E-mailadres is verplicht.",
+                errEmailFormat: "E-mailadres formaat is ongeldig.", errGenderReq: "Geslacht is verplicht.",
+                errTermsReq: "Ga akkoord met de voorwaarden.", successMsg: "Formulier succesvol verzonden! Welkom bij het lab.",
+                critiques: {
+                    bad: [
+                        { f: "Formulierlabels", c: "Eén label is niet gekoppeld aan de invoer, en een ander wordt overschreven door een verborgen beschrijving, waardoor velden lastig te herkennen zijn." },
+                        { f: "Velden groeperen", c: "Gerelateerde opties zoals Geslacht zijn niet gegroepeerd, waardoor de context verloren gaat voor schermlezers." },
+                        { f: "Checkbox status", c: "De checkbox meldt de status (aangevinkt of niet) niet aan de schermlezer tijdens interactie." },
+                        { f: "Knoprol", c: "De registreerknop is een ontwerpelement zonder knoprol, waardoor gebruikers niet weten dat het een interactief onderdeel is." },
+                        { f: "Live berichten", c: "Fouten en succesmeldingen verschijnen visueel maar worden niet voorgelezen aan de gebruiker wanneer ze verschijnen." }
+                    ],
+                    good: [
+                        { f: "Formulierlabels", c: "Zorg ervoor dat alle labels goed verbonden zijn met hun invoervelden en gebruik duijkelijke, zichtbare namen." },
+                        { f: "Velden groeperen", c: "Groepeer gerelateerde opties zoals keuzerondjes zodat de schermlezer uitlegt dat ze bij dezelfde categorie horen." },
+                        { f: "Checkbox status", c: "Gebruik standaard checkboxes die automatisch aan de schermlezer vertellen of ze zijn aangevinkt of niet." },
+                        { f: "Knoprol", c: "Gebruik standaard knopcomponenten zodat de schermlezer ze herkent als klikbare items." },
+                        { f: "Live berichten", c: "Zorg ervoor dat fouten en succesmeldingen automatisch hardop worden voorgelezen zodra ze op het scherm verschijnen." }
+                    ]
+                },
+                userList: ["**Blinde gebruikers:** Zonder labels weten ze niet welke informatie ze moeten typen. Zonder statusmeldingen weten ze niet of een checkbox actief is. Zonder automatische meldingen weten ze niet of een verzending is geslaagd of mislukt."]
+            },
+            de: {
+                labTitle: "Barrierefreiheits-Labor", title: "Screenreader-Erfahrung", allRequired: "Alle Felder sind Pflichtfelder.",
+                labelName: "Name", labelEmail: "E-Mail", labelGender: "Geschlecht",
+                optMale: "Männlich", optFemale: "Weiblich", optOther: "Andere",
+                agreeTerms: "Ich stimme den Nutzungsbedingungen und der Datenschutzerklärung zu", btnText: "Registrieren",
+                tabTest: "Testanleitung", tabIssues: "Probleme", tabRemediations: "Lösungen", tabUser: "Betroffene Nutzer",
+                guideTitle: "Schritt-für-Schritt", feedbackHeadingBad: "Was ist falsch?", feedbackHeadingGood: "Wie man es fixt",
+                userHeading: "Wer ist betroffen?",
+                testSteps: [
+                    "Schalten Sie Ihren Screenreader ein.",
+                    "Navigieren Sie mit der Tab-Taste auf Ihrer Tastatur durch das Formular.",
+                    "Achten Sie auf die Beschriftungen und ob der Screenreader ansagt, ob die Checkbox ausgewählt ist oder nicht.",
+                    "Senden Sie das Formular leer ab, um zu sehen, wie mit Fehlern umgegangen wird.",
+                    "Füllen Sie das Formular korrekt aus und senden Sie es ab, um die Erfolgsmeldung zu testen.",
+                    "Wechseln Sie zur barrierefreien Version und wiederholen Sie den Vorgang (zuerst ein Feld leer lassen, dann korrekt absenden), um die Erfahrung zu vergleichen."
+                ],
+                badEmailAria: "Feld 2", errHeader: "Bitte korrigieren Sie:",
+                errNameReq: "Name ist erforderlich.", errEmailReq: "E-Mail ist erforderlich.",
+                errEmailFormat: "E-Mail-Format ist ungültig.", errGenderReq: "Geschlecht ist erforderlich.",
+                errTermsReq: "Zustimmung ist erforderlich.", successMsg: "Erfolgreich gesendet! Willkommen im Labor.",
+                critiques: {
+                    bad: [
+                        { f: "Beschriftungen", c: "Ein Label ist nicht mit dem Eingabefeld verknüpft, ein anderes wird durch eine versteckte Beschreibung überschrieben, was die Identifizierung erschwert." },
+                        { f: "Gruppierung", c: "Zusammengehörige Optionen wie das Geschlecht sind nicht gruppiert, wodurch der Kontext für Screenreader verloren geht." },
+                        { f: "Checkbox-Status", c: "Die benutzerdefinierte Checkbox sagt ihren Status (ausgewählt oder nicht) beim Interagieren nicht dem Screenreader an." },
+                        { f: "Button-Rolle", c: "Der Registrieren-Button ist nur ein Designelement ohne Button-Rolle, sodass Nutzer nicht wissen, dass er interaktiv ist." },
+                        { f: "Live-Meldungen", c: "Fehler- und Erfolgsmeldungen erscheinen visuell, werden dem Nutzer aber nicht automatisch vorgelesen, wenn sie auftreten." }
+                    ],
+                    good: [
+                        { f: "Beschriftungen", c: "Stellen Sie sicher, dass alle Beschriftungen ordnungsgemäß mit ihren Eingabefeldern verbunden sind und klare Namen verwenden." },
+                        { f: "Gruppierung", c: "Gruppieren Sie zusammengehörige Optionen wie Radio-Buttons, damit der Screenreader erklärt, dass sie zur selben Kategorie gehören." },
+                        { f: "Checkbox-Status", c: "Nutzen Sie Standard-Checkboxen, die dem Screenreader automatisch mitteilen, ob sie ausgewählt sind oder nicht." },
+                        { f: "Button-Rolle", c: "Nutzen Sie Standard-Button-Komponenten, damit der Screenreader sie als anklickbare Elemente erkennt." },
+                        { f: "Live-Meldungen", c: "Stellen Sie sicher, dass Fehler- und Erfolgsmeldungen automatisch laut vorgelesen werden, sobald sie auf dem Bildschirm erscheinen." }
+                    ]
+                },
+                userList: ["**Blinde Nutzer:** Ohne ordnungsgemäße Beschriftungen wissen sie nicht, welche Informationen einzugeben sind. Ohne Statusansagen wissen sie nicht, ob eine Checkbox aktiv ist. Ohne automatische Ansagen erfahren sie nie, ob das Absenden erfolgreich war oder nicht."]
+            }
+        };
 
-        let currentLang = 'en';
+        let currentLang = 'en';
 
-        function renderForm() {
-            const isAcc = document.getElementById('modeToggle').checked;
-            const t = translations[currentLang] || translations['en'];
-            const container = document.getElementById('dynamic-form-area');
-            document.getElementById('error-area').innerHTML = "";
-            
-            if (isAcc) {
-                container.innerHTML = `
-                    <div class="space-y-6">
-                        <div>
-                            <label for="f-name" class="block mb-1 text-sm font-bold text-gray-700">${t.labelName}</label>
-                            <input type="text" id="f-name" class="w-full std-border p-2 rounded bg-gray-50 text-sm outline-none">
-                        </div>
-                        <div>
-                            <label for="f-email" class="block mb-1 text-sm font-bold text-gray-700">${t.labelEmail}</label>
-                            <input type="text" id="f-email" class="w-full std-border p-2 rounded bg-gray-50 text-sm outline-none">
-                        </div>
-                        <fieldset class="border border-gray-200 p-4 rounded">
-                            <legend class="px-2 text-sm font-bold text-gray-700">${t.labelGender}</legend>
-                            <div class="flex gap-4">
-                                <label class="flex items-center text-sm"><input type="radio" name="g" value="m" class="mr-2"> ${t.optMale}</label>
-                                <label class="flex items-center text-sm"><input type="radio" name="g" value="f" class="mr-2"> ${t.optFemale}</label>
-                                <label class="flex items-center text-sm"><input type="radio" name="g" value="o" class="mr-2"> ${t.optOther}</label>
-                            </div>
-                        </fieldset>
-                        <div class="p-4 bg-gray-50 rounded border border-gray-200 space-y-3">
-                            <label class="block text-sm font-bold text-gray-700">${t.labelCaptcha}</label>
-                            <div class="flex items-center gap-4">
-                                <img src="https://placehold.co/120x40/f3f4f6/111827/png?text=7GP2" alt="Security Code: 7 G P 2" class="rounded border border-gray-300">
-                                <button onclick="alert('Audio: 7, G, P, 2')" class="text-xs bg-white border border-gray-300 px-3 py-2 rounded shadow-sm hover:bg-gray-100">${t.audioBtn}</button>
-                            </div>
-                            <input type="text" id="f-captcha" placeholder="${t.captchaPlaceholder}" aria-label="${t.labelCaptcha}" class="w-full std-border p-2 rounded text-sm outline-none">
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="f-terms" class="w-4 h-4 mr-2 border-black">
-                            <label for="f-terms" class="text-sm font-medium text-gray-700 cursor-pointer">${t.agreeTerms}</label>
-                        </div>
-                        <button onclick="handleSubmit(true)" class="w-full bg-green-700 text-white font-bold py-3 rounded uppercase hover:bg-green-800">${t.btnText}</button>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = `
-                    <div class="space-y-6">
-                        <div>
-                            <div class="text-sm font-bold text-gray-700 mb-1">${t.labelName}</div>
-                            <input type="text" id="bad-name" class="w-full std-border p-2 rounded bg-gray-50 text-sm outline-none">
-                        </div>
-                        <div>
-                            <div class="text-sm font-bold text-gray-700 mb-1">${t.labelEmail}</div>
-                            <input type="text" id="bad-email" aria-label="${t.badEmailAria}" class="w-full std-border p-2 rounded bg-gray-50 text-sm outline-none">
-                        </div>
-                        <div class="std-border p-4 rounded relative mt-6">
-                            <div class="absolute -top-3 left-2 bg-white px-2 text-sm font-bold text-gray-700">${t.labelGender}</div>
-                            <div class="flex gap-4 pt-2">
-                                <label class="flex items-center text-sm"><input type="radio" name="bg" value="m" class="mr-2"> ${t.optMale}</label>
-                                <label class="flex items-center text-sm"><input type="radio" name="bg" value="f" class="mr-2"> ${t.optFemale}</label>
-                                <label class="flex items-center text-sm"><input type="radio" name="bg" value="o" class="mr-2"> ${t.optOther}</label>
-                            </div>
-                        </div>
-                        <div class="p-4 bg-gray-50 rounded border border-gray-200 space-y-3">
-                            <div class="text-sm font-bold text-gray-700">${t.labelCaptcha}</div>
-                            <img src="https://placehold.co/120x40/cccccc/666666/png?text=7GP2" alt="" class="rounded border border-gray-300">
-                            <input type="text" id="bad-captcha" placeholder="${t.captchaPlaceholder}" class="w-full std-border p-2 rounded text-sm outline-none">
-                        </div>
-                        <div class="flex items-center">
-                            <div id="custom-check" role="checkbox" tabindex="0" class="custom-cb mr-2"></div>
-                            <span id="cb-label" class="text-sm font-medium text-gray-700 cursor-pointer">${t.agreeTerms}</span>
-                        </div>
-                        <div tabindex="0" id="bad-btn" class="w-full bg-green-700 text-white font-bold py-3 rounded uppercase text-center cursor-pointer hover:bg-green-800 transition-colors">
-                            ${t.btnText}
-                        </div>
-                    </div>
-                `;
-                setupBadFormListeners();
-            }
-        }
+        function renderForm() {
+            const isAcc = document.getElementById('modeToggle').checked;
+            const t = translations[currentLang] || translations['en'];
+            const container = document.getElementById('dynamic-form-area');
+            document.getElementById('error-area').innerHTML = "";
+            
+            if (isAcc) {
+                container.innerHTML = `
+                    <div class="space-y-6">
+                        <div>
+                            <label for="f-name" class="block mb-1 text-sm font-bold text-gray-700">${t.labelName}</label>
+                            <input type="text" id="f-name" class="w-full std-border p-2 rounded bg-gray-50 text-sm focus:ring-1 focus:ring-blue-500 outline-none">
+                        </div>
+                        <div>
+                            <label for="f-email" class="block mb-1 text-sm font-bold text-gray-700">${t.labelEmail}</label>
+                            <input type="text" id="f-email" class="w-full std-border p-2 rounded bg-gray-50 text-sm focus:ring-1 focus:ring-blue-500 outline-none">
+                        </div>
+                        <fieldset class="border border-gray-200 p-4 rounded">
+                            <legend class="px-2 text-sm font-bold text-gray-700">${t.labelGender}</legend>
+                            <div class="flex gap-4">
+                                <label class="flex items-center text-sm"><input type="radio" name="g" value="m" class="mr-2"> ${t.optMale}</label>
+                                <label class="flex items-center text-sm"><input type="radio" name="g" value="f" class="mr-2"> ${t.optFemale}</label>
+                                <label class="flex items-center text-sm"><input type="radio" name="g" value="o" class="mr-2"> ${t.optOther}</label>
+                            </div>
+                        </fieldset>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="f-terms" class="w-4 h-4 mr-2 border-black">
+                            <label for="f-terms" class="text-sm font-medium text-gray-700 cursor-pointer">${t.agreeTerms}</label>
+                        </div>
+                        <button onclick="handleSubmit(true)" class="w-full bg-green-700 text-white font-bold py-3 rounded uppercase hover:bg-green-800">${t.btnText}</button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="space-y-6">
+                        <div>
+                            <div class="text-sm font-bold text-gray-700 mb-1">${t.labelName}</div>
+                            <input type="text" id="bad-name" class="w-full std-border p-2 rounded bg-gray-50 text-sm outline-none">
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-gray-700 mb-1">${t.labelEmail}</div>
+                            <input type="text" id="bad-email" aria-label="${t.badEmailAria}" class="w-full std-border p-2 rounded bg-gray-50 text-sm outline-none">
+                        </div>
+                        <div class="std-border p-4 rounded relative mt-6">
+                            <div class="absolute -top-3 left-2 bg-white px-2 text-sm font-bold text-gray-700">${t.labelGender}</div>
+                            <div class="flex gap-4 pt-2">
+                                <label class="flex items-center text-sm"><input type="radio" name="bg" value="m" class="mr-2"> ${t.optMale}</label>
+                                <label class="flex items-center text-sm"><input type="radio" name="bg" value="f" class="mr-2"> ${t.optFemale}</label>
+                                <label class="flex items-center text-sm"><input type="radio" name="bg" value="o" class="mr-2"> ${t.optOther}</label>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div id="custom-check" role="checkbox" tabindex="0" class="custom-cb mr-2" aria-labelledby="cb-label"></div>
+                            <span id="cb-label" class="text-sm font-medium text-gray-700 cursor-pointer">${t.agreeTerms}</span>
+                        </div>
+                        <div tabindex="0" id="bad-btn" class="w-full bg-green-700 text-white font-bold py-3 rounded uppercase text-center cursor-pointer hover:bg-green-800 transition-colors">
+                            ${t.btnText}
+                        </div>
+                    </div>
+                `;
+                setupBadFormListeners();
+            }
+        }
 
-        function setupBadFormListeners() {
-            const cb = document.getElementById('custom-check');
-            const lbl = document.getElementById('cb-label');
-            const btn = document.getElementById('bad-btn');
-            if(!cb) return;
-            const toggle = () => cb.classList.toggle('checked');
-            cb.onclick = toggle; lbl.onclick = toggle;
-            cb.onkeydown = (e) => { if (e.key === ' ') { e.preventDefault(); toggle(); } };
-            btn.onclick = () => handleSubmit(false);
-            btn.onkeydown = (e) => { if (e.key === 'Enter') handleSubmit(false); };
-        }
+        function setupBadFormListeners() {
+            const cb = document.getElementById('custom-check');
+            const lbl = document.getElementById('cb-label');
+            const btn = document.getElementById('bad-btn');
+            if(!cb) return;
+            const toggle = () => cb.classList.toggle('checked');
+            cb.onclick = toggle; lbl.onclick = toggle;
+            cb.onkeydown = (e) => { if (e.key === ' ') { e.preventDefault(); toggle(); } };
+            btn.onclick = () => handleSubmit(false);
+            btn.onkeydown = (e) => { if (e.key === 'Enter') handleSubmit(false); };
+        }
 
-        function handleSubmit(isAcc) {
-            const t = translations[currentLang] || translations['en'];
-            const email = isAcc ? document.getElementById('f-email').value : document.getElementById('bad-email').value;
-            const name = isAcc ? document.getElementById('f-name').value : document.getElementById('bad-name').value;
-            const captcha = isAcc ? document.getElementById('f-captcha').value : document.getElementById('bad-captcha').value;
-            const cb = isAcc ? document.getElementById('f-terms').checked : document.getElementById('custom-check').classList.contains('checked');
-            const gender = isAcc ? document.querySelector('input[name="g"]:checked') : document.querySelector('input[name="bg"]:checked');
-            
-            if (name && email.includes('@') && cb && gender && captcha.toLowerCase() === '7gp2') {
-                document.getElementById('dynamic-form-area').innerHTML = `
-                    <div ${isAcc ? 'role="status"' : ''} class="p-8 bg-green-50 border border-green-200 rounded text-green-900 text-center">
-                        <p class="text-2xl mb-2">✅</p>
-                        <p class="font-bold">${t.successMsg}</p>
-                    </div>
-                `;
-                document.getElementById('error-area').innerHTML = "";
-            } else {
-                let errors = [];
-                if (!name) errors.push(t.errNameReq);
-                if (!email.includes('@')) errors.push(t.errEmailFormat);
-                if (!gender) errors.push(t.errGenderReq);
-                if (captcha.toLowerCase() !== '7gp2') errors.push("Invalid Security Code.");
-                if (!cb) errors.push(t.errTermsReq);
+        function handleSubmit(isAcc) {
+            const t = translations[currentLang] || translations['en'];
+            const email = isAcc ? document.getElementById('f-email').value : document.getElementById('bad-email').value;
+            const name = isAcc ? document.getElementById('f-name').value : document.getElementById('bad-name').value;
+            const cb = isAcc ? document.getElementById('f-terms').checked : document.getElementById('custom-check').classList.contains('checked');
+            const gender = isAcc ? document.querySelector('input[name="g"]:checked') : document.querySelector('input[name="bg"]:checked');
+            
+            if (name && email.includes('@') && cb && gender) {
+                document.getElementById('dynamic-form-area').innerHTML = `
+                    <div ${isAcc ? 'role="status"' : ''} class="p-8 bg-green-50 border border-green-200 rounded text-green-900 text-center">
+                        <p class="text-2xl mb-2">✅</p>
+                        <p class="font-bold">${t.successMsg}</p>
+                    </div>
+                `;
+                document.getElementById('error-area').innerHTML = "";
+            } else {
+                let errors = [];
+                if (!name) errors.push(t.errNameReq);
+                if (!email) errors.push(t.errEmailReq);
+                else if (!email.includes('@')) errors.push(t.errEmailFormat);
+                if (!gender) errors.push(t.errGenderReq);
+                if (!cb) errors.push(t.errTermsReq);
 
-                const errArea = document.getElementById('error-area');
-                errArea.innerHTML = `
-                    <div ${isAcc ? 'role="alert"' : ''} class="p-4 rounded border-2 border-red-300 bg-red-50 text-red-900 mb-6">
-                        <p class="font-bold mb-2">${t.errHeader}</p>
-                        <ul class="list-disc pl-5 text-sm space-y-1">
-                            ${errors.map(e => `<li>${e}</li>`).join('')}
-                        </ul>
-                    </div>
-                `;
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
+                const errArea = document.getElementById('error-area');
+                errArea.innerHTML = `
+                    <div ${isAcc ? 'role="alert"' : ''} class="p-4 rounded border-2 border-red-300 bg-red-50 text-red-900 mb-6">
+                        <p class="font-bold mb-2">${t.errHeader}</p>
+                        <ul class="list-disc pl-5 text-sm space-y-1">
+                            ${errors.map(e => `<li>${e}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
 
-        function setLanguage(lang) {
-            currentLang = lang;
-            const t = translations[lang] || translations['en'];
-            const isAcc = document.getElementById('modeToggle').checked;
-            document.getElementById('doc-root').setAttribute('lang', lang);
-            document.getElementById('txt-lab-title').innerText = t.labTitle;
-            document.getElementById('txt-title').innerText = t.title;
-            document.getElementById('txt-all-required').innerText = t.allRequired;
-            document.getElementById('tab-test').innerText = t.tabTest;
-            document.getElementById('tab-user').innerText = t.tabUser;
-            document.getElementById('tab-feedback').innerText = isAcc ? t.tabRemediations : t.tabIssues;
-            document.getElementById('txt-guide-title').innerText = t.guideTitle;
-            document.getElementById('txt-feedback-heading').innerText = isAcc ? t.feedbackHeadingGood : t.feedbackHeadingBad;
-            document.getElementById('txt-user-heading').innerText = t.userHeading;
-            document.getElementById('txt-test-steps').innerHTML = t.testSteps.map(s => `<li>${s}</li>`).join('');
-            const crit = isAcc ? t.critiques.good : t.critiques.bad;
-            document.getElementById('critiqueContent').innerHTML = crit.map(i => `<div><span class="text-blue-400 font-bold block mb-1 uppercase text-[11px]">${i.f}</span><p class="text-white opacity-90">${i.c}</p></div>`).join('');
-            document.getElementById('txt-user-content').innerHTML = `<ul class="list-disc pl-5 space-y-3">${t.userList.map(li => `<li>${li.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')}</li>`).join('')}</ul>`;
-            document.querySelectorAll('.lang-btn').forEach(b => {
-                b.classList.toggle('bg-blue-600', b.id === 'btn-' + lang);
-                b.classList.toggle('text-white', b.id === 'btn-' + lang);
-                b.classList.toggle('bg-gray-200', b.id !== 'btn-' + lang);
-            });
-            renderForm();
-        }
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang] || translations['en'];
+            const isAcc = document.getElementById('modeToggle').checked;
+            
+            document.getElementById('doc-root').setAttribute('lang', lang);
+            
+            document.getElementById('txt-lab-title').innerText = t.labTitle;
+            document.getElementById('txt-title').innerText = t.title;
+            document.getElementById('txt-all-required').innerText = t.allRequired;
+            document.getElementById('tab-test').innerText = t.tabTest;
+            document.getElementById('tab-user').innerText = t.tabUser;
+            document.getElementById('tab-feedback').innerText = isAcc ? t.tabRemediations : t.tabIssues;
+            document.getElementById('txt-guide-title').innerText = t.guideTitle;
+            document.getElementById('txt-feedback-heading').innerText = isAcc ? t.feedbackHeadingGood : t.feedbackHeadingBad;
+            document.getElementById('txt-user-heading').innerText = t.userHeading;
+            document.getElementById('txt-test-steps').innerHTML = t.testSteps.map(s => `<li>${s}</li>`).join('');
+            const crit = isAcc ? t.critiques.good : t.critiques.bad;
+            document.getElementById('critiqueContent').innerHTML = crit.map(i => `<div><span class="text-blue-400 font-bold block mb-1 uppercase text-[11px]">${i.f}</span><p class="text-white opacity-90">${i.c}</p></div>`).join('');
+            document.getElementById('txt-user-content').innerHTML = `<ul class="list-disc pl-5 space-y-3">${t.userList.map(li => `<li>${li.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')}</li>`).join('')}</ul>`;
+            document.querySelectorAll('.lang-btn').forEach(b => {
+                b.classList.toggle('bg-blue-600', b.id === 'btn-' + lang);
+                b.classList.toggle('text-white', b.id === 'btn-' + lang);
+                b.classList.toggle('bg-gray-200', b.id !== 'btn-' + lang);
+            });
+            renderForm();
+        }
 
-        function handleModeToggle() { setLanguage(currentLang); }
-        function switchTab(tabId) {
-            ['test', 'feedback', 'user'].forEach(id => {
-                document.getElementById('panel-' + id).classList.toggle('hidden', id !== tabId);
-                document.getElementById('tab-' + id).setAttribute('aria-selected', id === tabId);
-            });
-        }
-        setLanguage('en');
-    </script>
+        function handleModeToggle() { setLanguage(currentLang); }
+        function switchTab(tabId) {
+            ['test', 'feedback', 'user'].forEach(id => {
+                document.getElementById('panel-' + id).classList.toggle('hidden', id !== tabId);
+                document.getElementById('tab-' + id).setAttribute('aria-selected', id === tabId);
+            });
+        }
+        setLanguage('en');
+    </script>
 </body>
 </html>
