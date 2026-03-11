@@ -19,14 +19,27 @@
         .std-border { border: 1px solid #000000 !important; }
         .custom-cb { width: 1.1rem; height: 1.1rem; border: 1px solid #000; border-radius: 2px; position: relative; display: inline-block; vertical-align: middle; background: white; cursor: pointer; }
         .custom-cb.checked::after { content: '✓'; position: absolute; top: -4px; left: 2px; font-weight: bold; color: #15803d; font-size: 14px; }
-        /* Style for the native checkbox to match the custom one */
+        
+        /* Fixed styling for the native checkbox */
         .native-cb { 
+            -webkit-appearance: none;
+            appearance: none;
             width: 1.1rem; 
             height: 1.1rem; 
-            accent-color: #15803d; 
             border: 1px solid #000000; 
+            border-radius: 2px;
+            background-color: white;
             cursor: pointer;
-            appearance: auto;
+            display: inline-grid;
+            place-content: center;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+        .native-cb:checked::before {
+            content: "✓";
+            font-size: 14px;
+            font-weight: bold;
+            color: #15803d;
         }
     </style>
 </head>
@@ -249,7 +262,7 @@
                 badEmailAria: "Feld 2", errHeader: "Bitte korrigieren Sie:",
                 errNameReq: "Name ist erforderlich.", errEmailReq: "E-Mail ist erforderlich.",
                 errEmailFormat: "E-Mail-Format ist ungültig.", errClientReq: "Bitte geben Sie an, ob Sie Kunde sind.",
-                errTermsReq: "Zustimmung ist erforderlich.", successMsg: "Erfolgreich gesendet! Willkommen im Labor.",
+                errTermsReq: "Zustimmung ist erforderlich.", successMsg: "Erfolgreich gesendet! Welkom im Labor.",
                 critiques: {
                     bad: [
                         { f: "Beschriftungen", c: "Ein Label ist nicht mit dem Eingabefeld verknüpft, ein anderes wird durch eine versteckte Beschreibung überschrieben, was die Identifizierung erschwert." },
@@ -299,7 +312,7 @@
                             </div>
                         </div>
                         <div class="flex items-center">
-                            <input type="checkbox" id="f-terms" class="native-cb mr-2">
+                            <input type="checkbox" id="f-terms" class="native-cb">
                             <label for="f-terms" class="text-sm font-medium text-gray-700 cursor-pointer">${t.agreeTerms}</label>
                         </div>
                         <button onclick="handleSubmit(true)" class="w-full bg-green-700 text-white font-bold py-3 rounded uppercase hover:bg-green-800">${t.btnText}</button>
