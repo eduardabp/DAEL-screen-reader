@@ -151,11 +151,11 @@
                     ],
                     good: [
                         { f: "Form Labels", c: "Ensure all labels are properly connected with their input fields and use clear, visible names." },
-                        { f: "Grouping Fields", c: "Group related options like radio buttons together (using roles like 'group') so the screen reader explains they belong to the same category." },
+                        { f: "Grouping Fields", c: "Use native fieldset and legend elements to group related radio buttons, providing automatic context to screen reader users." },
                         { f: "Checkbox State", c: "Use standard checkboxes that automatically tell the screen reader if they are checked or not." },
                         { f: "Accessible Names", c: "Icons and social media links use 'aria-label' or SVG 'title' tags to provide a clear description of the destination for screen reader users." },
                         { f: "Button Role", c: "Use standard button components so the screen reader identifies them as clickable items." },
-                        { f: "Live Messages", c: "Ensure errors and success messages are automatically read out loud as soon as they appear on the screen." }
+                        { f: "Live Messages", c: "Ensure errors and success messages are automatically read out loud as soon as they appear using persistent aria-live containers." }
                     ]
                 },
                 userList: ["**Blind Users:** Without proper labels, they cannot identify what information to type. Without state announcements, they cannot tell if a checkbox is active. Without automatic announcements, they are never notified if a form submission failed or succeeded. Without alternative text on icons, they do not know where social links lead."]
@@ -192,12 +192,12 @@
                         { f: "Messages en direct", c: "Les erreurs et les messages de succès apparaissent visuellement mais ne sont pas annoncés à l'utilisateur lorsqu'ils surviennent." }
                     ],
                     good: [
-                        { f: "Étiquettes de formulaire", c: "Assurez-vous que toutes les étiquettes sont correctement connectées à leurs champs de saisie et utilisez des noms clairs." },
-                        { f: "Groupement de champs", c: "Groupez les options liées comme les boutons radio (en utilisant des rôles comme 'group') afin que le lecteur d'écran explique qu'ils appartiennent à la même catégorie." },
+                        { f: "Étiquettes de formulaire", c: "Assurez-vous que toutes les étiquettes sont correctement connectées à leurs champs de saisie." },
+                        { f: "Groupement de champs", c: "Utilisez les éléments fieldset et legend pour grouper les boutons radio, fournissant un contexte automatique." },
                         { f: "État de la case", c: "Utilisez des cases à cocher standard qui indiquent automatiquement au lecteur d'écran si elles sont cochées ou non." },
-                        { f: "Noms accessibles", c: "Les icônes et liens utilisent 'aria-label' ou des balises 'title' SVG pour fournir une description claire de la destination." },
-                        { f: "Rôle du bouton", c: "Utilisez des composants de bouton standard pour que le lecteur d'écran les identifie comme des éléments cliquables." },
-                        { f: "Messages en direct", c: "Assurez-vous que les erreurs et les messages de succès sont automatiquement lus à haute voix dès qu'ils apparaissent à l'écran." }
+                        { f: "Noms accessibles", c: "Les icônes et liens utilisent 'aria-label' ou des balises 'title' SVG pour fournir une description claire." },
+                        { f: "Rôle du bouton", c: "Utilisez des composants de bouton standard pour que le lecteur d'écran les identifie." },
+                        { f: "Messages en direct", c: "Assurez-vous que les messages sont automatiquement lus via des conteneurs aria-live persistants." }
                     ]
                 },
                 userList: ["**Utilisateurs aveugles :** Sans étiquettes appropriées, ils ne peuvent pas identifier les informations à saisir. Sans annonce d'état, ils ne savent pas si une case est active. Sans annonces automatiques, ils ne sont jamais informés de la réussite ou de l'échec de l'envoi. Sans texte alternatif sur les icônes, ils ne savent pas où mènent les liens."]
@@ -228,18 +228,18 @@
                     bad: [
                         { f: "Formulierlabels", c: "Eén label is niet gekoppeld aan de invoer, en een ander wordt overschreven door een verborgen beschrijving, waardoor velden lastig te herkennen zijn." },
                         { f: "Velden groeperen", c: "Gerelateerde opties zoals de klant-vraag zijn niet gegroepeerd, waardoor de context verloren gaat voor schermlezers." },
-                        { f: "Checkbox status", c: "De checkbox meldt de status (aangevinkt of niet) niet aan de schermlezer tijdens interactie." },
-                        { f: "Lege links", c: "De social media icoontjes zijn links zonder tekst of beschrijving. Schermlezers zeggen alleen 'Link', waardoor de gebruiker moet gokken." },
-                        { f: "Knoprol", c: "De registreerknop is een ontwerpelement zonder knoprol, waardoor gebruikers niet weten dat het een interactief onderdeel is." },
-                        { f: "Live berichten", c: "Fouten en succesmeldingen verschijnen visueel maar worden niet voorgelezen aan de gebruiker wanneer ze verschijnen." }
+                        { f: "Checkbox status", c: "De checkbox meldt de status niet aan de schermlezer tijdens interactie." },
+                        { f: "Lege links", c: "De social media icoontjes zijn links zonder tekst. Schermlezers zeggen alleen 'Link'." },
+                        { f: "Knoprol", c: "De registreerknop is een ontwerpelement zonder knoprol." },
+                        { f: "Live berichten", c: "Fouten en succesmeldingen verschijnen visueel maar worden niet voorgelezen." }
                     ],
                     good: [
-                        { f: "Formulierlabels", c: "Zorg ervoor dat alle labels goed verbonden zijn met hun invoervelden en gebruik duijkelijke, zichtbare namen." },
-                        { f: "Velden groeperen", c: "Groepeer gerelateerde opties zoals keuzerondjes (met rollen als 'group') zodat de schermlezer uitlegt dat ze bij dezelfde categorie horen." },
-                        { f: "Checkbox status", c: "Gebruik standaard checkboxes die automatisch aan de schermlezer vertellen of ze zijn aangevinkt of niet." },
-                        { f: "Toegankelijke namen", c: "Iconen en links gebruiken 'aria-label' of SVG 'title' tags om een duidelijke beschrijving van de bestemming te geven." },
-                        { f: "Knoprol", c: "Gebruik standaard knopcomponenten zodat de schermlezer ze herkent als klikbare items." },
-                        { f: "Live berichten", c: "Zorg ervoor dat fouten en succesmeldingen automatisch hardop worden voorgelezen zodra ze op het scherm verschijnen." }
+                        { f: "Formulierlabels", c: "Zorg ervoor dat alle labels goed verbonden zijn met hun invoervelden." },
+                        { f: "Velden groeperen", c: "Gebruik native fieldset en legend elementen om radioknoppen te groeperen voor automatische context." },
+                        { f: "Checkbox status", c: "Gebruik standaard checkboxes die automatisch de status doorgeven." },
+                        { f: "Toegankelijke namen", c: "Iconen en links gebruiken 'aria-label' of SVG 'title' tags voor een duidelijke beschrijving." },
+                        { f: "Knoprol", c: "Gebruik standaard knopcomponenten zodat de schermlezer ze herkent." },
+                        { f: "Live berichten", c: "Zorg dat meldingen automatisch worden voorgelezen via aria-live containers." }
                     ]
                 },
                 userList: ["**Blinde gebruikers:** Zonder labels weten ze niet welke informatie ze moeten typen. Zonder statusmeldingen weten ze niet of een checkbox actief is. Zonder automatische meldingen weten ze niet of een verzending is geslaagd of mislukt. Zonder alternatieve tekst op iconen weten ze niet waar links naartoe leiden."]
@@ -268,20 +268,20 @@
                 errTermsReq: "Zustimmung ist erforderlich.", successMsg: "Erfolgreich gesendet! Willkommen im Labor.",
                 critiques: {
                     bad: [
-                        { f: "Beschriftungen", c: "Ein Label ist nicht mit dem Eingabefeld verknüpft, ein anderes wird durch eine versteckte Beschreibung überschrieben, was die Identifizierung erschwert." },
-                        { f: "Gruppierung", c: "Zusammengehörige Optionen wie die Kunden-Frage sind nicht gruppiert, wodurch der Kontext für Screenreader verloren geht." },
-                        { f: "Checkbox-Status", c: "Die benutzerdefinierte Checkbox sagt ihren Status (ausgewählt oder nicht) beim Interagieren nicht dem Screenreader an." },
-                        { f: "Leere Links", c: "Die Social-Media-Icons sind Links ohne Text oder Beschreibung. Screenreader sagen nur 'Link', sodass Nutzer das Ziel nicht kennen." },
-                        { f: "Button-Rolle", c: "Der Registrieren-Button ist nur ein Designelement ohne Button-Rolle, sodass Nutzer nicht wissen, dass er interaktiv ist." },
-                        { f: "Live-Meldungen", c: "Fehler- und Erfolgsmeldungen erscheinen visuell, werden dem Nutzer aber nicht automatisch vorgelesen, wenn sie auftreten." }
+                        { f: "Beschriftungen", c: "Ein Label ist nicht mit dem Eingabefeld verknüpft, ein anderes wird durch eine versteckte Beschreibung überschrieben." },
+                        { f: "Gruppierung", c: "Zusammengehörige Optionen wie die Kunden-Frage sind nicht gruppiert." },
+                        { f: "Checkbox-Status", c: "Die benutzerdefinierte Checkbox sagt ihren Status beim Interagieren nicht dem Screenreader an." },
+                        { f: "Leere Links", c: "Die Social-Media-Icons sind Links ohne Text. Screenreader sagen nur 'Link'." },
+                        { f: "Button-Rolle", c: "Der Registrieren-Button ist nur ein Designelement ohne Button-Rolle." },
+                        { f: "Live-Meldungen", c: "Fehler- und Erfolgsmeldungen erscheinen visuell, werden aber nicht vorgelesen." }
                     ],
                     good: [
-                        { f: "Beschriftungen", c: "Stellen Sie sicher, dass alle Beschriftungen ordnungsgemäß mit ihren Eingabefeldern verbunden sind und klare Namen verwenden." },
-                        { f: "Gruppierung", c: "Gruppieren Sie zusammengehörige Optionen wie Radio-Buttons (mit Rollen wie 'group'), damit der Screenreader erklärt, dass sie zur selben Kategorie gehören." },
-                        { f: "Checkbox-Status", c: "Nutzen Sie Standard-Checkboxen, die dem Screenreader automatisch mitteilen, ob sie ausgewählt sind oder nicht." },
-                        { f: "Barrierefreie Namen", c: "Icons und Links verwenden 'aria-label' oder SVG 'title' Tags, um eine klare Beschreibung des Ziels zu liefern." },
-                        { f: "Button-Rolle", c: "Nutzen Sie Standard-Button-Komponenten, damit der Screenreader sie als anklickbare Elemente erkennt." },
-                        { f: "Live-Meldungen", c: "Stellen Sie sicher, dass Fehler- und Erfolgsmeldungen automatisch laut vorgelesen werden, sobald sie auf dem Bildschirm erscheinen." }
+                        { f: "Beschriftungen", c: "Stellen Sie sicher, dass alle Beschriftungen ordnungsgemäß verbunden sind." },
+                        { f: "Gruppierung", c: "Verwenden Sie native Fieldset- und Legend-Elemente, um Radioknöpfe für automatischen Kontext zu gruppieren." },
+                        { f: "Checkbox-Status", c: "Nutzen Sie Standard-Checkboxen, die dem Screenreader automatisch mitteilen, ob sie ausgewählt sind." },
+                        { f: "Barrierefreie Namen", c: "Icons und Links verwenden 'aria-label' oder SVG 'title' Tags für eine klare Beschreibung." },
+                        { f: "Button-Rolle", c: "Nutzen Sie Standard-Button-Komponenten für eine klare Identifizierung." },
+                        { f: "Live-Meldungen", c: "Stellen Sie sicher, dass Meldungen automatisch vorgelesen werden mittels aria-live Containern." }
                     ]
                 },
                 userList: ["**Blinde Nutzer:** Ohne ordnungsgemäße Beschriftungen wissen sie nicht, welche Informationen einzugeben sind. Ohne Statusansagen wissen sie nicht, ob eine Checkbox aktiv ist. Ohne automatische Ansagen erfahren sie nie, ob das Absenden erfolgreich war oder nicht. Ohne Alternativtext auf Icons wissen sie nicht, wohin Links führen."]
@@ -309,13 +309,13 @@
                             <label for="f-email" class="block mb-1 text-sm font-bold text-gray-700">${t.labelEmail}</label>
                             <input type="text" id="f-email" aria-required="true" class="w-full std-border p-2 rounded bg-gray-50 text-sm focus:ring-1 focus:ring-blue-500 outline-none">
                         </div>
-                        <div role="group" aria-labelledby="client-label">
-                            <p id="client-label" class="text-sm font-bold text-gray-700 mb-2">${t.labelClient}</p>
+                        <fieldset class="border-0 p-0 m-0">
+                            <legend class="text-sm font-bold text-gray-700 mb-2">${t.labelClient}</legend>
                             <div class="flex gap-4">
                                 <label class="flex items-center text-sm"><input type="radio" name="g" value="y" aria-required="true" class="mr-2"> ${t.optYes}</label>
                                 <label class="flex items-center text-sm"><input type="radio" name="g" value="n" aria-required="true" class="mr-2"> ${t.optNo}</label>
                             </div>
-                        </div>
+                        </fieldset>
                         <div class="flex items-center">
                             <input type="checkbox" id="f-terms" aria-required="true" class="native-cb">
                             <label for="f-terms" class="text-sm font-medium text-gray-700 cursor-pointer">${t.agreeTerms}</label>
