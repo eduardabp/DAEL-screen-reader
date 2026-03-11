@@ -95,8 +95,8 @@
         const translations = {
             en: {
                 labTitle: "Digital Accessibility Empathy Lab", title: "Screen Reader Experience", allRequired: "All fields are required.",
-                labelName: "Full Name", labelEmail: "Email Address", labelGender: "Gender",
-                optMale: "Male", optFemale: "Female", optOther: "Other",
+                labelName: "Full Name", labelEmail: "Email Address", labelClient: "Are you already a client?",
+                optYes: "Yes", optNo: "No",
                 agreeTerms: "I agree to the Terms and Privacy Policy", btnText: "Register Now",
                 tabTest: "How to test", tabIssues: "Issues", tabRemediations: "Remediations", tabUser: "Impacted users",
                 guideTitle: "Step-by-step guide", feedbackHeadingBad: "What is wrong?", feedbackHeadingGood: "How to fix",
@@ -113,12 +113,12 @@
                 ],
                 badEmailAria: "Form Field 2", errHeader: "Please correct the following errors:",
                 errNameReq: "Full Name is required.", errEmailReq: "Email Address is required.",
-                errEmailFormat: "Email Address format is invalid.", errGenderReq: "Gender is a required field.",
+                errEmailFormat: "Email Address format is invalid.", errClientReq: "Please select if you are a client.",
                 errTermsReq: "You must agree to the terms.", successMsg: "Form successfully submitted! Welcome to the lab.",
                 critiques: {
                     bad: [
                         { f: "Form Labels", c: "One label is not programmatically linked to its input, and another is overwritten by a hidden description, making fields hard to identify." },
-                        { f: "Grouping Fields", c: "Related options like Gender are not grouped together, so their shared context is lost for screen readers." },
+                        { f: "Grouping Fields", c: "Related options like the Client question are not grouped together, so their shared context is lost for screen readers." },
                         { f: "Checkbox State", c: "The custom checkbox does not have its state (checked or unchecked) announced to the screen reader when interacted with." },
                         { f: "Empty Links", c: "Social media icons are links without text or descriptions. Screen readers will only announce 'Link', leaving users guessing where they lead." },
                         { f: "Button Role", c: "The 'Register' button is just a design element without a button role, so users don't know it is an interactive component." },
@@ -126,7 +126,7 @@
                     ],
                     good: [
                         { f: "Form Labels", c: "Ensure all labels are properly connected with their input fields and use clear, visible names." },
-                        { f: "Grouping Fields", c: "Group related options like radio buttons together so the screen reader explains they belong to the same category." },
+                        { f: "Grouping Fields", c: "Group related options like radio buttons together (using roles like 'group') so the screen reader explains they belong to the same category." },
                         { f: "Checkbox State", c: "Use standard checkboxes that automatically tell the screen reader if they are checked or not." },
                         { f: "Accessible Names", c: "Icons and social media links use 'aria-label' or SVG 'title' tags to provide a clear description of the destination for screen reader users." },
                         { f: "Button Role", c: "Use standard button components so the screen reader identifies them as clickable items." },
@@ -137,8 +137,8 @@
             },
             fr: {
                 labTitle: "Labo d'empathie sur l'accessibilité", title: "Expérience Lecteur d'écran", allRequired: "Tous les champs sont obligatoires.",
-                labelName: "Nom complet", labelEmail: "Adresse e-mail", labelGender: "Genre",
-                optMale: "Homme", optFemale: "Femme", optOther: "Autre",
+                labelName: "Nom complet", labelEmail: "Adresse e-mail", labelClient: "Êtes-vous déjà client ?",
+                optYes: "Oui", optNo: "Non",
                 agreeTerms: "J'accepte les conditions et la politique de confidentialité", btnText: "S'inscrire",
                 tabTest: "Comment tester", tabIssues: "Problèmes", tabRemediations: "Corrections", tabUser: "Utilisateurs impactés",
                 guideTitle: "Guide étape par étape", feedbackHeadingBad: "Quel est le problème ?", feedbackHeadingGood: "Comment corriger",
@@ -155,12 +155,12 @@
                 ],
                 badEmailAria: "Champ 2", errHeader: "Veuillez corriger les erreurs :",
                 errNameReq: "Le nom complet est obligatoire.", errEmailReq: "L'adresse e-mail est obligatoire.",
-                errEmailFormat: "Le format de l'adresse e-mail est invalide.", errGenderReq: "Le genre est obligatoire.",
+                errEmailFormat: "Le format de l'adresse e-mail est invalide.", errClientReq: "Veuillez sélectionner si vous êtes client.",
                 errTermsReq: "Vous devez accepter les conditions.", successMsg: "Formulaire envoyé avec succès ! Bienvenue au labo.",
                 critiques: {
                     bad: [
                         { f: "Étiquettes de formulaire", c: "Une étiquette n'est pas liée à son champ, et une autre est écrasée par une description cachée, rendant les champs difficiles à identifier." },
-                        { f: "Groupement de champs", c: "Les options liées comme le Genre ne sont pas groupées, le contexte partagé est donc perdu pour les lecteurs d'écran." },
+                        { f: "Groupement de champs", c: "Les options liées comme la question Client ne sont pas groupées, le contexte partagé est donc perdu pour les lecteurs d'écran." },
                         { f: "État de la case", c: "La case personnalisée n'annonce pas son état (coché ou décoché) au lecteur d'écran lors de l'interaction." },
                         { f: "Liens vides", c: "Les icônes de réseaux sociaux sont des liens sans texte ni description. Les lecteurs d'écran diront seulement 'Lien', laissant l'utilisateur deviner." },
                         { f: "Rôle du bouton", c: "Le bouton d'inscription est un simple élément de design sans rôle de bouton, l'utilisateur ne sait pas qu'il est interactif." },
@@ -168,7 +168,7 @@
                     ],
                     good: [
                         { f: "Étiquettes de formulaire", c: "Assurez-vous que toutes les étiquettes sont correctement connectées à leurs champs de saisie et utilisez des noms clairs." },
-                        { f: "Groupement de champs", c: "Groupez les options liées comme les boutons radio afin que le lecteur d'écran explique qu'ils appartiennent à la même catégorie." },
+                        { f: "Groupement de champs", c: "Groupez les options liées comme les boutons radio (en utilisant des rôles comme 'group') afin que le lecteur d'écran explique qu'ils appartiennent à la même catégorie." },
                         { f: "État de la case", c: "Utilisez des cases à cocher standard qui indiquent automatiquement au lecteur d'écran si elles sont cochées ou non." },
                         { f: "Noms accessibles", c: "Les icônes et liens utilisent 'aria-label' ou des balises 'title' SVG pour fournir une description claire de la destination." },
                         { f: "Rôle du bouton", c: "Utilisez des composants de bouton standard pour que le lecteur d'écran les identifie comme des éléments cliquables." },
@@ -179,8 +179,8 @@
             },
             nl: {
                 labTitle: "Toegankelijkheid Empathy Lab", title: "Schermlezer Ervaring", allRequired: "Alle velden zijn verplicht.",
-                labelName: "Naam", labelEmail: "E-mailadres", labelGender: "Geslacht",
-                optMale: "Man", optFemale: "Vrouw", optOther: "Anders",
+                labelName: "Naam", labelEmail: "E-mailadres", labelClient: "Ben je al klant?",
+                optYes: "Ja", optNo: "Nee",
                 agreeTerms: "Ik ga akkoord met de voorwaarden en het privacybeleid", btnText: "Registreren",
                 tabTest: "Hoe te testen", tabIssues: "Problemen", tabRemediations: "Oplossingen", tabUser: "Betrokken gebruikers",
                 guideTitle: "Stappenplan", feedbackHeadingBad: "Wat is er mis?", feedbackHeadingGood: "Hoe te herstellen",
@@ -197,12 +197,12 @@
                 ],
                 badEmailAria: "Veld 2", errHeader: "Corrigeer de volgende fouten:",
                 errNameReq: "Naam is verplicht.", errEmailReq: "E-mailadres is verplicht.",
-                errEmailFormat: "E-mailadres formaat is ongeldig.", errGenderReq: "Geslacht is verplicht.",
+                errEmailFormat: "E-mailadres formaat is ongeldig.", errClientReq: "Geef aan of je al klant bent.",
                 errTermsReq: "Ga akkoord met de voorwaarden.", successMsg: "Formulier succesvol verzonden! Welkom bij het lab.",
                 critiques: {
                     bad: [
                         { f: "Formulierlabels", c: "Eén label is niet gekoppeld aan de invoer, en een ander wordt overschreven door een verborgen beschrijving, waardoor velden lastig te herkennen zijn." },
-                        { f: "Velden groeperen", c: "Gerelateerde opties zoals Geslacht zijn niet gegroepeerd, waardoor de context verloren gaat voor schermlezers." },
+                        { f: "Velden groeperen", c: "Gerelateerde opties zoals de klant-vraag zijn niet gegroepeerd, waardoor de context verloren gaat voor schermlezers." },
                         { f: "Checkbox status", c: "De checkbox meldt de status (aangevinkt of niet) niet aan de schermlezer tijdens interactie." },
                         { f: "Lege links", c: "De social media icoontjes zijn links zonder tekst of beschrijving. Schermlezers zeggen alleen 'Link', waardoor de gebruiker moet gokken." },
                         { f: "Knoprol", c: "De registreerknop is een ontwerpelement zonder knoprol, waardoor gebruikers niet weten dat het een interactief onderdeel is." },
@@ -210,7 +210,7 @@
                     ],
                     good: [
                         { f: "Formulierlabels", c: "Zorg ervoor dat alle labels goed verbonden zijn met hun invoervelden en gebruik duidelijke, zichtbare namen." },
-                        { f: "Velden groeperen", c: "Groepeer gerelateerde opties zoals keuzerondjes zodat de schermlezer uitlegt dat ze bij dezelfde categorie horen." },
+                        { f: "Velden groeperen", c: "Groepeer gerelateerde opties zoals keuzerondjes (met rollen als 'group') zodat de schermlezer uitlegt dat ze bij dezelfde categorie horen." },
                         { f: "Checkbox status", c: "Gebruik standaard checkboxes die automatisch aan de schermlezer vertellen of ze zijn aangevinkt of niet." },
                         { f: "Toegankelijke namen", c: "Iconen en links gebruiken 'aria-label' of SVG 'title' tags om een duidelijke beschrijving van de bestemming te geven." },
                         { f: "Knoprol", c: "Gebruik standaard knopcomponenten zodat de schermlezer ze herkent als klikbare items." },
@@ -221,13 +221,13 @@
             },
             de: {
                 labTitle: "Barrierefreiheits-Labor", title: "Screenreader-Erfahrung", allRequired: "Alle Felder sind Pflichtfelder.",
-                labelName: "Name", labelEmail: "E-Mail", labelGender: "Geschlecht",
-                optMale: "Männlich", optFemale: "Weiblich", optOther: "Andere",
+                labelName: "Name", labelEmail: "E-Mail", labelClient: "Sind Sie bereits Kunde?",
+                optYes: "Ja", optNo: "Nein",
                 agreeTerms: "Ich stimme den Nutzungsbedingungen und der Datenschutzerklärung zu", btnText: "Registrieren",
                 tabTest: "Testanleitung", tabIssues: "Probleme", tabRemediations: "Lösungen", tabUser: "Betroffene Nutzer",
                 guideTitle: "Schritt-für-Schritt", feedbackHeadingBad: "Was ist falsch?", feedbackHeadingGood: "Wie man es fixt",
                 userHeading: "Wer ist betroffen?", connectTitle: "Verbinden Sie sich mit uns",
-                webLabel: "Besuchen Sie die Website von Eleven Ways", liLabel: "Folgen Sie Eleven Ways auf LinkedIn",
+                webLabel: "Besuchen Sie die Website von Eleven Ways", liLabel: "Folgen Sie Eleven Ways on LinkedIn",
                 testSteps: [
                     "Schalten Sie Ihren Screenreader ein.",
                     "Navigieren Sie mit der Tab-Taste auf Ihrer Tastatur durch das Formular.",
@@ -239,12 +239,12 @@
                 ],
                 badEmailAria: "Feld 2", errHeader: "Bitte korrigieren Sie:",
                 errNameReq: "Name ist erforderlich.", errEmailReq: "E-Mail ist erforderlich.",
-                errEmailFormat: "E-Mail-Format ist ungültig.", errGenderReq: "Geschlecht ist erforderlich.",
+                errEmailFormat: "E-Mail-Format ist ungültig.", errClientReq: "Bitte geben Sie an, ob Sie Kunde sind.",
                 errTermsReq: "Zustimmung ist erforderlich.", successMsg: "Erfolgreich gesendet! Willkommen im Labor.",
                 critiques: {
                     bad: [
                         { f: "Beschriftungen", c: "Ein Label ist nicht mit dem Eingabefeld verknüpft, ein anderes wird durch eine versteckte Beschreibung überschrieben, was die Identifizierung erschwert." },
-                        { f: "Gruppierung", c: "Zusammengehörige Optionen wie das Geschlecht sind nicht gruppiert, wodurch der Kontext für Screenreader verloren geht." },
+                        { f: "Gruppierung", c: "Zusammengehörige Optionen wie die Kunden-Frage sind nicht gruppiert, wodurch der Kontext für Screenreader verloren geht." },
                         { f: "Checkbox-Status", c: "Die benutzerdefinierte Checkbox sagt ihren Status (ausgewählt oder nicht) beim Interagieren nicht dem Screenreader an." },
                         { f: "Leere Links", c: "Die Social-Media-Icons sind Links ohne Text oder Beschreibung. Screenreader sagen nur 'Link', sodass Nutzer das Ziel nicht kennen." },
                         { f: "Button-Rolle", c: "Der Registrieren-Button ist nur ein Designelement ohne Button-Rolle, sodass Nutzer nicht wissen, dass er interaktiv ist." },
@@ -252,7 +252,7 @@
                     ],
                     good: [
                         { f: "Beschriftungen", c: "Stellen Sie sicher, dass alle Beschriftungen ordnungsgemäß mit ihren Eingabefeldern verbunden sind und klare Namen verwenden." },
-                        { f: "Gruppierung", c: "Gruppieren Sie zusammengehörige Optionen wie Radio-Buttons, damit der Screenreader erklärt, dass sie zur selben Kategorie gehören." },
+                        { f: "Gruppierung", c: "Gruppieren Sie zusammengehörige Optionen wie Radio-Buttons (mit Rollen wie 'group'), damit der Screenreader erklärt, dass sie zur selben Kategorie gehören." },
                         { f: "Checkbox-Status", c: "Nutzen Sie Standard-Checkboxen, die dem Screenreader automatisch mitteilen, ob sie ausgewählt sind oder nicht." },
                         { f: "Barrierefreie Namen", c: "Icons und Links verwenden 'aria-label' oder SVG 'title' Tags, um eine klare Beschreibung des Ziels zu liefern." },
                         { f: "Button-Rolle", c: "Nutzen Sie Standard-Button-Komponenten, damit der Screenreader sie als anklickbare Elemente erkennt." },
@@ -282,14 +282,13 @@
                             <label for="f-email" class="block mb-1 text-sm font-bold text-gray-700">${t.labelEmail}</label>
                             <input type="text" id="f-email" class="w-full std-border p-2 rounded bg-gray-50 text-sm focus:ring-1 focus:ring-blue-500 outline-none">
                         </div>
-                        <fieldset class="border border-gray-200 p-4 rounded">
-                            <legend class="px-2 text-sm font-bold text-gray-700">${t.labelGender}</legend>
+                        <div role="group" aria-labelledby="client-label">
+                            <p id="client-label" class="text-sm font-bold text-gray-700 mb-2">${t.labelClient}</p>
                             <div class="flex gap-4">
-                                <label class="flex items-center text-sm"><input type="radio" name="g" value="m" class="mr-2"> ${t.optMale}</label>
-                                <label class="flex items-center text-sm"><input type="radio" name="g" value="f" class="mr-2"> ${t.optFemale}</label>
-                                <label class="flex items-center text-sm"><input type="radio" name="g" value="o" class="mr-2"> ${t.optOther}</label>
+                                <label class="flex items-center text-sm"><input type="radio" name="g" value="y" class="mr-2"> ${t.optYes}</label>
+                                <label class="flex items-center text-sm"><input type="radio" name="g" value="n" class="mr-2"> ${t.optNo}</label>
                             </div>
-                        </fieldset>
+                        </div>
                         <div class="flex items-center">
                             <input type="checkbox" id="f-terms" class="w-4 h-4 mr-2 border-black">
                             <label for="f-terms" class="text-sm font-medium text-gray-700 cursor-pointer">${t.agreeTerms}</label>
@@ -308,12 +307,11 @@
                             <div class="text-sm font-bold text-gray-700 mb-1">${t.labelEmail}</div>
                             <input type="text" id="bad-email" aria-label="${t.badEmailAria}" class="w-full std-border p-2 rounded bg-gray-50 text-sm outline-none">
                         </div>
-                        <div class="std-border p-4 rounded relative mt-6">
-                            <div class="absolute -top-3 left-2 bg-white px-2 text-sm font-bold text-gray-700">${t.labelGender}</div>
-                            <div class="flex gap-4 pt-2">
-                                <label class="flex items-center text-sm"><input type="radio" name="bg" value="m" class="mr-2"> ${t.optMale}</label>
-                                <label class="flex items-center text-sm"><input type="radio" name="bg" value="f" class="mr-2"> ${t.optFemale}</label>
-                                <label class="flex items-center text-sm"><input type="radio" name="bg" value="o" class="mr-2"> ${t.optOther}</label>
+                        <div>
+                            <p class="text-sm font-bold text-gray-700 mb-2">${t.labelClient}</p>
+                            <div class="flex gap-4">
+                                <label class="flex items-center text-sm"><input type="radio" name="bg" value="y" class="mr-2"> ${t.optYes}</label>
+                                <label class="flex items-center text-sm"><input type="radio" name="bg" value="n" class="mr-2"> ${t.optNo}</label>
                             </div>
                         </div>
                         <div class="flex items-center">
@@ -370,9 +368,9 @@
             const email = isAcc ? document.getElementById('f-email').value : document.getElementById('bad-email').value;
             const name = isAcc ? document.getElementById('f-name').value : document.getElementById('bad-name').value;
             const cb = isAcc ? document.getElementById('f-terms').checked : document.getElementById('custom-check').classList.contains('checked');
-            const gender = isAcc ? document.querySelector('input[name="g"]:checked') : document.querySelector('input[name="bg"]:checked');
+            const client = isAcc ? document.querySelector('input[name="g"]:checked') : document.querySelector('input[name="bg"]:checked');
             
-            if (name && email.includes('@') && cb && gender) {
+            if (name && email.includes('@') && cb && client) {
                 document.getElementById('dynamic-form-area').innerHTML = `
                     <div ${isAcc ? 'role="status"' : ''} class="p-8 bg-green-50 border border-green-200 rounded text-green-900 text-center">
                         <p class="text-2xl mb-2">✅</p>
@@ -385,7 +383,7 @@
                 if (!name) errors.push(t.errNameReq);
                 if (!email) errors.push(t.errEmailReq);
                 else if (!email.includes('@')) errors.push(t.errEmailFormat);
-                if (!gender) errors.push(t.errGenderReq);
+                if (!client) errors.push(t.errClientReq);
                 if (!cb) errors.push(t.errTermsReq);
 
                 const errArea = document.getElementById('error-area');
